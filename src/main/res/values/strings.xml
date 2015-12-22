@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">wp-api-v2-client-android</string>
+    <string name="wp_base_url"></string>
+
+</resources>
