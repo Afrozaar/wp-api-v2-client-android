@@ -21,6 +21,8 @@ import com.afrozaar.wp_api_v2_client_android.util.ClientFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 
@@ -32,6 +34,8 @@ import java.util.Map;
  * Created by jay on 12/17/15.
  */
 public class AndroidWpClient {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AndroidWpClient.class);
 
     public interface RestTaskCallback<T> {
         void onTaskComplete(T response);
@@ -129,6 +133,7 @@ public class AndroidWpClient {
     }
 
     public void createMediaItem(final Media media, final Resource resource, RestTaskCallback<Media> callback) throws WpApiParsedException {
+
         makeCall(new Request<Media>() {
             @Override
             public Media doCall() throws Exception {

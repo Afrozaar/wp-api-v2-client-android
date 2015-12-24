@@ -90,9 +90,9 @@
     <orderEntry type="library" exported="" name="okhttp-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="spring-android-rest-template-2.0.0.M3" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-android-1.7.7" level="project" />
     <orderEntry type="library" exported="" name="gson-2.4" level="project" />
-    <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-android-1.7.7" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
   </component>
 </module>

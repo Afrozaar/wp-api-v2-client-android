@@ -3,10 +3,16 @@ package com.afrozaar.wp_api_v2_client_android.model.wordpress;
 /**
  * Created by jay on 12/10/15.
  */
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.springframework.core.io.Resource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 import java.util.Map;
 
 public class Media {
@@ -65,9 +71,9 @@ public class Media {
     @SerializedName("media_details")
     @Expose
     private MediaDetails mediaDetails;
-    @SerializedName("post")
+    @SerializedName("postId")
     @Expose
-    private Object post;
+    private long postId;
     @SerializedName("source_url")
     @Expose
     private String sourceUrl;
@@ -183,6 +189,33 @@ public class Media {
      */
     public void setModified(String modified) {
         this.modified = modified;
+    }
+
+    @Override
+    public String toString() {
+        return "Media{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", dateGmt='" + dateGmt + '\'' +
+                ", guid=" + guid +
+                ", modified='" + modified + '\'' +
+                ", modifiedGmt='" + modifiedGmt + '\'' +
+                ", slug='" + slug + '\'' +
+                ", type='" + type + '\'' +
+                ", link='" + link + '\'' +
+                ", title=" + title +
+                ", author=" + author +
+                ", commentStatus='" + commentStatus + '\'' +
+                ", pingStatus='" + pingStatus + '\'' +
+                ", altText='" + altText + '\'' +
+                ", caption='" + caption + '\'' +
+                ", description='" + description + '\'' +
+                ", mediaType='" + mediaType + '\'' +
+                ", mediaDetails=" + mediaDetails +
+                ", postId=" + postId +
+                ", sourceUrl='" + sourceUrl + '\'' +
+                ", Links=" + Links +
+                '}';
     }
 
     public Media withModified(String modified) {
@@ -492,23 +525,23 @@ public class Media {
     /**
      *
      * @return
-     * The post
+     * The postId
      */
-    public Object getPost() {
-        return post;
+    public long getPostId() {
+        return postId;
     }
 
     /**
      *
-     * @param post
-     * The post
+     * @param postId
+     * The postId
      */
-    public void setPost(Object post) {
-        this.post = post;
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
-    public Media withPost(Object post) {
-        this.post = post;
+    public Media withPostId(long postId) {
+        this.postId = postId;
         return this;
     }
 
@@ -564,7 +597,7 @@ public class Media {
         if(media.getTitle()!=null) {
             populateEntry(media.getTitle().getRendered(), builder, "title");
         }
-        populateEntry(media.getPost(), builder, "post");
+        populateEntry(media.getPostId(), builder, "post");
         populateEntry(media.getAltText(), builder,"alt_text");
         populateEntry(media.getCaption(), builder, "caption");
         populateEntry(media.getDescription(), builder,"description");
@@ -579,6 +612,24 @@ public class Media {
             p.accept("description", media.getDescription());*/
 
         return builder.build();
+    }
+
+    public static MultiValueMap<String,Object> fieldsFrom(Media media, Resource res){
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        /*map.add("post", media.getPostId());
+        if(media.getAltText() != null) {
+            map.add("alt_text", media.getAltText());
+        }
+        if(media.getCaption() != null) {
+            map.add("caption",media.getCaption());
+        }
+        if(media.getDescription() != null) {
+            map.add("description",media.getDescription());
+        }*/
+        if (res != null){
+            //map.add("data",res);
+        }
+        return map;
     }
 
     private static void populateEntry(Object value, ImmutableMap.Builder<String, Object> builder, String key) {

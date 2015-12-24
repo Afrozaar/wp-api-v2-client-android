@@ -1,8 +1,5 @@
 package com.afrozaar.wp_api_v2_client_android;
 
-import android.content.Context;
-import android.support.v4.app.LoaderManager;
-
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
 import com.afrozaar.wp_api_v2_client_android.exception.TermNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
@@ -17,15 +14,15 @@ import com.afrozaar.wp_api_v2_client_android.model.wordpress.User;
 import com.afrozaar.wp_api_v2_client_android.request.Request;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
 import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
-import com.afrozaar.wp_api_v2_client_android.spring.ExchangeRestTask;
 import com.afrozaar.wp_api_v2_client_android.util.AuthUtil;
+import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +31,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -43,13 +41,15 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by jay on 12/9/15.
@@ -82,6 +82,7 @@ public class Client implements Wordpress {
         this.username = username;
         this.password = password;
         this.debug = debug;
+        restTemplate.setMessageConverters(Lists.newArrayList(new GsonHttpMessageConverter(), new FormHttpMessageConverter(), new ByteArrayHttpMessageConverter()));
     }
 
     @Override
@@ -90,7 +91,9 @@ public class Client implements Wordpress {
                 .putAll(postFields)
                 .put("status", status.value)
                 .build();
+
         try {
+            LogUtils.d("****************************" + post.toString());
             return doExchange1(Request.POSTS, HttpMethod.POST, Post.class, forExpand(), null, post).getBody();
         } catch (HttpClientErrorException e) {
             throw new PostCreateException(e);
@@ -148,17 +151,34 @@ public class Client implements Wordpress {
     @Override
     public Media createMediaItem(Media media, Resource resource) throws WpApiParsedException {
         try {
-            final MultiValueMap<String, Object> uploadMap = new LinkedMultiValueMap<>();
-            uploadMap.setAll(Media.fieldsFrom(media));
-            //uploadMap.putAll(Media.fieldsFrom(media));
-            LOG.debug(uploadMap.toString());
-            if (resource != null) {
-                uploadMap.add("file", resource);
-            }
-            return doExchange1(Request.MEDIAS, HttpMethod.POST, Media.class, forExpand(), null, uploadMap).getBody();
+            /*final ImmutableMap<String, Object> map = ImmutableMap.<String, Object>builder()
+                    .putAll(Media.fieldsFrom(media))
+                    //.put("file",resource)
+                    .build();*/
+//            final MultiValueMap<String, Object> uploadMap = Media.fieldsFrom(media, resource);
+
+            return doExchange1(Request.MEDIAS, HttpMethod.POST, Media.class, forExpand(), null, toByteArray(resource)).getBody();
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             throw WpApiParsedException.of(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private byte[] toByteArray(Resource resource) throws IOException {
+
+        InputStream is = resource.getInputStream();
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        int nRead;
+        byte[] data = new byte[16384];
+
+        while ((nRead = is.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+
+        buffer.flush();
+        return buffer.toByteArray();
     }
 
     @Override
@@ -412,24 +432,10 @@ public class Client implements Wordpress {
     }
 
     private <T, B> ResponseEntity<T> doExchange0(HttpMethod method, URI uri, Class<T> typeRef, B body) {
-        //final Two<String, String> authTuple = AuthUtil.getBasicAuth(username, password);
-        //final RequestEntity<B> entity = RequestEntity.method(method, uri).header(authTuple.k, authTuple.v).body(body);
-        //debugRequest(entity);
-        HttpEntity httpEntity = AuthUtil.getBasicAuth(username, password, body);
-        restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-        //doAsyncExchange(method,uri,typeRef,body);
+        HttpEntity httpEntity = AuthUtil.addBasicAuthToBody(username, password, body);
         final ResponseEntity<T> exchange = restTemplate.exchange(uri, method, httpEntity, typeRef);
-        //debugHeaders(exchange.getHeaders());
         return exchange;
     }
-
-    /*private <T,B> void doAsyncExchange(HttpMethod method, URI uri, Class<T> typeRef, B body){
-        //restTemplate = new RestTemplate();
-        HttpEntity httpEntity = AuthUtil.getBasicAuth(username,password,body);
-        ExchangeRestTask<T> task = new ExchangeRestTask<T>(mContext,uri,method,httpEntity,typeRef,this);
-        task.execute();
-        //restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-    }*/
 
     private <T, B> ResponseEntity<T> doExchange0(HttpMethod method, UriComponents uriComponents, Class<T> typeRef, B body) {
         return doExchange0(method, uriComponents.toUri(), typeRef, body);

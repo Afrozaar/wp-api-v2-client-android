@@ -9,9 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Title {
 
-    public Title(String title){
-        this.rendered = title;
-    }
+
 
     @SerializedName("raw")
     @Expose
@@ -19,6 +17,11 @@ public class Title {
     @SerializedName("rendered")
     @Expose
     private String rendered;
+
+    public Title(String title){
+        this.rendered = title;
+        this.raw = title;
+    }
 
     /**
      * @return The raw

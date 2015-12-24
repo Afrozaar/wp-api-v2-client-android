@@ -154,7 +154,7 @@ public class MediaBuilder {
         media.setCaption(caption);
         media.setDescription(description);
         media.setMediaType(mediaType);
-        media.setPost(post);
+        media.setPostId(post);
         media.setSourceUrl(sourceUrl);
         return media;
     }
