@@ -1,11 +1,11 @@
-# README #
+# README # 
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is an android WordPress library. It uses the rest parameters and models from [WP Rest Api](http://wp-api.org/). This library follows roughly the same process as the [Java WordPress library](https://bitbucket.org/afrozaar/wp-api-v2-client-java).
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
+* Allows direct integration of an Android app with a WordPress site.
+* Version 0.1
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
