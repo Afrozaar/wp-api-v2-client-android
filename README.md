@@ -1,6 +1,6 @@
 # README # 
 
-This is an android WordPress library. It uses the rest parameters and models from [WP Rest Api](http://wp-api.org/). This library follows roughly the same process as the [Java WordPress library](https://bitbucket.org/afrozaar/wp-api-v2-client-java).
+This is an android WordPress library. It uses the rest parameters and models from [WP Rest Api](http://wp-api.org/). This library follows roughly the same processes and format as the [Java WordPress library](https://bitbucket.org/afrozaar/wp-api-v2-client-java) except the Java 8 has been stripped out and the network calls handled asynchronously to avoid [Network calls made on Main thread exception](http://developer.android.com/reference/android/os/NetworkOnMainThreadException.html)
 
 ### What is this repository for? ###
 
