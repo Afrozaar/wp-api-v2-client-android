@@ -57,6 +57,15 @@ public class AndroidWpClient {
             task.execute(call);
     }
 
+    public void updatePost(final Post post, RestTaskCallback<Post> callback) {
+        makeCall(new Request<Post>() {
+            @Override
+            public Post doCall() throws Exception {
+                return mClient.updatePost(post);
+            }
+        }, callback);
+    }
+
 
     public void createPost(final Map<String, Object> postFields, final PostStatus status, RestTaskCallback<Post> callback) throws PostCreateException {
         makeCall(new Request<Post>() {
@@ -112,6 +121,15 @@ public class AndroidWpClient {
                 return mClient.getUser(id);
             }
         },callback);
+    }
+
+    public void getUsers(RestTaskCallback<List<User>> callback) {
+        makeCall(new Request<List<User>>() {
+            @Override
+            public List<User> doCall() throws Exception {
+                return mClient.getUsers();
+            }
+        }, callback);
     }
 
     public void getMedia(final Integer id, RestTaskCallback<Media> callback) {
@@ -188,10 +206,7 @@ public class AndroidWpClient {
     }*/
 
 /*
-    @Override
-    public Post updatePost(Post post) {
-        return mClient.updatePost(post);
-    }
+
 
     @Override
     public SearchRequest<Post> fromPagedResponse(PagedResponse<Post> response, Function<PagedResponse<Post>, String> previousOrNext) {

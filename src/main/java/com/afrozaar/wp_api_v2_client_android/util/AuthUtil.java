@@ -18,6 +18,9 @@ import java.util.Map;
  */
 public class AuthUtil {
 
+    public static final String WP_ADMIN = "admin";  //WP ADMIN DETAILS : NEEDED FOR CREATE NEW USER
+    public static final String WP_PASSWORD = "atI*pe$nqQ&N6pPcd&";
+
     public static <B> HttpEntity<B> addBasicAuthToBody(String user, String pass, B body) {
         if(body instanceof byte [])
         {
@@ -39,5 +42,6 @@ public class AuthUtil {
         httpHeaders.setAccept(Lists.newArrayList(MediaType.APPLICATION_JSON));
         return httpHeaders;
     }
+
 
 }

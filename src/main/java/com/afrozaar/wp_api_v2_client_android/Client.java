@@ -125,6 +125,18 @@ public class Client implements Wordpress {
     }
 
     @Override
+    public List<User> getUsers() {
+        List<User> userList = new ArrayList<>();
+        PagedResponse<User> pagedResponse = this.getPagedResponse(Request.USERS, User.class);
+        userList.addAll(pagedResponse.getList());
+        while (pagedResponse.hasNext()) {
+            pagedResponse = this.traverse(pagedResponse, PagedResponse.NEXT);
+            userList.addAll(pagedResponse.getList());
+        }
+        return userList;
+    }
+
+    @Override
     public Post getPost(long id) {
         final ResponseEntity<Post> exchange = doExchange1(Request.POST, HttpMethod.GET, Post.class, forExpand(id), null, null);
 
@@ -136,7 +148,6 @@ public class Client implements Wordpress {
 
         // update post is not as straight forward :(
         // the fields need to be checked for being empty (not null) and should not be included
-
         final ResponseEntity<Post> exchange = doExchange1(Request.POST, HttpMethod.PUT, Post.class, forExpand(post.getId()), ImmutableMap.<String, Object>of(), Post.fieldsFrom(post));
         return exchange.getBody();
     }
@@ -180,6 +191,7 @@ public class Client implements Wordpress {
         buffer.flush();
         return buffer.toByteArray();
     }
+
 
     @Override
     public List<Media> getMedia() {
