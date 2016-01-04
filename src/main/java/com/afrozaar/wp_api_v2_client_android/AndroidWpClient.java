@@ -96,6 +96,17 @@ public class AndroidWpClient {
         }, callback);
     }
 
+    public void getPostsForAuthor(final long id, final RestTaskCallback<List<Post>> callback) {
+        makeCall(new Request<List<Post>>() {
+            @Override
+            public List<Post> doCall() throws Exception {
+                SearchRequest<Post> searchRequest = SearchRequest.Builder.<Post>aSearchRequest().withParam("author", id + "").build();
+                PagedResponse<Post> response = mClient.fetchPosts(searchRequest);
+                return response.getList();
+            }
+        }, callback);
+    }
+
     public void createUser(final User user, RestTaskCallback<User> callback) {
         makeCall(new Request<User>() {
             @Override
