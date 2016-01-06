@@ -1,44 +1,16 @@
 package com.afrozaar.wp_api_v2_client_android.api;
 
+
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostStatus;
-import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
-import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
-import com.google.common.base.Function;
 
 import java.util.Map;
 
-/**
- * Created by jay on 12/10/15.
- */
 public interface Posts {
 
-    Function<PagedResponse<Post>, String> next = new Function<PagedResponse<Post>, String>() {
-        @Override
-        public String apply(PagedResponse<Post> input) {
-            return input.getNext().get();
-        }
-    };
-
-    Function<PagedResponse<Post>, String> prev = new Function<PagedResponse<Post>, String>() {
-        @Override
-        public String apply(PagedResponse<Post> input) {
-            return input.getPrevious().get();
-        }
-    };
-
     /**
-     * <pre>
-     * GET /posts
-     * GET /posts?page=1
-     * GET /posts?page=2&meta_key=foo&meta_value=bar
-     * </pre>
-     */
-    PagedResponse<Post> fetchPosts(SearchRequest<Post> search);
-
-    /**
-     * @param post {@code Map<String, Object>}
+     * @param post   {@code Map<String, Object>}
      * @param status
      * @return Created {@link Post}
      * @throws PostCreateException
@@ -59,7 +31,7 @@ public interface Posts {
 
     Post createPost(Post post, PostStatus status) throws PostCreateException;
 
-    Post getPost(long id);
+    Post getPost(Long id);
 
     /**
      * <pre>
@@ -68,11 +40,16 @@ public interface Posts {
      */
     Post updatePost(Post post);
 
+    Post updatePostField(Long postId, String field, Object value);
+
     Post deletePost(Post post);
 
-    SearchRequest<Post> fromPagedResponse(PagedResponse<Post> response, Function<PagedResponse<Post>, String> uri);
-
-    PagedResponse<Post> get(PagedResponse<Post> postPagedResponse, Function<PagedResponse<Post>, String> previousOrNext);
-
-
+    /**
+     * Search request just returning the first page of posts.
+     */
+    /*static SearchRequest<Post> list() {
+        return SearchRequest.Builder.aSearchRequest(Post.class)
+                .withUri(Request.POSTS)
+                .build();
+    }*/
 }

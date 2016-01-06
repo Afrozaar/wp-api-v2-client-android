@@ -4,21 +4,29 @@ package com.afrozaar.wp_api_v2_client_android.model.wordpress;
  * Created by jay on 12/10/15.
  */
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class PostMeta {
 
-    @SerializedName("id")
+    public static final String JSON_FIELD_ID = "id";
+    public static final String JSON_FIELD_KEY = "key";
+    public static final String JSON_FIELD_VALUE = "value";
+    public static final String JSON_FIELD_LINKS = "_links";
+
+    @SerializedName(JSON_FIELD_ID)
     @Expose
     private long id;
-    @SerializedName("key")
+    @SerializedName(JSON_FIELD_KEY)
     @Expose
     private String key;
-    @SerializedName("value")
+    @SerializedName(JSON_FIELD_VALUE)
     @Expose
     private String value;
-    @SerializedName("_links")
+    @SerializedName(JSON_FIELD_LINKS)
     @Expose
     private Links Links;
 
@@ -87,7 +95,7 @@ public class PostMeta {
     }
 
     /**
-     * @param Links The _links
+     * @param Links The links
      */
     public void setLinks(Links Links) {
         this.Links = Links;
@@ -98,4 +106,20 @@ public class PostMeta {
         return this;
     }
 
+    public static Map<String, Object> fieldsFrom(PostMeta postMeta) {
+        ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<>();
+
+        populateEntry(postMeta.getId(), builder, JSON_FIELD_ID);
+        populateEntry(postMeta.getKey(), builder, JSON_FIELD_KEY);
+        populateEntry(postMeta.getValue(), builder, JSON_FIELD_VALUE);
+        populateEntry(postMeta.getLinks(), builder, JSON_FIELD_LINKS);
+
+        return builder.build();
+    }
+
+    private static void populateEntry(Object value, ImmutableMap.Builder<String, Object> builder, String key) {
+        if (value != null) { //Optional.fromNullable(value).isPresent()
+            builder.put(key, value);
+        }
+    }
 }

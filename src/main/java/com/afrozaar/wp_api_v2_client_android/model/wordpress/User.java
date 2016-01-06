@@ -393,9 +393,6 @@ public class User {
 
         //populateEntry(user.getCapabilities(), builder, "capabilities");
         populateEntry(user.getDescription(), builder, "description");
-        /*if (post.getContent() != null) {
-            populateEntry(post.getContent().getRendered(), builder, "content");
-        }*/
         populateEntry(user.getEmail(), builder, "email");
         populateEntry(user.getFirstName(), builder, "first_name");
         populateEntry(user.getLastName(), builder, "last_name");

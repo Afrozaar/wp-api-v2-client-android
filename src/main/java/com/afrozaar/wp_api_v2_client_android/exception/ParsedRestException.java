@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class ParsedRestException {
 
-    //private static ObjectMapper mapper;
     private static Gson mapper;
 
     private final String code;

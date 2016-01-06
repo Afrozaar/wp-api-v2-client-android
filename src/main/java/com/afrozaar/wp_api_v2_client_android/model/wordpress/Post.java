@@ -4,7 +4,6 @@ package com.afrozaar.wp_api_v2_client_android.model.wordpress;
  * Created by jay on 12/9/15.
  */
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,6 +11,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 public class Post {
+
+    public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
 
     @SerializedName("id")
     @Expose
@@ -58,7 +59,7 @@ public class Post {
     @SerializedName("author")
     @Expose
     private long author;
-    @SerializedName("featured_image")
+    @SerializedName(JSON_FIELD_FEATURED_IMAGE)
     @Expose
     private long featuredImage;
     @SerializedName("comment_status")
@@ -524,6 +525,7 @@ public class Post {
         populateEntry(post.getPingStatus(), builder, "ping_status");
         populateEntry(post.getFormat(), builder, "format");
         populateEntry(post.isSticky(), builder, "sticky");
+        populateEntry(post.getFeaturedImage(), builder, "featured_image");
 
         return builder.build();
     }

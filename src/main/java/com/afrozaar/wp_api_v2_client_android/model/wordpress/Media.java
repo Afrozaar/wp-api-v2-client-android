@@ -3,16 +3,11 @@ package com.afrozaar.wp_api_v2_client_android.model.wordpress;
 /**
  * Created by jay on 12/10/15.
  */
-import com.google.common.base.Optional;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.springframework.core.io.Resource;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import java.util.List;
 import java.util.Map;
 
 public class Media {
@@ -82,18 +77,14 @@ public class Media {
     private Links Links;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public long getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(long id) {
         this.id = id;
@@ -105,18 +96,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The date
+     * @return The date
      */
     public String getDate() {
         return date;
     }
 
     /**
-     *
-     * @param date
-     * The date
+     * @param date The date
      */
     public void setDate(String date) {
         this.date = date;
@@ -128,18 +115,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The dateGmt
+     * @return The dateGmt
      */
     public String getDateGmt() {
         return dateGmt;
     }
 
     /**
-     *
-     * @param dateGmt
-     * The date_gmt
+     * @param dateGmt The date_gmt
      */
     public void setDateGmt(String dateGmt) {
         this.dateGmt = dateGmt;
@@ -151,18 +134,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The guid
+     * @return The guid
      */
     public Guid getGuid() {
         return guid;
     }
 
     /**
-     *
-     * @param guid
-     * The guid
+     * @param guid The guid
      */
     public void setGuid(Guid guid) {
         this.guid = guid;
@@ -174,18 +153,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The modified
+     * @return The modified
      */
     public String getModified() {
         return modified;
     }
 
     /**
-     *
-     * @param modified
-     * The modified
+     * @param modified The modified
      */
     public void setModified(String modified) {
         this.modified = modified;
@@ -224,18 +199,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The modifiedGmt
+     * @return The modifiedGmt
      */
     public String getModifiedGmt() {
         return modifiedGmt;
     }
 
     /**
-     *
-     * @param modifiedGmt
-     * The modified_gmt
+     * @param modifiedGmt The modified_gmt
      */
     public void setModifiedGmt(String modifiedGmt) {
         this.modifiedGmt = modifiedGmt;
@@ -247,18 +218,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The slug
+     * @return The slug
      */
     public String getSlug() {
         return slug;
     }
 
     /**
-     *
-     * @param slug
-     * The slug
+     * @param slug The slug
      */
     public void setSlug(String slug) {
         this.slug = slug;
@@ -270,18 +237,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The type
+     * @return The type
      */
     public String getType() {
         return type;
     }
 
     /**
-     *
-     * @param type
-     * The type
+     * @param type The type
      */
     public void setType(String type) {
         this.type = type;
@@ -293,18 +256,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The link
+     * @return The link
      */
     public String getLink() {
         return link;
     }
 
     /**
-     *
-     * @param link
-     * The link
+     * @param link The link
      */
     public void setLink(String link) {
         this.link = link;
@@ -316,18 +275,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The title
+     * @return The title
      */
     public Title getTitle() {
         return title;
     }
 
     /**
-     *
-     * @param title
-     * The title
+     * @param title The title
      */
     public void setTitle(Title title) {
         this.title = title;
@@ -339,18 +294,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The author
+     * @return The author
      */
     public long getAuthor() {
         return author;
     }
 
     /**
-     *
-     * @param author
-     * The author
+     * @param author The author
      */
     public void setAuthor(long author) {
         this.author = author;
@@ -362,18 +313,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The commentStatus
+     * @return The commentStatus
      */
     public String getCommentStatus() {
         return commentStatus;
     }
 
     /**
-     *
-     * @param commentStatus
-     * The comment_status
+     * @param commentStatus The comment_status
      */
     public void setCommentStatus(String commentStatus) {
         this.commentStatus = commentStatus;
@@ -385,18 +332,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The pingStatus
+     * @return The pingStatus
      */
     public String getPingStatus() {
         return pingStatus;
     }
 
     /**
-     *
-     * @param pingStatus
-     * The ping_status
+     * @param pingStatus The ping_status
      */
     public void setPingStatus(String pingStatus) {
         this.pingStatus = pingStatus;
@@ -408,18 +351,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The altText
+     * @return The altText
      */
     public String getAltText() {
         return altText;
     }
 
     /**
-     *
-     * @param altText
-     * The alt_text
+     * @param altText The alt_text
      */
     public void setAltText(String altText) {
         this.altText = altText;
@@ -431,18 +370,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The caption
+     * @return The caption
      */
     public String getCaption() {
         return caption;
     }
 
     /**
-     *
-     * @param caption
-     * The caption
+     * @param caption The caption
      */
     public void setCaption(String caption) {
         this.caption = caption;
@@ -454,18 +389,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The description
+     * @return The description
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     *
-     * @param description
-     * The description
+     * @param description The description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -477,18 +408,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The mediaType
+     * @return The mediaType
      */
     public String getMediaType() {
         return mediaType;
     }
 
     /**
-     *
-     * @param mediaType
-     * The media_type
+     * @param mediaType The media_type
      */
     public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
@@ -500,18 +427,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The mediaDetails
+     * @return The mediaDetails
      */
     public MediaDetails getMediaDetails() {
         return mediaDetails;
     }
 
     /**
-     *
-     * @param mediaDetails
-     * The media_details
+     * @param mediaDetails The media_details
      */
     public void setMediaDetails(MediaDetails mediaDetails) {
         this.mediaDetails = mediaDetails;
@@ -523,18 +446,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The postId
+     * @return The postId
      */
     public long getPostId() {
         return postId;
     }
 
     /**
-     *
-     * @param postId
-     * The postId
+     * @param postId The postId
      */
     public void setPostId(long postId) {
         this.postId = postId;
@@ -546,18 +465,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The sourceUrl
+     * @return The sourceUrl
      */
     public String getSourceUrl() {
         return sourceUrl;
     }
 
     /**
-     *
-     * @param sourceUrl
-     * The source_url
+     * @param sourceUrl The source_url
      */
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
@@ -569,18 +484,14 @@ public class Media {
     }
 
     /**
-     *
-     * @return
-     * The Links
+     * @return The Links
      */
     public Links getLinks() {
         return Links;
     }
 
     /**
-     *
-     * @param Links
-     * The _links
+     * @param Links The _links
      */
     public void setLinks(Links Links) {
         this.Links = Links;
@@ -594,42 +505,15 @@ public class Media {
     public static Map<String, Object> fieldsFrom(Media media) {
         ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<>();
 
-        if(media.getTitle()!=null) {
+        if (media.getTitle() != null) {
             populateEntry(media.getTitle().getRendered(), builder, "title");
         }
         populateEntry(media.getPostId(), builder, "post");
-        populateEntry(media.getAltText(), builder,"alt_text");
+        populateEntry(media.getAltText(), builder, "alt_text");
         populateEntry(media.getCaption(), builder, "caption");
-        populateEntry(media.getDescription(), builder,"description");
-
-        /*BiConsumer<String, Object> p = (index, value) ->
-                    Optional.ofNullable(value).ifPresent(v -> uploadMap.add(index, v));
-
-            p.accept("title", media.getTitle().getRendered());
-            p.accept("post", media.getPost());
-            p.accept("alt_text", media.getAltText());
-            p.accept("caption", media.getCaption());
-            p.accept("description", media.getDescription());*/
+        populateEntry(media.getDescription(), builder, "description");
 
         return builder.build();
-    }
-
-    public static MultiValueMap<String,Object> fieldsFrom(Media media, Resource res){
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        /*map.add("post", media.getPostId());
-        if(media.getAltText() != null) {
-            map.add("alt_text", media.getAltText());
-        }
-        if(media.getCaption() != null) {
-            map.add("caption",media.getCaption());
-        }
-        if(media.getDescription() != null) {
-            map.add("description",media.getDescription());
-        }*/
-        if (res != null){
-            //map.add("data",res);
-        }
-        return map;
     }
 
     private static void populateEntry(Object value, ImmutableMap.Builder<String, Object> builder, String key) {
@@ -637,5 +521,4 @@ public class Media {
             builder.put(key, value);
         }
     }
-
 }

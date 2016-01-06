@@ -1,32 +1,18 @@
 package com.afrozaar.wp_api_v2_client_android;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
-import com.afrozaar.wp_api_v2_client_android.exception.TermNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Link;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostMeta;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostStatus;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Taxonomy;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Term;
 import com.afrozaar.wp_api_v2_client_android.model.wordpress.User;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
 import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
-import com.afrozaar.wp_api_v2_client_android.util.ClientConfig;
-import com.afrozaar.wp_api_v2_client_android.util.ClientFactory;
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +21,9 @@ import java.util.Map;
  */
 public class AndroidWpClient {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AndroidWpClient.class);
-
     public interface RestTaskCallback<T> {
         void onTaskComplete(T response);
+
         void onTaskFailed(Exception e);
     }
 
@@ -52,9 +37,9 @@ public class AndroidWpClient {
         mClient = new Client(baseUrl, username, password, debug);
     }
 
-    public <T> void makeCall(final Request<T> call, final RestTaskCallback callback) {
-            RunRestTask<T> task = new RunRestTask<T>(callback);
-            task.execute(call);
+    public <T> void makeCall(final Request<T> call, final RestTaskCallback<T> callback) {
+        RunRestTask<T> task = new RunRestTask<T>(callback);
+        task.execute(call);
     }
 
     public void updatePost(final Post post, RestTaskCallback<Post> callback) {
@@ -116,7 +101,7 @@ public class AndroidWpClient {
         }, callback);
     }
 
-    public void createUser(final Map<String, Object> userFields, RestTaskCallback<User> callback){
+    public void createUser(final Map<String, Object> userFields, RestTaskCallback<User> callback) {
         makeCall(new Request<User>() {
             @Override
             public User doCall() throws Exception {
@@ -125,13 +110,13 @@ public class AndroidWpClient {
         }, callback);
     }
 
-    public void  getUser(final long id, RestTaskCallback<User> callback) {
+    public void getUser(final long id, RestTaskCallback<User> callback) {
         makeCall(new Request<User>() {
             @Override
             public User doCall() throws Exception {
                 return mClient.getUser(id);
             }
-        },callback);
+        }, callback);
     }
 
     public void getUsers(RestTaskCallback<List<User>> callback) {
@@ -166,17 +151,17 @@ public class AndroidWpClient {
         makeCall(new Request<Media>() {
             @Override
             public Media doCall() throws Exception {
-                return mClient.createMediaItem(media,resource);
+                return mClient.createMediaItem(media, resource);
             }
-        },callback);
+        }, callback);
     }
 
-    private class RunRestTask<T> extends AsyncTask<Request<T>,Void,T>{
+    private class RunRestTask<T> extends AsyncTask<Request<T>, Void, T> {
 
         private RestTaskCallback callback;
         private Exception error;
 
-        private RunRestTask(RestTaskCallback<T> callback){
+        private RunRestTask(RestTaskCallback<T> callback) {
             this.callback = callback;
         }
 
@@ -195,139 +180,12 @@ public class AndroidWpClient {
 
         @Override
         protected void onPostExecute(T response) {
-            if(response != null){
+            if (response != null) {
                 callback.onTaskComplete(response);
-            }else{
+            } else {
                 callback.onTaskFailed(error);
             }
             //super.onPostExecute(t);
         }
     }
-
-
-
-   /* @Override
-    public <T> PagedResponse<T> getPagedResponse(URI uri, Class<T> typeRef) {
-        return mClient.getPagedResponse(uri, typeRef);
-    }*/
-
-    /*@Override
-    public boolean deletePostMeta(Long postId, Long metaId, boolean force) {
-        return mClient.deletePostMeta(postId, metaId, force);
-    }*/
-
-/*
-
-
-    @Override
-    public SearchRequest<Post> fromPagedResponse(PagedResponse<Post> response, Function<PagedResponse<Post>, String> previousOrNext) {
-        return mClient.fromPagedResponse(response, previousOrNext);
-    }
-
-    @Override
-    public Term deleteTerm(String taxonomy, Term term) throws TermNotFoundException {
-        return mClient.deleteTerm(taxonomy, term);
-    }
-
-    @Override
-    public PostMeta updatePostMeta(Long postId, Long metaId, String key, String value) {
-        return mClient.updatePostMeta(postId, metaId, key, value);
-    }
-
-    @Override
-    public Term getTerm(String taxonomy, Long id) throws TermNotFoundException {
-        return mClient.getTerm(taxonomy, id);
-    }
-
-    public List<Link> parseLinks(HttpHeaders headers) {
-        return mClient.parseLinks(headers);
-    }
-
-
-
-    @Override
-    public boolean deletePostMeta(Long postId, Long metaId) {
-        return mClient.deletePostMeta(postId, metaId);
-    }
-
-    @Override
-    public List<Term> deleteTerms(String taxonomy, Term... terms) {
-        return mClient.deleteTerms(taxonomy, terms);
-    }
-
-    public <T> void populateEntry(Object value, ImmutableMap.Builder<String, Object> builder, String key) {
-        mClient.populateEntry(value, builder, key);
-    }
-
-    @Override
-    public List<Taxonomy> getTaxonomies() {
-        return mClient.getTaxonomies();
-    }
-
-    @Override
-    public PostMeta updatePostMetaValue(Long postId, Long metaId, String value) {
-        return mClient.updatePostMetaValue(postId, metaId, value);
-    }
-
-    @Override
-    public <T> PagedResponse<T> traverse(PagedResponse<T> response, Function<PagedResponse<?>, String> direction) {
-        return mClient.traverse(response, direction);
-    }
-
-    @Override
-    public PostMeta createMeta(Long postId, String key, String value) {
-        return mClient.createMeta(postId, key, value);
-    }
-
-    @Override
-    public List<Term> getTerms(String taxonomy) {
-        return mClient.getTerms(taxonomy);
-    }
-
-    @Override
-    public PagedResponse<Post> fetchPosts(SearchRequest<Post> search) {
-        return mClient.fetchPosts(search);
-    }
-
-    @Override
-    public Term updateTerm(String taxonomy, Term term) {
-        return mClient.updateTerm(taxonomy, term);
-    }
-
-    @Override
-    public Post deletePost(Post post) {
-        return mClient.deletePost(post);
-    }
-
-    @Override
-    public PostMeta getPostMeta(Long postId, Long metaId) {
-        return mClient.getPostMeta(postId, metaId);
-    }
-
-    @Override
-    public PagedResponse<Post> get(PagedResponse<Post> postPagedResponse, Function<PagedResponse<Post>, String> previousOrNext) {
-        return mClient.get(postPagedResponse, previousOrNext);
-    }
-
-    @Override
-    public Term createTerm(String taxonomy, Term term) throws WpApiParsedException {
-        return mClient.createTerm(taxonomy, term);
-    }
-
-    @Override
-    public List<PostMeta> getPostMetas(Long postId) {
-        return mClient.getPostMetas(postId);
-    }
-
-
-
-    @Override
-    public <T> PagedResponse<T> getPagedResponse(String context, Class<T> typeRef, String... expandParams) {
-        return mClient.getPagedResponse(context, typeRef, expandParams);
-    }
-
-    @Override
-    public Taxonomy getTaxonomy(String slug) {
-        return mClient.getTaxonomy(slug);
-    }*/
 }

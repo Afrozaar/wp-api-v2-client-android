@@ -2,10 +2,7 @@ package com.afrozaar.wp_api_v2_client_android.util;
 
 import android.content.Context;
 
-import com.afrozaar.wp_api_v2_client_android.Client;
 import com.afrozaar.wp_api_v2_client_android.Wordpress;
-
-import java.util.Properties;
 
 /**
  * Created by jay on 12/10/15.
