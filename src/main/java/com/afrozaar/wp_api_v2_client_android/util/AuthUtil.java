@@ -43,7 +43,7 @@ public class AuthUtil {
     }
 
     public static Two<String, String> authTuple(String username, String password) {
-        final byte[] encodedAuth = Base64.encode((username + ":" + password).getBytes(), Base64.DEFAULT);
+        final byte[] encodedAuth = Base64.encode((username + ":" + password).getBytes(), Base64.NO_WRAP);
         return Two.of("Authorization", "Basic " + new String(encodedAuth));
     }
 

@@ -1,8 +1,8 @@
 package com.afrozaar.wp_api_v2_client_android.api;
 
 import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Media;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
 
 import org.springframework.core.io.Resource;
 

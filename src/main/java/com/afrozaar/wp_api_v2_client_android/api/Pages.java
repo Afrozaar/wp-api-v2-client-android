@@ -2,8 +2,8 @@ package com.afrozaar.wp_api_v2_client_android.api;
 
 
 import com.afrozaar.wp_api_v2_client_android.exception.PageNotFoundException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Page;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostStatus;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Page;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
 
 public interface Pages {
 

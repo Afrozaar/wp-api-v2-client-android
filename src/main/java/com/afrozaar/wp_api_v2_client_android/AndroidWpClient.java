@@ -3,18 +3,16 @@ package com.afrozaar.wp_api_v2_client_android;
 import android.os.AsyncTask;
 
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
-import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Media;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostStatus;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.User;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.User;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
 import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
 
 import org.springframework.core.io.Resource;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jay on 12/17/15.
@@ -37,9 +35,15 @@ public class AndroidWpClient {
         mClient = new Client(baseUrl, username, password, debug);
     }
 
-    public <T> void makeCall(final Request<T> call, final RestTaskCallback<T> callback) {
-        RunRestTask<T> task = new RunRestTask<T>(callback);
-        task.execute(call);
+    /* POSTS */
+
+    public void createPost(final Post post, final PostStatus status, RestTaskCallback<Post> callback) throws PostCreateException {
+        makeCall(new Request<Post>() {
+            @Override
+            public Post doCall() throws Exception {
+                return mClient.createPost(post, status);
+            }
+        }, callback);
     }
 
     public void updatePost(final Post post, RestTaskCallback<Post> callback) {
@@ -48,27 +52,6 @@ public class AndroidWpClient {
             public Post doCall() throws Exception {
                 return mClient.updatePost(post);
             }
-        }, callback);
-    }
-
-
-    public void createPost(final Map<String, Object> postFields, final PostStatus status, RestTaskCallback<Post> callback) throws PostCreateException {
-        makeCall(new Request<Post>() {
-            @Override
-            public Post doCall() throws Exception {
-                return mClient.createPost(postFields, status);
-            }
-
-        }, callback);
-    }
-
-    public void createPost(final Post post, final PostStatus status, RestTaskCallback<Post> callback) throws PostCreateException {
-        makeCall(new Request<Post>() {
-            @Override
-            public Post doCall() throws Exception {
-                return mClient.createPost(post, status);
-            }
-
         }, callback);
     }
 
@@ -81,16 +64,28 @@ public class AndroidWpClient {
         }, callback);
     }
 
-    public void getPostsForAuthor(final long id, final RestTaskCallback<List<Post>> callback) {
+    public void deletePost(final long id, RestTaskCallback<Post> callback) {
+        makeCall(new Request<Post>() {
+            @Override
+            public Post doCall() throws Exception {
+                return mClient.deletePost(new Post().withId(id));
+            }
+        }, callback);
+    }
+
+    public void getPostsForAuthor(final long authorId, final RestTaskCallback<List<Post>> callback) {
         makeCall(new Request<List<Post>>() {
             @Override
             public List<Post> doCall() throws Exception {
-                SearchRequest<Post> searchRequest = SearchRequest.Builder.<Post>aSearchRequest().withParam("author", id + "").build();
-                PagedResponse<Post> response = mClient.fetchPosts(searchRequest);
+                SearchRequest<Post> searchRequest = SearchRequest.Builder.aSearchRequest(Post.class).withParam("author", authorId + "").build();
+                PagedResponse<Post> response = mClient.getPagedResponse(searchRequest.usingClient(mClient).build().toUri(), Post.class);
+
                 return response.getList();
             }
         }, callback);
     }
+
+    /* USERS */
 
     public void createUser(final User user, RestTaskCallback<User> callback) {
         makeCall(new Request<User>() {
@@ -101,64 +96,61 @@ public class AndroidWpClient {
         }, callback);
     }
 
-    public void createUser(final Map<String, Object> userFields, RestTaskCallback<User> callback) {
+    public void updateUser(final User user, RestTaskCallback<User> callback) {
         makeCall(new Request<User>() {
             @Override
             public User doCall() throws Exception {
-                return mClient.createUser(userFields);
+                return mClient.updateUser(user);
             }
         }, callback);
     }
 
-    public void getUser(final long id, RestTaskCallback<User> callback) {
-        makeCall(new Request<User>() {
-            @Override
-            public User doCall() throws Exception {
-                return mClient.getUser(id);
-            }
-        }, callback);
-    }
+    /* MEDIA */
 
-    public void getUsers(RestTaskCallback<List<User>> callback) {
-        makeCall(new Request<List<User>>() {
-            @Override
-            public List<User> doCall() throws Exception {
-                return mClient.getUsers();
-            }
-        }, callback);
-    }
-
-    public void getMedia(final Integer id, RestTaskCallback<Media> callback) {
+    public void createMedia(final Media media, final Resource resource, RestTaskCallback<Media> callback) {
         makeCall(new Request<Media>() {
             @Override
             public Media doCall() throws Exception {
-                return mClient.getMedia(id);
+                return mClient.createMedia(media, resource);
             }
         }, callback);
     }
 
-    public void getMedia(RestTaskCallback<List<Media>> callback) {
-        makeCall(new Request<List<Media>>() {
-            @Override
-            public List<Media> doCall() throws Exception {
-                return mClient.getMedia();
-            }
-        }, callback);
-    }
-
-    public void createMediaItem(final Media media, final Resource resource, RestTaskCallback<Media> callback) throws WpApiParsedException {
-
+    public void getMedia(final long mediaId, RestTaskCallback<Media> callback) {
         makeCall(new Request<Media>() {
             @Override
             public Media doCall() throws Exception {
-                return mClient.createMediaItem(media, resource);
+                return mClient.getMedia(mediaId);
             }
         }, callback);
+    }
+
+    public void updateMedia(final Media media, RestTaskCallback<Media> callback) {
+        makeCall(new Request<Media>() {
+            @Override
+            public Media doCall() throws Exception {
+                return mClient.updateMedia(media);
+            }
+        }, callback);
+    }
+
+    public void deleteMedia(final long mediaId, RestTaskCallback<Boolean> callback) {
+        makeCall(new Request<Boolean>() {
+            @Override
+            public Boolean doCall() throws Exception {
+                return mClient.deleteMedia(mediaId);
+            }
+        }, callback);
+    }
+
+    private <T> void makeCall(final Request<T> call, final RestTaskCallback<T> callback) {
+        RunRestTask<T> task = new RunRestTask<T>(callback);
+        task.execute(call);
     }
 
     private class RunRestTask<T> extends AsyncTask<Request<T>, Void, T> {
 
-        private RestTaskCallback callback;
+        private RestTaskCallback<T> callback;
         private Exception error;
 
         private RunRestTask(RestTaskCallback<T> callback) {
@@ -169,8 +161,7 @@ public class AndroidWpClient {
         protected T doInBackground(Request<T>... params) {
             Request<T> task = params[0];
             try {
-                T t = task.doCall();
-                return t;
+                return task.doCall();
             } catch (Exception e) {
                 e.printStackTrace();
                 error = e;
@@ -180,12 +171,13 @@ public class AndroidWpClient {
 
         @Override
         protected void onPostExecute(T response) {
+            super.onPostExecute(response);
+
             if (response != null) {
                 callback.onTaskComplete(response);
             } else {
                 callback.onTaskFailed(error);
             }
-            //super.onPostExecute(t);
         }
     }
 }

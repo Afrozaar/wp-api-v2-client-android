@@ -1,6 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android.request;
 
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;

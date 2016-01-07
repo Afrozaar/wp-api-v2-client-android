@@ -1,6 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android.api;
 
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostMeta;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostMeta;
 
 import java.util.List;
 

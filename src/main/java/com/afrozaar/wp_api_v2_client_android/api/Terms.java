@@ -1,7 +1,7 @@
 package com.afrozaar.wp_api_v2_client_android.api;
 
 import com.afrozaar.wp_api_v2_client_android.exception.TermNotFoundException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Term;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Term;
 
 import java.util.List;
 

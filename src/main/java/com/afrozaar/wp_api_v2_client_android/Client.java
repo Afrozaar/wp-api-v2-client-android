@@ -5,15 +5,15 @@ import com.afrozaar.wp_api_v2_client_android.exception.PageNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
 import com.afrozaar.wp_api_v2_client_android.exception.TermNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Link;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Media;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Page;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Post;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostMeta;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.PostStatus;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Taxonomy;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.Term;
-import com.afrozaar.wp_api_v2_client_android.model.wordpress.User;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Link;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Page;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostMeta;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Taxonomy;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Term;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.User;
 import com.afrozaar.wp_api_v2_client_android.request.Request;
 import com.afrozaar.wp_api_v2_client_android.request.RequestEntity;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
@@ -32,6 +32,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -187,7 +189,7 @@ public class Client implements Wordpress {
                 .put("status", status.value)
                 .build();
         try {
-            return doExchange1(Request.POST, HttpMethod.POST, Post.class, forExpand(), null, post).getBody();
+            return doExchange1(Request.POSTS, HttpMethod.POST, Post.class, forExpand(), null, post).getBody();
         } catch (HttpClientErrorException e) {
             throw new PostCreateException(e);
         }
@@ -232,7 +234,16 @@ public class Client implements Wordpress {
 
     @Override
     public Media createMedia(Media media, Resource resource) throws WpApiParsedException {
-        return doExchange1(Request.MEDIAS, HttpMethod.POST, Media.class, forExpand(), null, Media.fieldsFrom(media)).getBody();
+        MultiValueMap<String, Object> uploadMap = new LinkedMultiValueMap<>();
+        uploadMap.add("title", media.getTitle().getRendered());
+        uploadMap.add("post", media.getPostId());
+        uploadMap.add("alt_text", media.getAltText());
+        uploadMap.add("caption", media.getCaption());
+        uploadMap.add("description", media.getDescription());
+
+        uploadMap.add("file", resource);
+
+        return doExchange1(Request.MEDIAS, HttpMethod.POST, Media.class, forExpand(), null, uploadMap).getBody();
     }
 
     @Override
@@ -266,6 +277,16 @@ public class Client implements Wordpress {
     @Override
     public boolean deleteMedia(Media media, boolean force) {
         final ResponseEntity<Media> exchange = doExchange1(Request.MEDIA, HttpMethod.DELETE, Media.class, forExpand(media.getId()), ImmutableMap.<String, Object>of("force", force), null);
+        return exchange.getStatusCode().is2xxSuccessful();
+    }
+
+    public boolean deleteMedia(long mediaId) {
+        final ResponseEntity<Media> exchange = doExchange1(Request.MEDIA, HttpMethod.DELETE, Media.class, forExpand(mediaId), null, null);
+        return exchange.getStatusCode().is2xxSuccessful();
+    }
+
+    public boolean deleteMedia(long mediaId, boolean force) {
+        final ResponseEntity<Media> exchange = doExchange1(Request.MEDIA, HttpMethod.DELETE, Media.class, forExpand(mediaId), ImmutableMap.<String, Object>of("force", force), null);
         return exchange.getStatusCode().is2xxSuccessful();
     }
 
@@ -589,6 +610,10 @@ public class Client implements Wordpress {
     public User createUser(User user, String username, String password) {
         user.withUsername(username)
                 .withPassword(password);
+        return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.fieldsFrom(user)).getBody();
+    }
+
+    public User createUser(User user) {
         return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.fieldsFrom(user)).getBody();
     }
 
