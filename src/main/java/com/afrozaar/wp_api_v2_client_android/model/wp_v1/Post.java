@@ -3,16 +3,26 @@ package com.afrozaar.wp_api_v2_client_android.model.wp_v1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.afrozaar.wp_api_v2_client_android.util.Validate;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
  */
 public class Post extends WPObject<Post> {
+
+    public static final String JSON_FIELD_CONTENT = "content";
+    public static final String JSON_FIELD_EXCERPT = "excerpt";
+    public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
+    public static final String JSON_FIELD_STICKY = "sticky";
+    public static final String JSON_FIELD_FORMAT = "format";
+    public static final String JSON_FIELD_LINKS = "_links";
 
     /**
      * The content for the object.
@@ -28,8 +38,10 @@ public class Post extends WPObject<Post> {
         return mContent;
     }
 
-    public Post withContent(WPGeneric content) {
-        setContent(content);
+    public Post withContent(String content) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(content);
+        setContent(generic);
         return this;
     }
 
@@ -142,7 +154,7 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withId(int id) {
+    public Post withId(long id) {
         setId(id);
         return this;
     }
@@ -196,8 +208,10 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withTitle(WPGeneric title) {
-        setTitle(title);
+    public Post withTitle(String title) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(title);
+        setTitle(generic);
         return this;
     }
 
@@ -243,6 +257,21 @@ public class Post extends WPObject<Post> {
         dest.writeByte((byte) (mSticky ? 1 : 0));
         dest.writeString(mFormat);
         dest.writeTypedList(mLinks);
+    }
+
+    public static Map<String, Object> mapFromFields(Post post) {
+        ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<>();
+
+        WPObject.mapFromFields(post, builder);
+
+        Validate.validateMapEntry(JSON_FIELD_CONTENT, post.getContent().getRendered(), builder);
+        Validate.validateMapEntry(JSON_FIELD_EXCERPT, post.getExcerpt(), builder);
+        Validate.validateMapEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedImage(), builder);
+        Validate.validateMapEntry(JSON_FIELD_STICKY, post.getSticky(), builder);
+        Validate.validateMapEntry(JSON_FIELD_FORMAT, post.getFormat(), builder);
+        Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);
+
+        return builder.build();
     }
 
     public static final Parcelable.Creator<Post> CREATOR = new Creator<Post>() {

@@ -3,6 +3,8 @@ package com.afrozaar.wp_api_v2_client_android.model.wp_v1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.afrozaar.wp_api_v2_client_android.util.Validate;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,21 +14,35 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class WPObject<T extends WPObject> implements Parcelable {
 
+    public static final String JSON_FIELD_ID = "id";
+    public static final String JSON_FIELD_DATE = "date";
+    public static final String JSON_FIELD_DATE_GMT = "date_gmt";
+    public static final String JSON_FIELD_GUID = "guid";
+    public static final String JSON_FIELD_MODIFIED = "modified";
+    public static final String JSON_FIELD_MODIFIED_GMT = "modified_gmt";
+    public static final String JSON_FIELD_SLUG = "slug";
+    public static final String JSON_FIELD_TYPE = "type";
+    public static final String JSON_FIELD_LINK = "link";
+    public static final String JSON_FIELD_TITLE = "title";
+    public static final String JSON_FIELD_AUTHOR = "author";
+    public static final String JSON_FIELD_COMMENT_STATUS = "comment_status";
+    public static final String JSON_FIELD_PING_STATUS = "ping_status";
+
     /**
      * Unique identifier for the object
      */
     @SerializedName("id")
-    private int mId;
+    private long mId;
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public abstract T withId(int id);
+    public abstract T withId(long id);
 
     /**
      * The date the object was published.
@@ -170,7 +186,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
         return mTitle;
     }
 
-    public abstract T withTitle(WPGeneric title);
+    public abstract T withTitle(String title);
 
     /**
      * The ID for the author of the object.
@@ -226,7 +242,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
     }
 
     public WPObject(Parcel in) {
-        mId = in.readInt();
+        mId = in.readLong();
         mDate = in.readString();
         mDateGMT = in.readString();
         mGuid = in.readParcelable(WPGeneric.class.getClassLoader());
@@ -243,7 +259,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
+        dest.writeLong(mId);
         dest.writeString(mDate);
         dest.writeString(mDateGMT);
         dest.writeParcelable(mGuid, flags);
@@ -256,6 +272,32 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
         dest.writeInt(mAuthor);
         dest.writeParcelable(mCommentStatus, flags);
         dest.writeParcelable(mPingStatus, flags);
+    }
+
+    public static <T extends WPObject> ImmutableMap.Builder<String, Object> mapFromFields(WPObject<T> wpObject, ImmutableMap.Builder<String, Object> builder) {
+        Validate.validateMapEntry(JSON_FIELD_ID, wpObject.getId(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DATE, wpObject.getDate(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DATE_GMT, wpObject.getDateGMT(), builder);
+        if (wpObject.getGuid() != null) {
+            Validate.validateMapEntry(JSON_FIELD_GUID, wpObject.getGuid().getRendered(), builder);
+        }
+        Validate.validateMapEntry(JSON_FIELD_MODIFIED, wpObject.getModified(), builder);
+        Validate.validateMapEntry(JSON_FIELD_MODIFIED_GMT, wpObject.getModifiedGMT(), builder);
+        Validate.validateMapEntry(JSON_FIELD_SLUG, wpObject.getSlug(), builder);
+        Validate.validateMapEntry(JSON_FIELD_TYPE, wpObject.getType(), builder);
+        Validate.validateMapEntry(JSON_FIELD_LINK, wpObject.getLink(), builder);
+        if (wpObject.getTitle() != null) {
+            Validate.validateMapEntry(JSON_FIELD_TITLE, wpObject.getTitle().getRendered(), builder);
+        }
+        Validate.validateMapEntry(JSON_FIELD_AUTHOR, wpObject.getAuthor(), builder);
+        if (wpObject.getCommentStatus() != null) {
+            Validate.validateMapEntry(JSON_FIELD_COMMENT_STATUS, wpObject.getCommentStatus().getStatus(), builder);
+        }
+        if (wpObject.getPingStatus() != null) {
+            Validate.validateMapEntry(JSON_FIELD_PING_STATUS, wpObject.getPingStatus().getStatus(), builder);
+        }
+
+        return builder;
     }
 
     @Override

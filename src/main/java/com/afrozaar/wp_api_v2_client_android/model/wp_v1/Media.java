@@ -3,13 +3,25 @@ package com.afrozaar.wp_api_v2_client_android.model.wp_v1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.afrozaar.wp_api_v2_client_android.util.Validate;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Map;
 
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/01/07.
  */
 public class Media extends WPObject<Media> {
+
+    public static final String JSON_FIELD_ALT_TEXT = "alt_text";
+    public static final String JSON_FIELD_CAPTION = "caption";
+    public static final String JSON_FIELD_DESCRIPTION = "description";
+    public static final String JSON_FIELD_MEDIA_TYPE = "media_type";
+    public static final String JSON_FIELD_POST = "post";
+    public static final String JSON_FIELD_SOURCE_URL = "source_url";
+    public static final String JSON_FIELD_MEDIA_DETAILS = "media_details";
 
     /**
      * Alternative text to display when attachment is not displayed.
@@ -145,7 +157,7 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withId(int id) {
+    public Media withId(long id) {
         setId(id);
         return this;
     }
@@ -199,8 +211,10 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withTitle(WPGeneric title) {
-        setTitle(title);
+    public Media withTitle(String title) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(title);
+        setTitle(generic);
         return this;
     }
 
@@ -247,6 +261,22 @@ public class Media extends WPObject<Media> {
         dest.writeLong(mPostId);
         dest.writeString(mSourceUrl);
         dest.writeParcelable(mMediaDetails, flags);
+    }
+
+    public static Map<String, Object> mapFromFields(Media media) {
+        ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<>();
+
+        WPObject.mapFromFields(media, builder);
+
+        Validate.validateMapEntry(JSON_FIELD_ALT_TEXT, media.getAltText(), builder);
+        Validate.validateMapEntry(JSON_FIELD_CAPTION, media.getCaption(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DESCRIPTION, media.getDescription(), builder);
+        Validate.validateMapEntry(JSON_FIELD_MEDIA_TYPE, media.getMediaType(), builder);
+        Validate.validateMapEntry(JSON_FIELD_POST, media.getPostId(), builder);
+        Validate.validateMapEntry(JSON_FIELD_SOURCE_URL, media.getSourceUrl(), builder);
+        Validate.validateMapEntry(JSON_FIELD_MEDIA_DETAILS, media.getMediaDetails(), builder);
+
+        return builder.build();
     }
 
     @Override

@@ -33,6 +33,10 @@ public class WPStatus implements Parcelable {
         return mStatus == OPEN;
     }
 
+    public String getStatus() {
+        return isOpen() ? "open" : "closed";
+    }
+
     @Override
     public int describeContents() {
         return 0;

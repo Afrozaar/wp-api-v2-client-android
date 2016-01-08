@@ -5,15 +5,15 @@ import com.afrozaar.wp_api_v2_client_android.exception.PageNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
 import com.afrozaar.wp_api_v2_client_android.exception.TermNotFoundException;
 import com.afrozaar.wp_api_v2_client_android.exception.WpApiParsedException;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Link;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Page;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostMeta;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Term;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.User;
 import com.afrozaar.wp_api_v2_client_android.request.Request;
 import com.afrozaar.wp_api_v2_client_android.request.RequestEntity;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
@@ -197,7 +197,7 @@ public class Client implements Wordpress {
 
     @Override
     public Post createPost(Post post, PostStatus status) throws PostCreateException {
-        return createPost(Post.fieldsFrom(post), status);
+        return createPost(Post.mapFromFields(post), status);
     }
 
     @Override
@@ -208,7 +208,8 @@ public class Client implements Wordpress {
 
     @Override
     public Post updatePost(Post post) {
-        final ResponseEntity<Post> exchange = doExchange1(Request.POST, HttpMethod.POST, Post.class, forExpand(post.getId()), ImmutableMap.<String, Object>of(), Post.fieldsFrom(post));
+        final ResponseEntity<Post> exchange = doExchange1(Request.POST, HttpMethod.POST, Post.class,
+                forExpand(post.getId()), ImmutableMap.<String, Object>of(), Post.mapFromFields(post));
         return exchange.getBody();
     }
 
@@ -265,7 +266,7 @@ public class Client implements Wordpress {
 
     @Override
     public Media updateMedia(Media media) {
-        return doExchange1(Request.MEDIA, HttpMethod.POST, Media.class, forExpand(media.getId()), null, Media.fieldsFrom(media)).getBody();
+        return doExchange1(Request.MEDIA, HttpMethod.POST, Media.class, forExpand(media.getId()), null, Media.mapFromFields(media)).getBody();
     }
 
     @Override
@@ -610,11 +611,11 @@ public class Client implements Wordpress {
     public User createUser(User user, String username, String password) {
         user.withUsername(username)
                 .withPassword(password);
-        return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.fieldsFrom(user)).getBody();
+        return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.mapFromFields(user)).getBody();
     }
 
     public User createUser(User user) {
-        return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.fieldsFrom(user)).getBody();
+        return doExchange1(Request.USERS, HttpMethod.POST, User.class, forExpand(), null, User.mapFromFields(user)).getBody();
     }
 
     @Override

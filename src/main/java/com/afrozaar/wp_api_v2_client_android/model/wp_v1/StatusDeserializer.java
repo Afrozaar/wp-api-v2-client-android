@@ -1,6 +1,5 @@
 package com.afrozaar.wp_api_v2_client_android.model.wp_v1;
 
-import com.afrozaar.mojodroid.model.wp_v1.WPStatus;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;

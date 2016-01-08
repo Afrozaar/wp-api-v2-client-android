@@ -3,6 +3,8 @@ package com.afrozaar.wp_api_v2_client_android.model.wp_v1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.afrozaar.wp_api_v2_client_android.util.Validate;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,6 +18,25 @@ import java.util.Map;
  *         Created on 2016/01/07.
  */
 public class User implements Parcelable {
+
+    public static final String JSON_FIELD_AVATAR_URLS = "avatar_urls";
+    public static final String JSON_FIELD_CAPABILITIES = "capabilities";
+    public static final String JSON_FIELD_DESCRIPTION = "description";
+    public static final String JSON_FIELD_EMAIL = "email";
+    public static final String JSON_FIELD_FIRST_NAME = "first_name";
+    public static final String JSON_FIELD_ID = "id";
+    public static final String JSON_FIELD_LAST_NAME = "last_name";
+    public static final String JSON_FIELD_LINK = "link";
+    public static final String JSON_FIELD_NAME = "name";
+    public static final String JSON_FIELD_NICKNAME = "nickname";
+    public static final String JSON_FIELD_REGISTERED_DATE = "registered_date";
+    public static final String JSON_FIELD_ROLES = "roles";
+    public static final String JSON_FIELD_ROLE = "role";
+    public static final String JSON_FIELD_SLUG = "slug";
+    public static final String JSON_FIELD_URL = "url";
+    public static final String JSON_FIELD_USERNAME = "username";
+    public static final String JSON_FIELD_PASSWORD = "password";
+    public static final String JSON_FIELD_LINKS = "_links";
 
     /**
      * Avatar URLs for the object.
@@ -319,11 +340,11 @@ public class User implements Parcelable {
         mUserName = userName;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return mUserName;
     }
 
-    public User withUserName(String userName) {
+    public User withUsername(String userName) {
         setUserName(userName);
         return this;
     }
@@ -415,6 +436,30 @@ public class User implements Parcelable {
         dest.writeTypedList(mLinks);
     }
 
+    public static Map<String, Object> mapFromFields(User user) {
+        ImmutableMap.Builder<String, Object> map = new ImmutableMap.Builder<>();
+
+        //Validate.validateMapEntry(JSON_FIELD_AVATAR_URLS, user.getAvatarUrls(), map);
+        Validate.validateMapEntry(JSON_FIELD_DESCRIPTION, user.getDescription(), map);
+        Validate.validateMapEntry(JSON_FIELD_EMAIL, user.getEmail(), map);
+        Validate.validateMapEntry(JSON_FIELD_FIRST_NAME, user.getFirstName(), map);
+        Validate.validateMapEntry(JSON_FIELD_ID, user.getId(), map);
+        Validate.validateMapEntry(JSON_FIELD_LAST_NAME, user.getLastName(), map);
+        Validate.validateMapEntry(JSON_FIELD_LINK, user.getLink(), map);
+        Validate.validateMapEntry(JSON_FIELD_NAME, user.getName(), map);
+        Validate.validateMapEntry(JSON_FIELD_NICKNAME, user.getNickName(), map);
+        Validate.validateMapEntry(JSON_FIELD_REGISTERED_DATE, user.getRegisteredDate(), map);
+        //Validate.validateMapEntry(JSON_FIELD_ROLES, user.getRoles(), map);
+        Validate.validateMapEntry(JSON_FIELD_ROLE, user.getRole(), map);
+        Validate.validateMapEntry(JSON_FIELD_SLUG, user.getSlug(), map);
+        Validate.validateMapEntry(JSON_FIELD_URL, user.getUrl(), map);
+        Validate.validateMapEntry(JSON_FIELD_USERNAME, user.getUsername(), map);
+        Validate.validateMapEntry(JSON_FIELD_PASSWORD, user.getPassword(), map);
+        //Validate.validateMapEntry(JSON_FIELD_LINKS, user.getLinks(), map);
+
+        return map.build();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -431,4 +476,27 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "mAvatarUrls=" + mAvatarUrls +
+                ", mDescription='" + mDescription + '\'' +
+                ", mEmail='" + mEmail + '\'' +
+                ", mFirstName='" + mFirstName + '\'' +
+                ", mId=" + mId +
+                ", mLastName='" + mLastName + '\'' +
+                ", mLink='" + mLink + '\'' +
+                ", mName='" + mName + '\'' +
+                ", mNickName='" + mNickName + '\'' +
+                ", mRegisteredDate='" + mRegisteredDate + '\'' +
+                ", mRoles=" + mRoles +
+                ", mRole='" + mRole + '\'' +
+                ", mSlug='" + mSlug + '\'' +
+                ", mUrl='" + mUrl + '\'' +
+                ", mUserName='" + mUserName + '\'' +
+                ", mPassword='" + mPassword + '\'' +
+                ", mLinks=" + mLinks +
+                '}';
+    }
 }

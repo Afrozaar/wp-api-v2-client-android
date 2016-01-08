@@ -12,8 +12,6 @@ import java.util.Map;
 
 public class Post {
 
-    public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
-
     @SerializedName("id")
     @Expose
     private long id;
@@ -59,7 +57,7 @@ public class Post {
     @SerializedName("author")
     @Expose
     private long author;
-    @SerializedName(JSON_FIELD_FEATURED_IMAGE)
+    @SerializedName("featured_image")
     @Expose
     private long featuredImage;
     @SerializedName("comment_status")

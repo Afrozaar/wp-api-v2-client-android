@@ -2,7 +2,7 @@ package com.afrozaar.wp_api_v2_client_android.api;
 
 
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
 
 import java.util.Map;
@@ -43,13 +43,4 @@ public interface Posts {
     Post updatePostField(Long postId, String field, Object value);
 
     Post deletePost(Post post);
-
-    /**
-     * Search request just returning the first page of posts.
-     */
-    /*static SearchRequest<Post> list() {
-        return SearchRequest.Builder.aSearchRequest(Post.class)
-                .withUri(Request.POSTS)
-                .build();
-    }*/
 }

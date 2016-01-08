@@ -3,10 +3,10 @@ package com.afrozaar.wp_api_v2_client_android;
 import android.os.AsyncTask;
 
 import com.afrozaar.wp_api_v2_client_android.exception.PostCreateException;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Media;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.User;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
 import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
 
