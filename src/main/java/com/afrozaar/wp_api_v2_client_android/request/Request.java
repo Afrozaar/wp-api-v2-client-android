@@ -30,6 +30,7 @@ public abstract class Request {
     public static final String PAGE = "/pages/{pageId}";
     public static final String USERS = "/users";
     public static final String USER = "/users/{userId}";
+    public static final String USER_LOGIN = "/users/login/{username}";
     public static final String TAGS = "/tags";
     public static final String TAG = "/tags/{tagId}";
     public static final String CATEGORIES = "/categories";

@@ -628,6 +628,10 @@ public class Client implements Wordpress {
         return doExchange1(Request.USER, HttpMethod.GET, User.class, forExpand(userId), ImmutableMap.<String, Object>of("context", context), null).getBody();
     }
 
+    public User getUserFromLogin(String username) {
+        return doExchange1(Request.USER_LOGIN, HttpMethod.GET, User.class, forExpand(username), null, null).getBody();
+    }
+
     @Override
     public User deleteUser(User user) {
         return doExchange1(Request.USER, HttpMethod.DELETE, User.class, forExpand(user.getId()), ImmutableMap.<String, Object>of("force", true), null).getBody();

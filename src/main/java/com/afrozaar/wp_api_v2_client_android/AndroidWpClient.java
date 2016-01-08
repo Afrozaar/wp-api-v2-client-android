@@ -8,9 +8,12 @@ import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostStatus;
 import com.afrozaar.wp_api_v2_client_android.request.SearchRequest;
+import com.afrozaar.wp_api_v2_client_android.response.HttpServerErrorResponse;
 import com.afrozaar.wp_api_v2_client_android.response.PagedResponse;
+import com.google.gson.Gson;
 
 import org.springframework.core.io.Resource;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class AndroidWpClient {
     public interface RestTaskCallback<T> {
         void onTaskComplete(T response);
 
-        void onTaskFailed(Exception e);
+        void onTaskFailed(HttpServerErrorResponse response, Exception e);
     }
 
     public interface Request<T> {
@@ -105,6 +108,15 @@ public class AndroidWpClient {
         }, callback);
     }
 
+    public void getUserFromLogin(final String username, RestTaskCallback<User> callback) {
+        makeCall(new Request<User>() {
+            @Override
+            public User doCall() throws Exception {
+                return mClient.getUserFromLogin(username);
+            }
+        }, callback);
+    }
+
     /* MEDIA */
 
     public void createMedia(final Media media, final Resource resource, RestTaskCallback<Media> callback) {
@@ -176,7 +188,12 @@ public class AndroidWpClient {
             if (response != null) {
                 callback.onTaskComplete(response);
             } else {
-                callback.onTaskFailed(error);
+                HttpServerErrorResponse errorResponse = null;
+                if (error instanceof HttpServerErrorException) {
+                    String body = ((HttpServerErrorException) error).getResponseBodyAsString();
+                    errorResponse = new Gson().fromJson(body, HttpServerErrorResponse.class);
+                }
+                callback.onTaskFailed(errorResponse, error);
             }
         }
     }
