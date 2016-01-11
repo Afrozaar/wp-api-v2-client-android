@@ -8,6 +8,11 @@
 
     <string name="post_type">gallery</string>
     <string name="content_image_uri"><![CDATA[<a href="%1$s"><img src="%1$s" alt="%2$s" /></a>]]></string>
+    <string name="content_video_uri">
+        <![CDATA[<div id="thePlayer"></div><script type="text/javascript">jwplayer(\"thePlayer\").setup({
+            flashplayer: \"http://static.videoninja101.com/jwplayer/player.swf\", file: \"%s\"});</script>
+        ]]>
+    </string>
 
 
     <!-- PW Prefs -->

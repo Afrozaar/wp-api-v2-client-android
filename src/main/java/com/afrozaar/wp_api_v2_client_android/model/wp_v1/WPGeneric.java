@@ -29,16 +29,34 @@ public class WPGeneric implements Parcelable {
         return this;
     }
 
+    @SerializedName("raw")
+    private String mRaw;
+
+    public String getRaw() {
+        return mRaw;
+    }
+
+    public void setRaw(String raw) {
+        mRaw = raw;
+    }
+
+    public WPGeneric withRaw(String raw) {
+        setRaw(raw);
+        return this;
+    }
+
     public WPGeneric() {
     }
 
     public WPGeneric(Parcel in) {
         mRendered = in.readString();
+        mRaw = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mRendered);
+        dest.writeString(mRaw);
     }
 
     @Override
@@ -62,6 +80,7 @@ public class WPGeneric implements Parcelable {
     public String toString() {
         return "WPGeneric{" +
                 "mRendered='" + mRendered + '\'' +
+                ", mRaw='" + mRaw + '\'' +
                 '}';
     }
 }
