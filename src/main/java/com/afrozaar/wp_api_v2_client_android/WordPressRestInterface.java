@@ -3,6 +3,8 @@ package com.afrozaar.wp_api_v2_client_android;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostMeta;
+import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,9 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -24,6 +28,15 @@ import retrofit.http.Query;
 public interface WordPressRestInterface {
 
     /* POSTS */
+
+    /**
+     * Creates a new Post.
+     *
+     * @param postFields Map of Post fields
+     * @return The created Post object
+     */
+    @POST("posts")
+    Call<Post> createPost(@Body Map<String, Object> postFields);
 
     /**
      * Gets all Posts.
@@ -52,15 +65,6 @@ public interface WordPressRestInterface {
     Call<List<Post>> getPostsForAuthor(@Query("author") long authorId);
 
     /**
-     * Creates a new Post.
-     *
-     * @param postFields Map of Post fields
-     * @return The created Post object
-     */
-    @POST("posts")
-    Call<Post> createPost(@Body Map<String, Object> postFields);
-
-    /**
      * Updates an existing Post.
      *
      * @param postId     Id of the Post
@@ -80,6 +84,15 @@ public interface WordPressRestInterface {
     Call<Post> deletePost(@Path("id") long postId);
 
     /* MEDIA */
+
+    @Multipart
+    @POST("media")
+    Call<Media> createMedia(@Part("title") String title, @Part("post") long postId,
+                            @Part("alt_text") String altText, @Part("caption") String caption,
+                            @Part("description") String description, @Part("data") RequestBody file);
+
+    @POST("media")
+    Call<Media> createMedia(@Body Map<String, Object> fields);
 
     /**
      * Gets all Media objects.
@@ -106,7 +119,7 @@ public interface WordPressRestInterface {
      * @return The updated Media object
      */
     @POST("media/{id}")
-    Call<Media> updateMedia(@Path("id") long mediaId, Map<String, Object> fields);
+    Call<Media> updateMedia(@Path("id") long mediaId, @Body Map<String, Object> fields);
 
     /**
      * Deletes a Media item.
@@ -116,6 +129,20 @@ public interface WordPressRestInterface {
      */
     @DELETE("media/{id}")
     Call<Media> deleteMedia(@Path("id") long mediaId);
+
+    /* META */
+
+    /**
+     * Creates new Meta objects for a Post
+     *
+     * @param postId Id of the Post
+     * @param fields Map containing key/value pairs
+     * @return The created PostMeta object
+     */
+    @POST("posts/{id}/meta")
+    Call<PostMeta> createPostMeta(@Path("id") long postId, @Body Map<String, Object> fields);
+
+
 
 
     /* USERS */
@@ -137,5 +164,6 @@ public interface WordPressRestInterface {
      */
     @GET("users/login/{username}")
     Call<User> getUserFromLogin(@Path("username") String username);
+
 
 }

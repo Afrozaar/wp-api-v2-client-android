@@ -2,13 +2,24 @@ package com.afrozaar.wp_api_v2_client_android;
 
 import android.util.Base64;
 
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
+import org.springframework.core.io.FileSystemResource;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -33,8 +44,14 @@ public class ClientRetrofit {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 final byte[] encodedAuth = Base64.encode((WP_ADMIN + ":" + WP_PASSWORD).getBytes(), Base64.NO_WRAP);
-                Request request = chain.request().newBuilder().addHeader("Authorization", "Basic " + new String(encodedAuth)).build();
+                Request request = chain.request().newBuilder()
+                        .addHeader("Authorization", "Basic " + new String(encodedAuth))
+                        //.addHeader("Content-Disposition", "form-data; filename=\"IMG_20160107_012732.jpg\"")
+                        .build();
                 System.out.println("================= URL " + request.url().toString());
+
+
+
                 return chain.proceed(request);
             }
         };
@@ -89,5 +106,28 @@ public class ClientRetrofit {
                 System.out.println("=================== ERRROR : " + t.getMessage());
             }
         });*/
+    }
+
+    public void createMedia(Media media, File file, Callback<Media> callback) {
+        MediaType mediaType = MediaType.parse("image/jpg");
+        //RequestBody requestBody = RequestBody.create(mediaType, file);
+
+        RequestBody requestBody = new MultipartBuilder()
+                .type(MultipartBuilder.FORM)
+                .addPart(Headers.of("Content-Disposition", "form-data; filename=\"file\""),
+                        RequestBody.create(MediaType.parse("image/jpg"), file))
+                .build();
+
+
+        /*Call<Media> call = mRestInterface.createMedia(media.getTitle().getRendered(), media.getPostId(),
+                media.getAltText(), media.getCaption(), media.getDescription(), requestBody);*/
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("title", media.getTitle().getRendered());
+        body.put("file", requestBody);
+
+        Call<Media> call = mRestInterface.createMedia(body);
+
+        call.enqueue(callback);
     }
 }
