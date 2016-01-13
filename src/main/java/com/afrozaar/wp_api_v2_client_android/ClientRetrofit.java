@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.MediaType;
@@ -12,11 +13,10 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -49,7 +49,6 @@ public class ClientRetrofit {
                 for (String head : request.headers().names()) {
                     System.out.println("======== Header : " + head + " == " + request.header(head));
                 }
-
 
                 return chain.proceed(request);
             }
@@ -108,6 +107,7 @@ public class ClientRetrofit {
     }
 
     public void createMedia(Media media, File file, Callback<Media> callback) {
+        /*
         try {
             InputStream in = new FileInputStream(file);
             byte[] buf;
@@ -117,7 +117,10 @@ public class ClientRetrofit {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), buf);
             String header = "filename=" + file.getName();
 
-            Call<Media> call = mRestInterface.createMediaTest(header, requestBody);
+            Call<Media> call = mRestInterface.createMedia(media.getTitle().getRendered(), media.getPostId(),
+                    media.getAltText(), media.getCaption(), media.getDescription(), requestBody);
+
+            //Call<Media> call = mRestInterface.createMediaTest(header, requestBody);
             call.enqueue(callback);
 
         } catch (FileNotFoundException e) {
@@ -125,6 +128,27 @@ public class ClientRetrofit {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+
+        String header = "filename=" + file.getName();
+
+        Map<String, RequestBody> map = new HashMap<>();
+        map.put("title", toRequestBody(media.getTitle().getRendered()));
+        map.put("caption", toRequestBody(media.getCaption()));
+        map.put("alt_text", toRequestBody(media.getAltText()));
+        map.put("description", toRequestBody(media.getDescription()));
+
+        String ext = ContentUtil.getImageMimeType(file.getName());
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);
+        map.put("file\"; filename=\"" + file.getName() + "\"", fileBody);
+
+        Call<Media> call = mRestInterface.createMedia(header, map);
+        call.enqueue(callback);
+    }
+
+    public RequestBody toRequestBody(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value);
     }
 
     public void updateMedia(Media media, long mediaId, Callback<Media> callback) {
