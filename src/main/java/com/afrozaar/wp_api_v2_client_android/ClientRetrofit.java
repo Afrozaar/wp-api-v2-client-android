@@ -4,22 +4,18 @@ import android.util.Base64;
 
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
-import org.springframework.core.io.FileSystemResource;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -49,8 +45,9 @@ public class ClientRetrofit {
                         //.addHeader("Content-Disposition", "form-data; filename=\"IMG_20160107_012732.jpg\"")
                         .build();
                 System.out.println("================= URL " + request.url().toString());
-
-
+                for (String head : request.headers().names()) {
+                    System.out.println("======== Header : " + head + " == " + request.header(head));
+                }
 
                 return chain.proceed(request);
             }
@@ -109,25 +106,37 @@ public class ClientRetrofit {
     }
 
     public void createMedia(Media media, File file, Callback<Media> callback) {
-        MediaType mediaType = MediaType.parse("image/jpg");
+        try {
+            InputStream in = new FileInputStream(file);
+            byte[] buf;
+            buf = new byte[in.available()];
+            while (in.read(buf) != -1) ;
+
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), buf);
+
+            //String header = "attachment;filename=" + file.getName();
+            //String header = "\"filename=" + file.getName() + "\"";
+            String header = "file\"; filename=\"" + file.getName() + "\"";
+
+            Call<Media> call = mRestInterface.createMediaTest(header, requestBody);
+            call.enqueue(callback);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //MediaType mediaType = MediaType.parse("image/*");
         //RequestBody requestBody = RequestBody.create(mediaType, file);
 
-        RequestBody requestBody = new MultipartBuilder()
-                .type(MultipartBuilder.FORM)
-                .addPart(Headers.of("Content-Disposition", "form-data; filename=\"file\""),
-                        RequestBody.create(MediaType.parse("image/jpg"), file))
-                .build();
+
 
 
         /*Call<Media> call = mRestInterface.createMedia(media.getTitle().getRendered(), media.getPostId(),
-                media.getAltText(), media.getCaption(), media.getDescription(), requestBody);*/
+                media.getAltText(), media.getCaption(), media.getDescription(), requestBody);
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("title", media.getTitle().getRendered());
-        body.put("file", requestBody);
-
-        Call<Media> call = mRestInterface.createMedia(body);
-
-        call.enqueue(callback);
+        call.enqueue(callback);*/
     }
 }

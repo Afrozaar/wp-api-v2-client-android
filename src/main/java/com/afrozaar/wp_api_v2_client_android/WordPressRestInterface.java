@@ -13,6 +13,7 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
@@ -88,11 +89,12 @@ public interface WordPressRestInterface {
     @Multipart
     @POST("media")
     Call<Media> createMedia(@Part("title") String title, @Part("post") long postId,
-                            @Part("alt_text") String altText, @Part("caption") String caption,
-                            @Part("description") String description, @Part("data") RequestBody file);
+                             @Part("alt_text") String altText, @Part("caption") String caption,
+                             @Part("description") String description, @Part("file\"; filename=\"filename.png\"") RequestBody file);
+                             //@Part("description") String description, @Part("file\"; filename=\"image.jpg\"") RequestBody file);
 
     @POST("media")
-    Call<Media> createMedia(@Body Map<String, Object> fields);
+    Call<Media> createMediaTest(@Header("Content-Disposition") String header, @Body RequestBody body);
 
     /**
      * Gets all Media objects.
