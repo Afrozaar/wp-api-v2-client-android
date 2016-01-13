@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.google.common.collect.ImmutableMap;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -48,6 +49,7 @@ public class ClientRetrofit {
                 for (String head : request.headers().names()) {
                     System.out.println("======== Header : " + head + " == " + request.header(head));
                 }
+
 
                 return chain.proceed(request);
             }
@@ -112,11 +114,8 @@ public class ClientRetrofit {
             buf = new byte[in.available()];
             while (in.read(buf) != -1) ;
 
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), buf);
-
-            //String header = "attachment;filename=" + file.getName();
-            //String header = "\"filename=" + file.getName() + "\"";
-            String header = "file\"; filename=\"" + file.getName() + "\"";
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), buf);
+            String header = "filename=" + file.getName();
 
             Call<Media> call = mRestInterface.createMediaTest(header, requestBody);
             call.enqueue(callback);
@@ -126,17 +125,16 @@ public class ClientRetrofit {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void updateMedia(Media media, long mediaId, Callback<Media> callback) {
+        ImmutableMap.Builder<String, Object> builder = new ImmutableMap.Builder<>();
+        builder.put("title", media.getTitle().getRendered())
+                .put("caption", media.getCaption())
+                .put("alt_text", media.getAltText())
+                .put("description", media.getDescription());
 
-        //MediaType mediaType = MediaType.parse("image/*");
-        //RequestBody requestBody = RequestBody.create(mediaType, file);
-
-
-
-
-        /*Call<Media> call = mRestInterface.createMedia(media.getTitle().getRendered(), media.getPostId(),
-                media.getAltText(), media.getCaption(), media.getDescription(), requestBody);
-
-        call.enqueue(callback);*/
+        Call<Media> call = mRestInterface.updateMedia(mediaId, builder.build());
+        call.enqueue(callback);
     }
 }
