@@ -1,11 +1,13 @@
 package com.afrozaar.wp_api_v2_client_android;
 
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v2.PostMeta;
+import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.squareup.okhttp.RequestBody;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +86,37 @@ public interface WordPressRestInterface {
     @DELETE("posts/{id}")
     Call<Post> deletePost(@Path("id") long postId);
 
+    /**
+     * Creates new Meta objects for a Post
+     *
+     * @param postId Id of the Post
+     * @param fields Map containing key/value pairs
+     * @return The created PostMeta object
+     */
+    @POST("posts/{id}/meta")
+    Call<Meta> createPostMeta(@Path("id") long postId, @Body Map<String, Object> fields);
+
+    @GET("posts/{id}/meta")
+    Call<List<Meta>> getPostMeta(@Path("id") long postId);
+
+
+    @GET("posts/{postId}/meta/{metaId}")
+    Call<Meta> getPostMeta(@Path("postId") long postId, @Path("metaId") long metaId);
+
+    @POST("posts/{postId}/meta/{metaId}")
+    Call<Meta> updatePostMeta(@Path("postId") long postId, @Path("metaId") long metaId, Meta meta);
+
+
     /* MEDIA */
 
+    /**
+     * Upload a new Media item into WordPress.
+     *
+     * @param header Content-Disposition header containing filename, eg "filename=file.jpg"
+     * @param params Map containing all fields to upload
+     * @return Media item created
+     * @see ContentUtil#makeMediaItemUploadMap(Media, File)
+     */
     @Multipart
     @POST("media")
     Call<Media> createMedia(@Header("Content-Disposition") String header, @PartMap Map<String, RequestBody> params);
@@ -108,6 +139,16 @@ public interface WordPressRestInterface {
     Call<Media> getMedia(@Path("id") long mediaId);
 
     /**
+     * Returns all Media items attached to a Post.
+     *
+     * @param postId Id of the Post
+     * @param type   MIME type of Media
+     * @return List of Media objects
+     */
+    @GET("posts/{id}/media/{type}")
+    Call<List<Media>> getMediaForPost(@Path("id") long postId, @Path("type") String type);
+
+    /**
      * Updates a Media item.
      *
      * @param mediaId Id the Media item
@@ -126,17 +167,8 @@ public interface WordPressRestInterface {
     @DELETE("media/{id}")
     Call<Media> deleteMedia(@Path("id") long mediaId);
 
-    /* META */
 
-    /**
-     * Creates new Meta objects for a Post
-     *
-     * @param postId Id of the Post
-     * @param fields Map containing key/value pairs
-     * @return The created PostMeta object
-     */
-    @POST("posts/{id}/meta")
-    Call<PostMeta> createPostMeta(@Path("id") long postId, @Body Map<String, Object> fields);
+
 
 
 
@@ -162,4 +194,9 @@ public interface WordPressRestInterface {
     Call<User> getUserFromLogin(@Path("username") String username);
 
 
+
+    /* OTHER */
+
+    @GET("posts")
+    Call<List<Post>> getPostsForTags(@Query("filter[tag]") String tag);
 }

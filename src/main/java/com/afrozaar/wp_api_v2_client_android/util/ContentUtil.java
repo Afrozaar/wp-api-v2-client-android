@@ -4,6 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.R;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jan-Louis Crafford
@@ -62,10 +69,24 @@ public class ContentUtil {
         return context.getString(R.string.content_image_uri, imageUrl, altText == null ? "" : altText);
     }
 
+    /**
+     * Returns a formatted video link for use in Post body.
+     * Currently video uses JWPlayer
+     *
+     * @param context Application contenxt
+     * @param videoUrl Absolute path to video file
+     * @return Formatted HTML video link
+     */
     public static String getContentVideoLinkUri(Context context, String videoUrl) {
         return context.getString(R.string.content_video_uri, videoUrl);
     }
 
+    /**
+     * Returns the MIME type for an image file based on it's extension.
+     *
+     * @param filename Name of file to check.
+     * @return MIME type for image
+     */
     public static String getImageMimeType(String filename) {
         if (TextUtils.isEmpty(filename)) {
             return "";
@@ -105,5 +126,30 @@ public class ContentUtil {
         }
 
         return MIME_IMAGE_ALL;
+    }
+
+    /**
+     * Helper method to construct Map used to upload Media item to WordPress.
+     *
+     * @param media Media item details
+     * @param file File to upload
+     * @return Map containing all relevant Media info needed for upload
+     */
+    public static Map<String, RequestBody> makeMediaItemUploadMap(Media media, File file) {
+        Map<String, RequestBody> map = new HashMap<>();
+        map.put(Media.JSON_FIELD_TITLE, toRequestBody(media.getTitle().getRendered()));
+        map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption()));
+        map.put(Media.JSON_FIELD_ALT_TEXT, toRequestBody(media.getAltText()));
+        map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
+
+        String ext = ContentUtil.getImageMimeType(file.getName());
+        RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);
+        map.put("file\"; filename=\"" + file.getName() + "\"", fileBody);
+
+        return map;
+    }
+
+    private static RequestBody toRequestBody(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value);
     }
 }

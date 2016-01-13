@@ -7,20 +7,19 @@ import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -43,7 +42,6 @@ public class ClientRetrofit {
                 final byte[] encodedAuth = Base64.encode((WP_ADMIN + ":" + WP_PASSWORD).getBytes(), Base64.NO_WRAP);
                 Request request = chain.request().newBuilder()
                         .addHeader("Authorization", "Basic " + new String(encodedAuth))
-                        //.addHeader("Content-Disposition", "form-data; filename=\"IMG_20160107_012732.jpg\"")
                         .build();
                 System.out.println("================= URL " + request.url().toString());
                 for (String head : request.headers().names()) {
@@ -91,19 +89,6 @@ public class ClientRetrofit {
     public void getPostsForAuthor(long authorId, Callback<List<Post>> callback) {
         Call<List<Post>> call = mRestInterface.getPostsForAuthor(authorId);
         call.enqueue(callback);
-        /*call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Response<List<Post>> response, Retrofit retrofit) {
-                System.out.println("================= RESPONSE : " + response.code() + " == " + response.message());
-                //System.out.println("===================== " + response.errorBody().string());
-                //System.out.println("=================== body : " + response.bo);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                System.out.println("=================== ERRROR : " + t.getMessage());
-            }
-        });*/
     }
 
     public void createMedia(Media media, File file, Callback<Media> callback) {
@@ -130,25 +115,11 @@ public class ClientRetrofit {
         }
         */
 
+        Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
         String header = "filename=" + file.getName();
-
-        Map<String, RequestBody> map = new HashMap<>();
-        map.put("title", toRequestBody(media.getTitle().getRendered()));
-        map.put("caption", toRequestBody(media.getCaption()));
-        map.put("alt_text", toRequestBody(media.getAltText()));
-        map.put("description", toRequestBody(media.getDescription()));
-
-        String ext = ContentUtil.getImageMimeType(file.getName());
-
-        RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);
-        map.put("file\"; filename=\"" + file.getName() + "\"", fileBody);
 
         Call<Media> call = mRestInterface.createMedia(header, map);
         call.enqueue(callback);
-    }
-
-    public RequestBody toRequestBody(String value) {
-        return RequestBody.create(MediaType.parse("text/plain"), value);
     }
 
     public void updateMedia(Media media, long mediaId, Callback<Media> callback) {
@@ -160,5 +131,23 @@ public class ClientRetrofit {
 
         Call<Media> call = mRestInterface.updateMedia(mediaId, builder.build());
         call.enqueue(callback);
+    }
+
+    public void getTags() {
+        Call<List<Post>> call = mRestInterface.getPostsForTags("awe");
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Response<List<Post>> response, Retrofit retrofit) {
+                System.out.println("=============== RESPONSE " + response.code());
+                if (response.body() != null) {
+                    System.out.println("======= BODY SIZE : " + response.body().size());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 }
