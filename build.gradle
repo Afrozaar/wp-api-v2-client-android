@@ -39,4 +39,9 @@ dependencies {
 
     //Logging Stuff
     compile 'org.slf4j:slf4j-android:1.7.7'
+
+    //AWS Libs
+    compile 'com.amazonaws:aws-android-sdk-core:2.+'
+    compile 'com.amazonaws:aws-android-sdk-cognito:2.+'
+    compile 'com.amazonaws:aws-android-sdk-s3:2.+'
 }

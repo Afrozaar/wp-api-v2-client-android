@@ -1,9 +1,12 @@
 package com.afrozaar.wp_api_v2_client_android;
 
+import android.content.Context;
 import android.util.Base64;
 
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.afrozaar.wp_api_v2_client_android.util.AmazonHelper;
+import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.okhttp.Interceptor;
@@ -32,9 +35,14 @@ public class ClientRetrofit {
     public static final String WP_PASSWORD = "T8YsQw@6Mz)Gd(vGGImUU3z6";
 
     private WordPressRestInterface mRestInterface;
+    private AmazonHelper mAmazonHelper;
+    private Context mContext;
 
-    public ClientRetrofit(String baseUrl, String username, String password) {
-
+    public ClientRetrofit(Context context, String baseUrl, String username, String password) {
+        mContext = context;
+        mAmazonHelper = AmazonHelper.with(context);
+        LogUtils.d("------- AmazonHelper PoolId :" +mAmazonHelper.getCognitoIdentityPoolId());
+        LogUtils.d("------- AmazonHelper Region :" +mAmazonHelper.getIdentityPoolRegion());
         OkHttpClient okHttpClient = new OkHttpClient();
         Interceptor interceptor = new Interceptor() {
             @Override
