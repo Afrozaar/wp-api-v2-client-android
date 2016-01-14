@@ -7,7 +7,9 @@ import android.content.res.Resources;
 import android.net.Uri;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
@@ -28,6 +30,8 @@ public class AmazonHelper {
     /* -- Key for S3 Bucket in Android Manifest -- */
     private final static String S3_BUCKET_NAME = "com.afrozaar.wp_api_v2_client_android.S3BucketName";
 
+    /* -- Url Location of Uploaded File -- */
+    private String mS3BucketLocationPrefix = "https://s3-";
 
     private String mCognitoIdentityPoolId = null;
     private String mIdentityPoolRegion = null;
@@ -35,6 +39,7 @@ public class AmazonHelper {
     private static AmazonHelper sInstance = null;
     private Context mContext;
     private CognitoCachingCredentialsProvider mCredentialsProvider;
+    private TransferObserver mTransferObserver = null;
 
     public static AmazonHelper with(Context context) {
         if (sInstance == null) {
@@ -43,20 +48,30 @@ public class AmazonHelper {
         return sInstance;
     }
 
-    public String uploadFileAndReturnUrl(Uri fileUri){
+    public String uploadFile(Uri fileUri){ //This method will simply upload the file and return the file's url as a String
         if(sInstance == null){
             throw new IllegalStateException("Please use the AmazonHelper.with(context) declaration to define the needed context");
         }
         AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
-        File file;
-        String url = "";
+        File file = new File(MediaUtil.getRealPathFromURI(mContext,fileUri));
         TransferUtility transferUtility = new TransferUtility(s3,mContext);
-        TransferObserver transferObserver = transferUtility.upload(
+        mTransferObserver = transferUtility.upload(
                 mS3BucketName,
                 file.getName(),
                 file);
+        
+        return buildFileUploadedUrl(file.getName());
+    }
 
-        return url;
+    public TransferObserver getTransferObserver(){
+        if(mTransferObserver == null){
+            throw new IllegalStateException("getTransferObserver() method can be called only after the uploadFile(..) method");
+        }
+        return mTransferObserver;
+    }
+
+    private String buildFileUploadedUrl(String fileName){
+        return "https://s3-" + mIdentityPoolRegion + ".amazonaws.com/" + mS3BucketName + "/" + fileName;
     }
 
     private AmazonHelper(Context context) {
