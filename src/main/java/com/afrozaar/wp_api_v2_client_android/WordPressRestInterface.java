@@ -1,5 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android;
 
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Comment;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Page;
@@ -340,20 +341,20 @@ public interface WordPressRestInterface {
 
     /* COMMENTS */
 
-    //@POST("comments")
-    //Call<Comment> createComment(Map<String, Object> fields);
+    @POST("comments")
+    Call<Comment> createComment(Map<String, Object> fields);
 
-    //@GET("comments")
-    //Call<List<Comment>> getComments();
+    @GET("comments")
+    Call<List<Comment>> getComments();
 
-    //@GET("comments/{id}")
-    //Call<Comment> getComment(@Path("id") long id);
+    @GET("comments/{id}")
+    Call<Comment> getComment(@Path("id") long id);
 
-    //@POST("comments/{id}");
-    //Call<Comment> updateComment(@Path("id") long id, Map<String, Object> fields);
+    @POST("comments/{id}")
+    Call<Comment> updateComment(@Path("id") long id, Map<String, Object> fields);
 
-    //@DELETE("comments/{id});
-    //Call<Comment> deleteComment(@Path("id") long id);
+    @DELETE("comments/{id}")
+    Call<Comment> deleteComment(@Path("id") long id);
 
     
     /* OTHER */

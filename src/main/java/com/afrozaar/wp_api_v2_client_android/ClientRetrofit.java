@@ -6,8 +6,8 @@ import android.util.Base64;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
 import com.afrozaar.wp_api_v2_client_android.util.AmazonHelper;
-import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
+import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,23 +31,20 @@ import retrofit.Retrofit;
  */
 public class ClientRetrofit {
 
-    public static final String WP_ADMIN = "android";
-    public static final String WP_PASSWORD = "T8YsQw@6Mz)Gd(vGGImUU3z6";
-
     private WordPressRestInterface mRestInterface;
     private AmazonHelper mAmazonHelper;
     private Context mContext;
 
-    public ClientRetrofit(Context context, String baseUrl, String username, String password) {
+    public ClientRetrofit(Context context, String baseUrl, final String username, final String password) {
         mContext = context;
         mAmazonHelper = AmazonHelper.with(context);
-        LogUtils.d("------- AmazonHelper PoolId :" +mAmazonHelper.getCognitoIdentityPoolId());
-        LogUtils.d("------- AmazonHelper Region :" +mAmazonHelper.getIdentityPoolRegion());
+        LogUtils.d("------- AmazonHelper PoolId :" + mAmazonHelper.getCognitoIdentityPoolId());
+        LogUtils.d("------- AmazonHelper Region :" + mAmazonHelper.getIdentityPoolRegion());
         OkHttpClient okHttpClient = new OkHttpClient();
         Interceptor interceptor = new Interceptor() {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                final byte[] encodedAuth = Base64.encode((WP_ADMIN + ":" + WP_PASSWORD).getBytes(), Base64.NO_WRAP);
+                final byte[] encodedAuth = Base64.encode((username + ":" + password).getBytes(), Base64.NO_WRAP);
                 Request request = chain.request().newBuilder()
                         .addHeader("Authorization", "Basic " + new String(encodedAuth))
                         .build();
