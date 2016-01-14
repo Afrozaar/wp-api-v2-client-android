@@ -1,6 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /**
  * @author Jan-Louis Crafford
@@ -12,7 +12,7 @@ public class Validate {
         return value != null;
     }
 
-    public static void validateMapEntry(String key, Object value, ImmutableMap.Builder<String, Object> map) {
+    public static void validateMapEntry(String key, Object value, Map<String, Object> map) {
         if (notNull(value)) {
             map.put(key, value);
         }
