@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.R;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
+import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
@@ -73,7 +73,7 @@ public class ContentUtil {
      * Returns a formatted video link for use in Post body.
      * Currently video uses JWPlayer
      *
-     * @param context Application contenxt
+     * @param context  Application contenxt
      * @param videoUrl Absolute path to video file
      * @return Formatted HTML video link
      */
@@ -132,7 +132,7 @@ public class ContentUtil {
      * Helper method to construct Map used to upload Media item to WordPress.
      *
      * @param media Media item details
-     * @param file File to upload
+     * @param file  File to upload
      * @return Map containing all relevant Media info needed for upload
      */
     public static Map<String, RequestBody> makeMediaItemUploadMap(Media media, File file) {

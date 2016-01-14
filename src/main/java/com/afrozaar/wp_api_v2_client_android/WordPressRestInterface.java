@@ -1,12 +1,12 @@
 package com.afrozaar.wp_api_v2_client_android;
 
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Comment;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Meta;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Page;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Taxonomy;
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
+import com.afrozaar.wp_api_v2_client_android.model.Comment;
+import com.afrozaar.wp_api_v2_client_android.model.Media;
+import com.afrozaar.wp_api_v2_client_android.model.Meta;
+import com.afrozaar.wp_api_v2_client_android.model.Page;
+import com.afrozaar.wp_api_v2_client_android.model.Post;
+import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
+import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.squareup.okhttp.RequestBody;
 

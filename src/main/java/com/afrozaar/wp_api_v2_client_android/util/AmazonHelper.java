@@ -7,14 +7,11 @@ import android.content.res.Resources;
 import android.net.Uri;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.Region;
 
 import java.io.File;
 
@@ -48,29 +45,29 @@ public class AmazonHelper {
         return sInstance;
     }
 
-    public String uploadFile(Uri fileUri){ //This method will simply upload the file and return the file's url as a String
-        if(sInstance == null){
+    public String uploadFile(Uri fileUri) { //This method will simply upload the file and return the file's url as a String
+        if (sInstance == null) {
             throw new IllegalStateException("Please use the AmazonHelper.with(context) declaration to define the needed context");
         }
         AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
-        File file = new File(MediaUtil.getRealPathFromURI(mContext,fileUri));
-        TransferUtility transferUtility = new TransferUtility(s3,mContext);
+        File file = new File(MediaUtil.getRealPathFromURI(mContext, fileUri));
+        TransferUtility transferUtility = new TransferUtility(s3, mContext);
         mTransferObserver = transferUtility.upload(
                 mS3BucketName,
                 file.getName(),
                 file);
-        
+
         return buildFileUploadedUrl(file.getName());
     }
 
-    public TransferObserver getTransferObserver(){
-        if(mTransferObserver == null){
+    public TransferObserver getTransferObserver() {
+        if (mTransferObserver == null) {
             throw new IllegalStateException("getTransferObserver() method can be called only after the uploadFile(..) method");
         }
         return mTransferObserver;
     }
 
-    private String buildFileUploadedUrl(String fileName){
+    private String buildFileUploadedUrl(String fileName) {
         return "https://s3-" + mIdentityPoolRegion + ".amazonaws.com/" + mS3BucketName + "/" + fileName;
     }
 
@@ -82,9 +79,9 @@ public class AmazonHelper {
         loadMetaDataFromManifest(context);
 
         mCredentialsProvider = new CognitoCachingCredentialsProvider(
-          mContext.getApplicationContext(),
-          mCognitoIdentityPoolId,
-          Regions.fromName(mIdentityPoolRegion)
+                mContext.getApplicationContext(),
+                mCognitoIdentityPoolId,
+                Regions.fromName(mIdentityPoolRegion)
         );
     }
 
@@ -96,7 +93,7 @@ public class AmazonHelper {
         return mCognitoIdentityPoolId;
     }
 
-    private void loadMetaDataFromManifest(Context context){
+    private void loadMetaDataFromManifest(Context context) {
         ApplicationInfo ai = null;
         try {
             ai = context.getPackageManager().getApplicationInfo(
@@ -118,20 +115,20 @@ public class AmazonHelper {
             }
         }
 
-        if(mIdentityPoolRegion == null){
+        if (mIdentityPoolRegion == null) {
             Object identityPoolRegion = ai.metaData.get(IDENTITY_POOL_REGION);
-            if(identityPoolRegion instanceof String){
+            if (identityPoolRegion instanceof String) {
                 mIdentityPoolRegion = (String) identityPoolRegion;
-            }else{
+            } else {
                 throw new Resources.NotFoundException("Identity Pool Region value is incorrect. Please ensure you have the correct region name.");
             }
         }
 
-        if(mS3BucketName == null){
+        if (mS3BucketName == null) {
             Object s3BucketName = ai.metaData.get(S3_BUCKET_NAME);
-            if (s3BucketName instanceof String){
+            if (s3BucketName instanceof String) {
                 mS3BucketName = (String) s3BucketName;
-            }else{
+            } else {
                 throw new Resources.NotFoundException("S3 Bucket Name must be defined in you Android Manifest.");
             }
         }
