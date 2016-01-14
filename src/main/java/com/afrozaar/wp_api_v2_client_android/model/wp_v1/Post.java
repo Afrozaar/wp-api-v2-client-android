@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.afrozaar.wp_api_v2_client_android.util.Validate;
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class Post extends WPObject<Post> {
     public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
     public static final String JSON_FIELD_STICKY = "sticky";
     public static final String JSON_FIELD_FORMAT = "format";
-    public static final String JSON_FIELD_LINKS = "_links";
+
 
     /**
      * The content for the object.
@@ -121,38 +120,6 @@ public class Post extends WPObject<Post> {
         return this;
     }
 
-    /**
-     * Links for this post; author, attachments, history, etc.
-     */
-    @JsonAdapter(LinksDeserializer.class)
-    @SerializedName("_links")
-    private ArrayList<Link> mLinks;
-
-    public void setLinks(ArrayList<Link> links) {
-        mLinks = links;
-    }
-
-    public void addLink(Link link) {
-        if (mLinks == null) {
-            mLinks = new ArrayList<>();
-        }
-        mLinks.add(link);
-    }
-
-    public ArrayList<Link> getLinks() {
-        return mLinks;
-    }
-
-    public Post withLinks(ArrayList<Link> links) {
-        setLinks(links);
-        return this;
-    }
-
-    public Post withLink(Link link) {
-        addLink(link);
-        return this;
-    }
-
     @Override
     public Post withId(long id) {
         setId(id);
@@ -233,6 +200,18 @@ public class Post extends WPObject<Post> {
         return this;
     }
 
+    @Override
+    public Post withLinks(ArrayList<Link> links) {
+        setLinks(links);
+        return this;
+    }
+
+    @Override
+    public Post withLink(Link link) {
+        addLink(link);
+        return this;
+    }
+
     public Post() {
     }
 
@@ -244,7 +223,6 @@ public class Post extends WPObject<Post> {
         mFeaturedImage = in.readInt();
         mSticky = in.readByte() == 1;
         mFormat = in.readString();
-        in.readTypedList(mLinks, Link.CREATOR);
     }
 
     @Override
@@ -256,7 +234,6 @@ public class Post extends WPObject<Post> {
         dest.writeInt(mFeaturedImage);
         dest.writeByte((byte) (mSticky ? 1 : 0));
         dest.writeString(mFormat);
-        dest.writeTypedList(mLinks);
     }
 
     public static Map<String, Object> mapFromFields(Post post) {
@@ -294,7 +271,6 @@ public class Post extends WPObject<Post> {
                 ", mFeaturedImage=" + mFeaturedImage +
                 ", mSticky=" + mSticky +
                 ", mFormat='" + mFormat + '\'' +
-                ", mLinks=" + mLinks +
                 '}';
     }
 }

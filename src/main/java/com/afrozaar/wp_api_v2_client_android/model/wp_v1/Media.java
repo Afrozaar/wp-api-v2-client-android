@@ -7,6 +7,7 @@ import com.afrozaar.wp_api_v2_client_android.util.Validate;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -233,6 +234,16 @@ public class Media extends WPObject<Media> {
     @Override
     public Media withPingStatus(WPStatus pingStatus) {
         setPingStatus(pingStatus);
+        return this;
+    }
+
+    @Override
+    public Media withLinks(ArrayList<Link> links) {
+        return this;
+    }
+
+    @Override
+    public Media withLink(Link link) {
         return this;
     }
 

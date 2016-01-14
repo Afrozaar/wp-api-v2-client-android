@@ -8,6 +8,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
@@ -27,6 +29,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
     public static final String JSON_FIELD_AUTHOR = "author";
     public static final String JSON_FIELD_COMMENT_STATUS = "comment_status";
     public static final String JSON_FIELD_PING_STATUS = "ping_status";
+    public static final String JSON_FIELD_LINKS = "_links";
 
     /**
      * Unique identifier for the object
@@ -238,6 +241,32 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
 
     public abstract T withPingStatus(WPStatus pingStatus);
 
+    /**
+     * Links for this post; author, attachments, history, etc.
+     */
+    @JsonAdapter(LinksDeserializer.class)
+    @SerializedName("_links")
+    private ArrayList<Link> mLinks;
+
+    public void setLinks(ArrayList<Link> links) {
+        mLinks = links;
+    }
+
+    public void addLink(Link link) {
+        if (mLinks == null) {
+            mLinks = new ArrayList<>();
+        }
+        mLinks.add(link);
+    }
+
+    public ArrayList<Link> getLinks() {
+        return mLinks;
+    }
+
+    public abstract T withLinks(ArrayList<Link> links);
+
+    public abstract T withLink(Link link);
+
     public WPObject() {
     }
 
@@ -255,6 +284,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
         mAuthor = in.readInt();
         mCommentStatus = in.readParcelable(WPStatus.class.getClassLoader());
         mPingStatus = in.readParcelable(WPStatus.class.getClassLoader());
+        in.readTypedList(mLinks, Link.CREATOR);
     }
 
     @Override
@@ -272,6 +302,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
         dest.writeInt(mAuthor);
         dest.writeParcelable(mCommentStatus, flags);
         dest.writeParcelable(mPingStatus, flags);
+        dest.writeTypedList(mLinks);
     }
 
     public static <T extends WPObject> ImmutableMap.Builder<String, Object> mapFromFields(WPObject<T> wpObject, ImmutableMap.Builder<String, Object> builder) {
@@ -321,6 +352,7 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
                 ", mAuthor=" + mAuthor +
                 ", mCommentStatus=" + mCommentStatus +
                 ", mPingStatus=" + mPingStatus +
+                ", mLinks=" + mLinks +
                 '}';
     }
 }

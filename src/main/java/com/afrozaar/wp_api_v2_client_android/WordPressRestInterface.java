@@ -1,5 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android;
 
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
@@ -105,6 +106,42 @@ public interface WordPressRestInterface {
 
     @POST("posts/{postId}/meta/{metaId}")
     Call<Meta> updatePostMeta(@Path("postId") long postId, @Path("metaId") long metaId, Meta meta);
+
+    @DELETE("posts/{postId}/meta/{metaId}")
+    Call<Meta> deletePostMeta(@Path("postId") long postId, @Path("metaId") long metaId);
+
+
+    @GET("posts/{postId}/revisions")
+    Call<List<Post>> getPostRevisions(@Path("postId") long postId);
+
+    @GET("posts/{postId}/revisions/{revId}")
+    Call<Post> getPostRevision(@Path("postId") long postId, @Path("revId") long revId);
+
+    @DELETE("posts/{postId}/revisions/{revId}")
+    Call<Post> deltePostRevision(@Path("postId") long postId, @Path("revId") long revId);
+
+
+    @GET("posts/{postId}/categories")
+    Call<List<Taxonomy>> getPostCategories(@Path("postId") long postId);
+
+    @GET("posts/{postId}/categories/{catId}")
+    Call<Taxonomy> getPostCategory(@Path("postId") long postId, @Path("catId") long catId);
+
+    @DELETE("posts/{postId}/categories/{catId}")
+    Call<Taxonomy> deletePostCategory(@Path("postId") long postId, @Path("catId") long catId);
+
+
+    @GET("posts/{postId}/tags")
+    Call<List<Taxonomy>> getPostTags(@Path("postId") long postId);
+
+    @GET("posts/{postId}/tags/{tagId}")
+    Call<Taxonomy> getPostTag(@Path("postId") long postId, @Path("tagId") long catId);
+
+    @DELETE("posts/{postId}/tags/{tagId}")
+    Call<Taxonomy> deletePostTag(@Path("postId") long postId, @Path("tagId") long catId);
+
+
+
 
 
     /* MEDIA */
