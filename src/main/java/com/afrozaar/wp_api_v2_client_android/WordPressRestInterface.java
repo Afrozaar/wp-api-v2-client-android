@@ -1,9 +1,10 @@
 package com.afrozaar.wp_api_v2_client_android;
 
-import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Media;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Meta;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Page;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Post;
+import com.afrozaar.wp_api_v2_client_android.model.wp_v1.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.wp_v1.User;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.squareup.okhttp.RequestBody;
@@ -141,7 +142,49 @@ public interface WordPressRestInterface {
     Call<Taxonomy> deletePostTag(@Path("postId") long postId, @Path("tagId") long catId);
 
 
+    /* PAGES */
 
+    @POST("pages")
+    Call<Page> createPage(@Body Map<String, Object> fieldMap);
+
+    @GET("pages")
+    Call<List<Page>> getPages();
+
+
+    @GET("pages/{pageId}")
+    Call<Page> getPage(@Path("pageId") long pageId);
+
+    @POST("pages/{pageId}")
+    Call<Page> updatePage(@Path("pageId") long pageId, @Body Map<String, Object> fieldMap);
+
+    @DELETE("pages/{pageId}")
+    Call<Page> deletePage(@Path("pageId") long pageId);
+
+
+    @POST("pages/{pageId}/meta")
+    Call<Meta> createPageMeta(@Path("pageId") long pageId, @Body Map<String, Object> fields);
+
+    @GET("pages/{pageId}/meta")
+    Call<List<Media>> getPageMeta(@Path("pageId") long pageId);
+
+    @GET("pages/{pageId}/meta/{metaId}")
+    Call<Meta> getPageMeta(@Path("pageId") long postId, @Path("metaId") long metaId);
+
+    @POST("pages/{pageId}/meta/{metaId}")
+    Call<Meta> updatePageMeta(@Path("pageId") long postId, @Path("metaId") long metaId, @Body Map<String, Object> fields);
+
+    @DELETE("pages/{pageId}/meta/{metaId}")
+    Call<Meta> deletePageMeta(@Path("pageId") long postId, @Path("metaId") long metaId);
+
+
+    @GET("pages/{pageId}/revisions")
+    Call<List<Page>> getPageRevisions(@Path("pageId") long postId);
+
+    @GET("pages/{pageId}/revisions/{revId}")
+    Call<Page> getPageRevision(@Path("pageId") long postId, @Path("revId") long revId);
+
+    @DELETE("pages/{pageId}/revisions/{revId}")
+    Call<Page> deltePageRevision(@Path("pageId") long postId, @Path("revId") long revId);
 
 
     /* MEDIA */
@@ -205,9 +248,61 @@ public interface WordPressRestInterface {
     Call<Media> deleteMedia(@Path("id") long mediaId);
 
 
+    /* TYPES */
+
+    //@GET("types")
+
+    //@GET("types/{typeId}")
 
 
+    /* STATUSES */
 
+    // @GET("statuses")
+
+    // @GET("statuses/{statusId}")
+
+
+    /* TAXONOMIES */
+
+    // @GET("taxonomies")
+
+    // @GET("taxonomies/{id}")
+
+
+    /* CATEGORIES */
+
+    @POST("categories")
+    Call<Taxonomy> createCategory(@Body Map<String, Object> fields);
+
+    @GET("categories")
+    Call<List<Taxonomy>> getCategories();
+
+    @GET("categories/{id}")
+    Call<Taxonomy> getCategory(@Path("id") long id);
+
+    @POST("categories/{id}")
+    Call<Taxonomy> updateCategory(@Path("id") long id, Map<String, Object> fields);
+
+    @DELETE("categories/{id}")
+    Call<Taxonomy> deleteCategory(@Path("id") long id);
+
+
+    /* TAGS */
+
+    @POST("tags")
+    Call<Taxonomy> createTag(@Body Map<String, Object> fields);
+
+    @GET("tags")
+    Call<List<Taxonomy>> getTags();
+
+    @GET("tags/{id}")
+    Call<Taxonomy> getTag(@Path("id") long id);
+
+    @POST("tags/{id}")
+    Call<Taxonomy> updateTag(@Path("id") long id, Map<String, Object> fields);
+
+    @DELETE("tags/{id}")
+    Call<Taxonomy> deleteTag(@Path("id") long id);
 
 
     /* USERS */
@@ -221,6 +316,18 @@ public interface WordPressRestInterface {
     @POST("users")
     Call<User> createUser(@Body Map<String, Object> fields);
 
+    @GET("users")
+    Call<List<User>> getUsers();
+
+    @GET("users/{id}")
+    Call<User> getUser(@Path("id") long id);
+
+    @POST("users/{id}")
+    Call<User> updateUser(@Path("id") long id, Map<String, Object> fields);
+
+    @DELETE("users/{id}")
+    Call<User> deleteUser(@Path("id") long id);
+
     /**
      * Gets existing User using username.
      *
@@ -231,7 +338,24 @@ public interface WordPressRestInterface {
     Call<User> getUserFromLogin(@Path("username") String username);
 
 
+    /* COMMENTS */
 
+    //@POST("comments")
+    //Call<Comment> createComment(Map<String, Object> fields);
+
+    //@GET("comments")
+    //Call<List<Comment>> getComments();
+
+    //@GET("comments/{id}")
+    //Call<Comment> getComment(@Path("id") long id);
+
+    //@POST("comments/{id}");
+    //Call<Comment> updateComment(@Path("id") long id, Map<String, Object> fields);
+
+    //@DELETE("comments/{id});
+    //Call<Comment> deleteComment(@Path("id") long id);
+
+    
     /* OTHER */
 
     @GET("posts")

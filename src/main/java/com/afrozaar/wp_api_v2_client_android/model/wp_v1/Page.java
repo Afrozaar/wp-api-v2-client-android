@@ -79,6 +79,9 @@ public class Page extends WPObject<Page> {
         return this;
     }
 
+    /**
+     * The id for the parent of the object.
+     */
     @SerializedName(JSON_FIELDS_PARENT)
     private long mParent;
 
@@ -90,100 +93,176 @@ public class Page extends WPObject<Page> {
         return mParent;
     }
 
+    public Page withParent(long parent) {
+        setParent(parent);
+        return this;
+    }
+
+    /**
+     * The order of the object in relation to other object of its type.
+     */
+    @SerializedName(JSON_FIELDS_MENU_ORDER)
+    private int mMenuOrder;
+
+    public void setMenuOrder(int menuOrder) {
+        mMenuOrder = menuOrder;
+    }
+
+    public int getMenuOrder() {
+        return mMenuOrder;
+    }
+
+    public Page withMenuOrder(int menuOrder) {
+        setMenuOrder(menuOrder);
+        return this;
+    }
+
+    /**
+     * The theme file to use to display the object.
+     */
+    @SerializedName(JSON_FIELDS_TEMPLATE)
+    private String mTemplate;
+
+    public void setTemplate(String template) {
+        mTemplate = template;
+    }
+
+    public String getTemplate() {
+        return mTemplate;
+    }
+
+    public Page withTemplate(String template) {
+        setTemplate(template);
+        return this;
+    }
+
     @Override
     public Page withId(long id) {
-        return null;
+        setId(id);
+        return this;
     }
 
     @Override
     public Page withDate(String date) {
-        return null;
+        setDate(date);
+        return this;
     }
 
     @Override
     public Page withDateGMT(String dateGMT) {
-        return null;
+        setDateGMT(dateGMT);
+        return this;
     }
 
     @Override
     public Page withGuid(WPGeneric guid) {
-        return null;
+        setGuid(guid);
+        return this;
     }
 
     @Override
     public Page withModified(String modified) {
-        return null;
+        setModified(modified);
+        return this;
     }
 
     @Override
     public Page withModifiedGMT(String modifiedGMT) {
-        return null;
+        setModifiedGMT(modifiedGMT);
+        return this;
     }
 
     @Override
     public Page withSlug(String slug) {
-        return null;
+        setSlug(slug);
+        return this;
     }
 
     @Override
     public Page withType(String type) {
-        return null;
+        setType(type);
+        return this;
     }
 
     @Override
     public Page withLink(String link) {
-        return null;
+        setLink(link);
+        return this;
     }
 
     @Override
     public Page withTitle(String title) {
-        return null;
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(title);
+        setTitle(generic);
+        return this;
     }
 
     @Override
     public Page withAuthor(int author) {
-        return null;
+        setAuthor(author);
+        return this;
     }
 
     @Override
     public Page withCommentStatus(WPStatus commentStatus) {
-        return null;
+        setCommentStatus(commentStatus);
+        return this;
     }
 
     @Override
     public Page withPingStatus(WPStatus pingStatus) {
-        return null;
+        setPingStatus(pingStatus);
+        return this;
     }
 
     @Override
     public Page withLinks(ArrayList<Link> links) {
-        return null;
+        setLinks(links);
+        return this;
     }
 
     @Override
     public Page withLink(Link link) {
-        return null;
+        addLink(link);
+        return this;
     }
-
 
     public Page() {
     }
 
     public Page(Parcel in) {
+        super(in);
 
+        mContent = in.readParcelable(WPGeneric.class.getClassLoader());
+        mExcerpt = in.readParcelable(WPGeneric.class.getClassLoader());
+        mFeaturedImage = in.readInt();
+        mParent = in.readLong();
+        mMenuOrder = in.readInt();
+        mTemplate = in.readString();
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
 
+        dest.writeParcelable(mContent, flags);
+        dest.writeParcelable(mExcerpt, flags);
+        dest.writeInt(mFeaturedImage);
+        dest.writeLong(mParent);
+        dest.writeInt(mMenuOrder);
+        dest.writeString(mTemplate);
+    }
 
-    public static final Parcelable.Creator<Post> CREATOR = new Creator<Post>() {
+    public static final Parcelable.Creator<Page> CREATOR = new Creator<Page>() {
         @Override
-        public Post createFromParcel(Parcel source) {
-            return new Post(source);
+        public Page createFromParcel(Parcel source) {
+            return new Page(source);
         }
 
         @Override
-        public Post[] newArray(int size) {
-            return new Post[size];
+        public Page[] newArray(int size) {
+            return new Page[size];
         }
     };
 }
