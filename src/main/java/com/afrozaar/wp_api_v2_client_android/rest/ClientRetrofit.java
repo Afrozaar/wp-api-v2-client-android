@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.rest;
 import com.afrozaar.wp_api_v2_client_android.WordPressRestInterface;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
+import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
@@ -82,6 +83,10 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.getUserFromLogin(login), callback);
     }
 
+    public void getUserMe(WordPressRestResponse<User> callback) {
+        doRetrofitCall(mRestInterface.getUserMe(), callback);
+    }
+
     // POSTS
 
     public void createPost(Post post, WordPressRestResponse<Post> callback) {
@@ -146,5 +151,9 @@ public class ClientRetrofit {
 
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
+    }
+
+    public void getTags(WordPressRestResponse<List<Taxonomy>> callback) {
+        doRetrofitCall(mRestInterface.getTags(), callback);
     }
 }

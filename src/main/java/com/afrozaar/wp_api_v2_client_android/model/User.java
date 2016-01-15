@@ -476,6 +476,25 @@ public class User implements Parcelable {
         }
     };
 
+    public String toPrettyString() {
+        return "User:\n" +
+                "avatarUrls : " + mAvatarUrls + "\n"
+                + "description : " + mDescription + "\n"
+                + "email : " + mEmail + "\n"
+                + "firstName : " + mFirstName + "\n"
+                + "id : " + mId + "\n"
+                + "lastName : " + mLastName + "\n"
+                + "link : " + mLink + "\n" +
+                "name : " + mName + "\n" +
+                "nickname : " + mNickName + "\n" +
+                "registeredDate : " + mRegisteredDate + "\n" +
+                "roles : " + mRoles + "\n" +
+                "role : " + mRole + "\n" +
+                "slug : " + mSlug + "\n" +
+                "url : " + mUrl + "\n" +
+                "links : " + mLinks;
+    }
+
     @Override
     public String toString() {
         return "User{" +

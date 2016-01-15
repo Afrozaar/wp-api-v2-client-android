@@ -21,6 +21,7 @@ public class Post extends WPObject<Post> {
     public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
     public static final String JSON_FIELD_STICKY = "sticky";
     public static final String JSON_FIELD_FORMAT = "format";
+    public static final String JSON_FIELD_STATUS = "status";
 
 
     /**
@@ -117,6 +118,27 @@ public class Post extends WPObject<Post> {
 
     public Post withFormat(String format) {
         setFormat(format);
+        return this;
+    }
+
+    /**
+     * A named status for the object.
+     * <p/>
+     * One of: publish, future, draft, pending, private
+     */
+    @SerializedName("status")
+    private String mStatus;
+
+    public void setStatus(String status) {
+        mStatus = status;
+    }
+
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public Post withStatus(String status) {
+        setStatus(status);
         return this;
     }
 
@@ -247,6 +269,7 @@ public class Post extends WPObject<Post> {
         Validate.validateMapEntry(JSON_FIELD_STICKY, post.getSticky(), builder);
         Validate.validateMapEntry(JSON_FIELD_FORMAT, post.getFormat(), builder);
         Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);
+        Validate.validateMapEntry(JSON_FIELD_STATUS, post.getStatus(), builder);
 
         return builder;
     }
