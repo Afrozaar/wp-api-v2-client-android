@@ -14,6 +14,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jay on 1/14/16.
@@ -21,7 +23,7 @@ import java.io.File;
 public class AmazonHelper {
 
     /* -- Key for Cognito Identity Pool in Android Manifest -- */
-    private final static String COGNITO_IDENTITY_POOL = "com.afrozaar.wp_api_v2_client_android.CognitoIdentityPoolId";
+    private final static String COGNITO_IDENTITY_POOL = "com.afrozaar.wp_api_v2_client_android.IdentityPoolId";
     /* -- Key for Identity Pool Region in Android Manifest -- */
     private final static String IDENTITY_POOL_REGION = "com.afrozaar.wp_api_v2_client_android.IdentityPoolRegion";
     /* -- Key for S3 Bucket in Android Manifest -- */
@@ -37,12 +39,41 @@ public class AmazonHelper {
     private Context mContext;
     private CognitoCachingCredentialsProvider mCredentialsProvider;
     private TransferObserver mTransferObserver = null;
+    private Map<String, String> logins;
+
+    public static AmazonHelper with(Context context, String fbToken) {
+        if (sInstance == null) {
+            sInstance = new AmazonHelper(context, fbToken);
+        }
+        return sInstance;
+    }
 
     public static AmazonHelper with(Context context) {
         if (sInstance == null) {
             sInstance = new AmazonHelper(context);
         }
         return sInstance;
+    }
+
+    private AmazonHelper(Context context) {
+        if (context == null) {
+            throw new IllegalStateException("Context can not be null!");
+        }
+        mContext = context;
+        loadMetaDataFromManifest(context);
+
+        mCredentialsProvider = new CognitoCachingCredentialsProvider(
+                mContext.getApplicationContext(),
+                mCognitoIdentityPoolId,
+                Regions.fromName(mIdentityPoolRegion)
+        );
+    }
+
+    private AmazonHelper(Context context, String fbAuth) {
+        this(context);
+        logins = new HashMap<>();
+        logins.put("graph.facebook.com", fbAuth);
+        mCredentialsProvider.setLogins(logins);
     }
 
     public String uploadFile(Uri fileUri) { //This method will simply upload the file and return the file's url as a String
@@ -69,20 +100,6 @@ public class AmazonHelper {
 
     private String buildFileUploadedUrl(String fileName) {
         return "https://s3-" + mIdentityPoolRegion + ".amazonaws.com/" + mS3BucketName + "/" + fileName;
-    }
-
-    private AmazonHelper(Context context) {
-        if (context == null) {
-            throw new IllegalStateException("Context can not be null!");
-        }
-        mContext = context;
-        loadMetaDataFromManifest(context);
-
-        mCredentialsProvider = new CognitoCachingCredentialsProvider(
-                mContext.getApplicationContext(),
-                mCognitoIdentityPoolId,
-                Regions.fromName(mIdentityPoolRegion)
-        );
     }
 
     public String getIdentityPoolRegion() {
