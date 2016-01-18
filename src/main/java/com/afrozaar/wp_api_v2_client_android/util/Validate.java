@@ -1,5 +1,7 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
+import android.text.TextUtils;
+
 import java.util.Map;
 
 /**
@@ -14,6 +16,12 @@ public class Validate {
 
     public static void validateMapEntry(String key, Object value, Map<String, Object> map) {
         if (notNull(value)) {
+            map.put(key, value);
+        }
+    }
+
+    public static void validateMapStringEntry(String key, String value, Map<String, String> map) {
+        if (!TextUtils.isEmpty(value)) {
             map.put(key, value);
         }
     }

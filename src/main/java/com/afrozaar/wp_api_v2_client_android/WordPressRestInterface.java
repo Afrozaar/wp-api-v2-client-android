@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -24,6 +25,7 @@ import retrofit.http.POST;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 /**
  * REST API interface for WP REST API plugin.
@@ -123,6 +125,9 @@ public interface WordPressRestInterface {
     Call<Post> deltePostRevision(@Path("postId") long postId, @Path("revId") long revId);
 
 
+    @POST("posts/{postId}/categories/{catId}")
+    Call<Taxonomy> setPostCategory(@Path("postId") long postId, @Path("catId") long catId);
+
     @GET("posts/{postId}/categories")
     Call<List<Taxonomy>> getPostCategories(@Path("postId") long postId);
 
@@ -132,6 +137,9 @@ public interface WordPressRestInterface {
     @DELETE("posts/{postId}/categories/{catId}")
     Call<Taxonomy> deletePostCategory(@Path("postId") long postId, @Path("catId") long catId);
 
+
+    @POST("posts/{postId}/tags/{tagId}")
+    Call<Taxonomy> setPostTag(@Path("postId") long postId, @Path("tagId") long tagId);
 
     @GET("posts/{postId}/tags")
     Call<List<Taxonomy>> getPostTags(@Path("postId") long postId);
@@ -295,6 +303,10 @@ public interface WordPressRestInterface {
 
     @GET("tags")
     Call<List<Taxonomy>> getTags();
+
+    @GET("tags")
+    //Call<List<Taxonomy>> getTagsOrdered(@Query("orderby") String orderBy, @Query("order") String order);
+    Call<List<Taxonomy>> getTagsOrdered(@QueryMap Map<String, String> map);
 
     @GET("tags/{id}")
     Call<Taxonomy> getTag(@Path("id") long id);

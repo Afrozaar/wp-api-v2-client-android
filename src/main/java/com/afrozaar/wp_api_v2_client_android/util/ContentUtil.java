@@ -138,9 +138,15 @@ public class ContentUtil {
     public static Map<String, RequestBody> makeMediaItemUploadMap(Media media, File file) {
         Map<String, RequestBody> map = new HashMap<>();
         map.put(Media.JSON_FIELD_TITLE, toRequestBody(media.getTitle().getRendered()));
-        map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption()));
-        map.put(Media.JSON_FIELD_ALT_TEXT, toRequestBody(media.getAltText()));
-        map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
+        if (Validate.notNull(media.getCaption())) {
+            map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption()));
+        }
+        if (Validate.notNull(media.getAltText())) {
+            map.put(Media.JSON_FIELD_ALT_TEXT, toRequestBody(media.getAltText()));
+        }
+        if (Validate.notNull(media.getDescription())) {
+            map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
+        }
 
         String ext = ContentUtil.getImageMimeType(file.getName());
         RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);

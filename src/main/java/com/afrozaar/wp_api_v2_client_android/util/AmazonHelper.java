@@ -12,6 +12,8 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 
 import java.io.File;
 import java.util.HashMap;
@@ -76,19 +78,35 @@ public class AmazonHelper {
         mCredentialsProvider.setLogins(logins);
     }
 
-    public String uploadFile(Uri fileUri) { //This method will simply upload the file and return the file's url as a String
+    public String uploadFile(Uri fileUri, Map<String, String> metaMap) { //This method will simply upload the file and return the file's url as a String
         if (sInstance == null) {
             throw new IllegalStateException("Please use the AmazonHelper.with(context) declaration to define the needed context");
         }
         AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
         File file = new File(MediaUtil.getRealPathFromURI(mContext, fileUri));
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setUserMetadata(metaMap);
+
         TransferUtility transferUtility = new TransferUtility(s3, mContext);
         mTransferObserver = transferUtility.upload(
                 mS3BucketName,
                 file.getName(),
-                file);
+                file,
+                objectMetadata);
 
         return buildFileUploadedUrl(file.getName());
+    }
+
+    public void getObjectMeta() {
+        AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
+
+        GetObjectMetadataRequest getObjectMetadataRequest = new GetObjectMetadataRequest(mS3BucketName, "IMG-20160103-WA0000.jpg");
+        ObjectMetadata objectMetadata = s3.getObjectMetadata(getObjectMetadataRequest);
+
+        for (String key : objectMetadata.getUserMetadata().keySet()) {
+            System.out.println("====== object meta : " + key + "=" + objectMetadata.getUserMetadata().get(key));
+        }
     }
 
     public TransferObserver getTransferObserver() {

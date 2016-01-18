@@ -12,6 +12,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,10 @@ public class ClientRetrofit {
 
         // create instance of REST interface
         mRestInterface = retrofit.create(WordPressRestInterface.class);
+    }
+
+    public WordPressRestInterface getRestInterface() {
+        return mRestInterface;
     }
 
     private <T> void doRetrofitCall(Call<T> call, final WordPressRestResponse<T> callback) {
@@ -153,7 +158,38 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
     }
 
+    /* TAXONOMIES */
+
+    public void setTagForPost(long postId, long tagId, WordPressRestResponse<Taxonomy> callback) {
+        doRetrofitCall(mRestInterface.setPostTag(postId, tagId), callback);
+    }
+
+    public void getTagsForPost(long postId, WordPressRestResponse<List<Taxonomy>> callback) {
+        doRetrofitCall(mRestInterface.getPostTags(postId), callback);
+    }
+
     public void getTags(WordPressRestResponse<List<Taxonomy>> callback) {
         doRetrofitCall(mRestInterface.getTags(), callback);
+    }
+
+    public void getTagsOrderedByCount(WordPressRestResponse<List<Taxonomy>> callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("orderby", "count");
+        map.put("order", "desc");
+
+        doRetrofitCall(mRestInterface.getTagsOrdered(map), callback);
+    }
+
+
+    public void setCategoryForPost(long postId, long catId, WordPressRestResponse<Taxonomy> callback) {
+        doRetrofitCall(mRestInterface.setPostCategory(postId, catId), callback);
+    }
+
+    public void getCategoriesForPost(long postId, WordPressRestResponse<List<Taxonomy>> callback) {
+        doRetrofitCall(mRestInterface.getPostCategories(postId), callback);
+    }
+
+    public void getCategories(WordPressRestResponse<List<Taxonomy>> callback) {
+        doRetrofitCall(mRestInterface.getCategories(), callback);
     }
 }
