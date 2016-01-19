@@ -39,6 +39,7 @@ public class ContentUtil {
 
     private static final String MIME_IMAGE_ALL = "image/*";
     private static final String MIME_IMAGE_JPG = "image/jpg";
+    private static final String MIME_IMAGE_JPEG = "image/jpeg";
     private static final String MIME_IMAGE_GIF = "image/gif";
     private static final String MIME_IMAGE_PNG = "image/png";
     private static final String MIME_IMAGE_BMP = "image/bmp";
@@ -146,7 +147,8 @@ public class ContentUtil {
      */
     public static boolean isImageMedia(String type) {
         return type.equals(MIME_IMAGE_BMP) || type.equals(MIME_IMAGE_GIF) || type.equals(MIME_IMAGE_ICO)
-                || type.equals(MIME_IMAGE_JPG) || type.equals(MIME_IMAGE_PNG) || type.equals(MIME_IMAGE_TIFF);
+                || type.equals(MIME_IMAGE_JPG) || type.equals(MIME_IMAGE_PNG) || type.equals(MIME_IMAGE_TIFF)
+                || type.equals(MIME_IMAGE_JPEG);
     }
 
 
