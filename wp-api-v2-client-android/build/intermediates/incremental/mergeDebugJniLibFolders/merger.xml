@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/jlo/projects/hermes/wp-api-v2-client-android/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/home/jlo/projects/hermes/wp-api-v2-client-android/src/debug/jniLibs"/></dataSet></merger>
