@@ -98,10 +98,12 @@ public class AmazonHelper {
         return buildFileUploadedUrl(file.getName());
     }
 
-    public void getObjectMeta() {
+    public void getObjectMeta(String objectKey) {
         AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
 
-        GetObjectMetadataRequest getObjectMetadataRequest = new GetObjectMetadataRequest(mS3BucketName, "IMG-20160103-WA0000.jpg");
+        objectKey = "IMG-20160103-WA0000.jpg";
+
+        GetObjectMetadataRequest getObjectMetadataRequest = new GetObjectMetadataRequest(mS3BucketName, objectKey);
         ObjectMetadata objectMetadata = s3.getObjectMetadata(getObjectMetadataRequest);
 
         for (String key : objectMetadata.getUserMetadata().keySet()) {

@@ -100,7 +100,15 @@ public class ClientRetrofit {
     }
 
     public void getPost(long postId, WordPressRestResponse<Post> callback) {
-        doRetrofitCall(mRestInterface.getPost(postId), callback);
+        Map<String, String> map = new HashMap<>();
+        map.put("context", "view");
+        doRetrofitCall(mRestInterface.getPost(postId, map), callback);
+    }
+
+    public void getPostForEdit(long postId, WordPressRestResponse<Post> callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("context", "edit");
+        doRetrofitCall(mRestInterface.getPost(postId, map), callback);
     }
 
     public void getPostsForAuthor(long authorId, WordPressRestResponse<List<Post>> callback) {

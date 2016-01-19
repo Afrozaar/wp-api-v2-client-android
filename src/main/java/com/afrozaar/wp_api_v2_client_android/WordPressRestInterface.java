@@ -58,10 +58,11 @@ public interface WordPressRestInterface {
      * Gets a single Post.
      *
      * @param postId Id of the Post
+     * @param map Optional query params
      * @return Post object
      */
     @GET("posts/{id}")
-    Call<Post> getPost(@Path("id") long postId);
+    Call<Post> getPost(@Path("id") long postId, @QueryMap Map<String, String> map);
 
     /**
      * Gets all Posts created by a User.
