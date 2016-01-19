@@ -129,6 +129,28 @@ public class ContentUtil {
     }
 
     /**
+     * Checks if the given MIME type is a valid video media type.
+     *
+     * @param type MIME type to check
+     * @return True if a valid type
+     */
+    public static boolean isVideoMedia(String type) {
+        return type.equals(VIDEO_TYPE_MP4) || type.equals(VIDEO_TYPE_OGG) || type.equals(VIDEO_TYPE_WEBM);
+    }
+
+    /**
+     * Checks if given MIME type is a valid image media type.
+     *
+     * @param type MIME type
+     * @return True if type matches a valid image type.
+     */
+    public static boolean isImageMedia(String type) {
+        return type.equals(MIME_IMAGE_BMP) || type.equals(MIME_IMAGE_GIF) || type.equals(MIME_IMAGE_ICO)
+                || type.equals(MIME_IMAGE_JPG) || type.equals(MIME_IMAGE_PNG) || type.equals(MIME_IMAGE_TIFF);
+    }
+
+
+    /**
      * Helper method to construct Map used to upload Media item to WordPress.
      *
      * @param media Media item details

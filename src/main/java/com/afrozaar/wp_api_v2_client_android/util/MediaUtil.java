@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -48,25 +51,53 @@ public class MediaUtil {
             // Split at colon, use second item in the array
             String id = wholeID.split(":")[1];
 
-            String[] column = {MediaStore.Images.Media.DATA};
+            String type = context.getContentResolver().getType(uri);
+            System.out.println("=============== type : " + type);
 
-            // where id is equal to
-            String sel = MediaStore.Images.Media._ID + "=?";
-
-            Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    column, sel, new String[]{id}, null);
-
-            int columnIndex = cursor.getColumnIndex(column[0]);
-
-            if (cursor.moveToFirst()) {
-                filePath = cursor.getString(columnIndex);
+            if (type == null) {
+                LogUtils.e("Cannot get type of media!");
+                return "";
             }
-            cursor.close();
+
+            Cursor cursor = null;
+            String[] column = new String[1];
+
+            if (type.contains("video")) {
+                column[0] = MediaStore.Video.Media.DATA;
+
+                // where id is equal to
+                String sel = MediaStore.Video.Media._ID + "=?";
+
+                cursor = context.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                        column, sel, new String[]{id}, null);
+            } else if (type.contains("image")) {
+                column[0] = MediaStore.Images.Media.DATA;
+
+                // where id is equal to
+                String sel = MediaStore.Images.Media._ID + "=?";
+
+                cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        column, sel, new String[]{id}, null);
+            }
+
+            if (cursor != null) {
+                int columnIndex = cursor.getColumnIndex(column[0]);
+
+                if (cursor.moveToFirst()) {
+                    filePath = cursor.getString(columnIndex);
+                }
+                cursor.close();
+            }
         }
 
         return filePath;
     }
 
+    public static Bitmap getVideoThumbnail(Context context, Uri videoUri) {
+
+        String path = getRealPathFromURI(context, videoUri);
+        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
+    }
 
     @SuppressLint("NewApi")
     private static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
