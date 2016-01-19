@@ -263,7 +263,9 @@ public class Post extends WPObject<Post> {
 
         WPObject.mapFromFields(post, builder);
 
-        Validate.validateMapEntry(JSON_FIELD_CONTENT, post.getContent().getRaw(), builder);
+        if (post.getContent() != null) {
+            Validate.validateMapEntry(JSON_FIELD_CONTENT, post.getContent().getRaw(), builder);
+        }
         Validate.validateMapEntry(JSON_FIELD_EXCERPT, post.getExcerpt(), builder);
         Validate.validateMapEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedImage(), builder);
         Validate.validateMapEntry(JSON_FIELD_STICKY, post.getSticky(), builder);
