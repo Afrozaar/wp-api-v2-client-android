@@ -162,6 +162,10 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.createMedia(header, map), callback);
     }
 
+    public void getMedia(WordPressRestResponse<List<Media>> callback) {
+        doRetrofitCall(mRestInterface.getMedia(), callback);
+    }
+
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
     }

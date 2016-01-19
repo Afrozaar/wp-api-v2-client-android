@@ -78,11 +78,15 @@ public class AmazonHelper {
         mCredentialsProvider.setLogins(logins);
     }
 
+    public AmazonS3Client getS3Client() {
+        return new AmazonS3Client(mCredentialsProvider);
+    }
+
     public String uploadFile(Uri fileUri, Map<String, String> metaMap) { //This method will simply upload the file and return the file's url as a String
         if (sInstance == null) {
             throw new IllegalStateException("Please use the AmazonHelper.with(context) declaration to define the needed context");
         }
-        AmazonS3 s3 = new AmazonS3Client(mCredentialsProvider);
+        AmazonS3 s3 = getS3Client();
         File file = new File(MediaUtil.getRealPathFromURI(mContext, fileUri));
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
