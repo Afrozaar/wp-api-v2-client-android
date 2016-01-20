@@ -5,7 +5,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
-import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
+import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpAuthenticator;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 
@@ -35,20 +35,21 @@ public class ClientRetrofit {
     }
 
     public ClientRetrofit(String baseUrl, final String username, final String password, boolean debugEnabled) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         // add the Basic Auth header
-        okHttpClient.interceptors().add(new OkHttpBasicAuthInterceptor(username, password));
+        //builder.addInterceptor(new OkHttpBasicAuthInterceptor(username, password));
+        builder.authenticator(new OkHttpAuthenticator(username, password));
 
         if (debugEnabled) {
-            okHttpClient.interceptors().add(new OkHttpDebugInterceptor());
+            builder.addInterceptor(new OkHttpDebugInterceptor());
         }
 
         // setup retrofit with custom OkHttp client and Gson parser
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+                .client(builder.build())
                 .build();
 
         // create instance of REST interface
