@@ -2,11 +2,11 @@ package com.afrozaar.wp_api_v2_client_android.rest.interceptor;
 
 import android.util.Base64;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author Jan-Louis Crafford

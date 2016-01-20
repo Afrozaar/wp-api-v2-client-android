@@ -1,12 +1,12 @@
 package com.afrozaar.wp_api_v2_client_android.rest.interceptor;
 
 import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 import okio.Buffer;
 
 /**
@@ -47,7 +47,7 @@ public class OkHttpDebugInterceptor implements Interceptor {
 
         LogUtils.d(DEBUG_TAG, "******** [REQUEST END] ********");
 
-        com.squareup.okhttp.Response response = chain.proceed(request);
+        Response response = chain.proceed(request);
 
         LogUtils.d(DEBUG_TAG, "******** [RESPONSE START] ********");
         LogUtils.d(DEBUG_TAG, "** (" + response.code() + ") " + response.message());

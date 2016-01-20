@@ -4,9 +4,8 @@ import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
-import com.squareup.okhttp.ResponseBody;
 
-import java.io.IOException;
+import okhttp3.ResponseBody;
 
 /**
  * @author Jan-Louis Crafford
@@ -31,8 +30,6 @@ public class HttpServerErrorResponse {
         HttpServerErrorResponse response = null;
         try {
             response = new Gson().fromJson(body.charStream(), HttpServerErrorResponse.class);
-        } catch (IOException e) {
-            LogUtils.w("Unable to parse HTTP server error response", e);
         } catch (NullPointerException e) {
             LogUtils.w("Response body was null", e);
         } catch (JsonSyntaxException e) {

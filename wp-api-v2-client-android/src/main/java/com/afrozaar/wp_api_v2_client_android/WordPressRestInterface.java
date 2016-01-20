@@ -8,24 +8,23 @@ import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.DELETE;
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.PartMap;
-import retrofit.http.Path;
-import retrofit.http.Query;
-import retrofit.http.QueryMap;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.PartMap;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * REST API interface for WP REST API plugin.
@@ -58,7 +57,7 @@ public interface WordPressRestInterface {
      * Gets a single Post.
      *
      * @param postId Id of the Post
-     * @param map Optional query params
+     * @param map    Optional query params
      * @return Post object
      */
     @GET("posts/{id}")
@@ -306,7 +305,7 @@ public interface WordPressRestInterface {
     Call<List<Taxonomy>> getTags();
 
     @GET("tags")
-    //Call<List<Taxonomy>> getTagsOrdered(@Query("orderby") String orderBy, @Query("order") String order);
+        //Call<List<Taxonomy>> getTagsOrdered(@Query("orderby") String orderBy, @Query("order") String order);
     Call<List<Taxonomy>> getTagsOrdered(@QueryMap Map<String, String> map);
 
     @GET("tags/{id}")

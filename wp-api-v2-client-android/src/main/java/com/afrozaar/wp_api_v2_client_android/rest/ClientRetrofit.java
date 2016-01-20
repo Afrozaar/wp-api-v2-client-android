@@ -8,19 +8,19 @@ import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * @author Jan-Louis Crafford
@@ -62,7 +62,7 @@ public class ClientRetrofit {
     private <T> void doRetrofitCall(Call<T> call, final WordPressRestResponse<T> callback) {
         Callback<T> retroCallback = new Callback<T>() {
             @Override
-            public void onResponse(Response<T> response, Retrofit retrofit) {
+            public void onResponse(Response<T> response) {
                 if (response.isSuccess()) {
                     callback.onSuccess(response.body());
                 } else {
