@@ -38,7 +38,6 @@ public class ClientRetrofit {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         // add the Basic Auth header
-        //builder.addInterceptor(new OkHttpBasicAuthInterceptor(username, password));
         builder.authenticator(new OkHttpAuthenticator(username, password));
 
         if (debugEnabled) {

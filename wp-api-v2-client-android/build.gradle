@@ -25,7 +25,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
 
     // HTTP libs
-    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
 
     // Parsing libs
     compile 'com.google.code.gson:gson:2.4'
