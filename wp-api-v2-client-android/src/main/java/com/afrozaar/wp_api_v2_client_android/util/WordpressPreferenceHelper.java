@@ -10,7 +10,7 @@ import com.afrozaar.wp_api_v2_client_android.R;
  */
 public class WordpressPreferenceHelper extends BasePreferenceHelper {
 
-    private static final String APP_PREFS = "com.afrozaar.mojodroid_preferences";
+    private static final String APP_PREFS = "wordpress_preferences";
 
     private static final String PREF_INITIAL_SETUP_DONE = "pref.initial_setup_done";
 
