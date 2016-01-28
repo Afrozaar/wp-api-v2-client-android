@@ -6,6 +6,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpAuthenticator;
+import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 
@@ -38,7 +39,8 @@ public class ClientRetrofit {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         // add the Basic Auth header
-        builder.authenticator(new OkHttpAuthenticator(username, password));
+        //builder.authenticator(new OkHttpAuthenticator(username, password));
+        builder.addInterceptor(new OkHttpBasicAuthInterceptor(username, password));
 
         if (debugEnabled) {
             builder.addInterceptor(new OkHttpDebugInterceptor());
@@ -203,5 +205,12 @@ public class ClientRetrofit {
 
     public void getCategories(WordPressRestResponse<List<Taxonomy>> callback) {
         doRetrofitCall(mRestInterface.getCategories(), callback);
+    }
+
+    public void getCategoriesForParent(long parentId, WordPressRestResponse<List<Taxonomy>> callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("parent", parentId);
+
+        doRetrofitCall(mRestInterface.getCategories(map), callback);
     }
 }

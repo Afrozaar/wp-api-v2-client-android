@@ -141,8 +141,11 @@ public interface WordPressRestInterface {
     @POST("posts/{postId}/tags/{tagId}")
     Call<Taxonomy> setPostTag(@Path("postId") long postId, @Path("tagId") long tagId);
 
-    @GET("posts/{postId}/tags")
-    Call<List<Taxonomy>> getPostTags(@Path("postId") long postId);
+    //@GET("posts/{postId}/tags")
+    //Call<List<Taxonomy>> getPostTags(@Path("postId") long postId);
+
+    @GET("tags")
+    Call<List<Taxonomy>> getPostTags(@Query("post") long postId);
 
     @GET("posts/{postId}/tags/{tagId}")
     Call<Taxonomy> getPostTag(@Path("postId") long postId, @Path("tagId") long catId);
@@ -289,6 +292,9 @@ public interface WordPressRestInterface {
     @GET("categories/{id}")
     Call<Taxonomy> getCategory(@Path("id") long id);
 
+    @GET("categories")
+    Call<List<Taxonomy>> getCategories(@QueryMap Map<String, Object> map);
+
     @POST("categories/{id}")
     Call<Taxonomy> updateCategory(@Path("id") long id, Map<String, Object> fields);
 
@@ -305,7 +311,6 @@ public interface WordPressRestInterface {
     Call<List<Taxonomy>> getTags();
 
     @GET("tags")
-        //Call<List<Taxonomy>> getTagsOrdered(@Query("orderby") String orderBy, @Query("order") String order);
     Call<List<Taxonomy>> getTagsOrdered(@QueryMap Map<String, String> map);
 
     @GET("tags/{id}")

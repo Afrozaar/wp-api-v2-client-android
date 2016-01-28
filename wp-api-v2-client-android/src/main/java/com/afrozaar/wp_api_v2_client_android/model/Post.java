@@ -18,7 +18,7 @@ public class Post extends WPObject<Post> {
 
     public static final String JSON_FIELD_CONTENT = "content";
     public static final String JSON_FIELD_EXCERPT = "excerpt";
-    public static final String JSON_FIELD_FEATURED_IMAGE = "featured_image";
+    public static final String JSON_FIELD_FEATURED_IMAGE = "featured_media";
     public static final String JSON_FIELD_STICKY = "sticky";
     public static final String JSON_FIELD_FORMAT = "format";
     public static final String JSON_FIELD_STATUS = "status";
