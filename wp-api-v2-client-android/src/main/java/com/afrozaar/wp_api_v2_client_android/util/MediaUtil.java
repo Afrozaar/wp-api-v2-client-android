@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Utilities methods for getting a filesystem path from the DocumentProvider URIs.
@@ -20,14 +24,24 @@ import android.provider.MediaStore;
  */
 public class MediaUtil {
 
+    public static final String TYPE_IMAGE = "image";
+    public static final String TYPE_VIDEO = "video";
+    public static final String TYPE_AUDIO = "audio";
+
     private static final String HOST_EXTERNAL_STORAGE = "com.android.externalstorage.documents";
 
     public static String getRealPathFromURI(Context context, Uri uri) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return getRealPathFromURI_API19(context, uri);
-        } else {
-            return getRealPathFromURI_API11to18(context, uri);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return getRealPathFromURI_API19(context, uri);
+            } else {
+                return getRealPathFromURI_API11to18(context, uri);
+            }
+        } catch (IllegalArgumentException e) {
+            // path is not a uri, so we assume it's already an absolute path
         }
+
+        return uri.toString();
     }
 
     @SuppressLint("NewApi")
@@ -117,4 +131,41 @@ public class MediaUtil {
         }
         return result;
     }
+
+    public static String getImageFilename() {
+        String dateFormat = "yyyyMMdd_hhmmss";
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
+        String date = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+
+        return "IMG_" + date + ".jpg";
+    }
+
+    public static String getMediaFilePath(Context context, String mediaKey, String type) {
+        File contentStoreDir = context.getExternalFilesDir(null);
+        File mediaStoreDir = null;
+
+        switch (type) {
+            case TYPE_IMAGE:
+                mediaStoreDir = new File(contentStoreDir, "images");
+                break;
+            case TYPE_VIDEO:
+                mediaStoreDir = new File(contentStoreDir, "videos");
+                break;
+            case TYPE_AUDIO:
+                mediaStoreDir = new File(contentStoreDir, "audio");
+                break;
+            default:
+                throw new IllegalStateException("Unknown media type: " + type);
+        }
+
+        if (!mediaStoreDir.exists()) {
+            LogUtils.d("MediaStore dir not exists; creating.");
+            boolean result = mediaStoreDir.mkdirs();
+            LogUtils.d("dir created succesfully: " + result);
+        }
+
+        return mediaStoreDir.getPath() + File.separator + mediaKey;
+    }
+
 }

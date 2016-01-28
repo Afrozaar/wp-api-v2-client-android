@@ -69,7 +69,7 @@ public class Post extends WPObject<Post> {
     /**
      * ID of the featured image for the object.
      */
-    @SerializedName("featured_image")
+    @SerializedName("featured_media")
     private int mFeaturedImage;
 
     public void setFeaturedImage(int featuredImage) {

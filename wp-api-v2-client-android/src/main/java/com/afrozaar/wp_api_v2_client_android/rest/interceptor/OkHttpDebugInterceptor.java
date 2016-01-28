@@ -38,12 +38,12 @@ public class OkHttpDebugInterceptor implements Interceptor {
             LogUtils.d(DEBUG_TAG, "** HEADER : " + head + " = " + request.header(head));
         }
 
-        if (request.body() != null) {
+        /*if (request.body() != null) {
             Buffer buffer = new Buffer();
             request.body().writeTo(buffer);
             String bodyStr = buffer.readUtf8();
             LogUtils.d(DEBUG_TAG, "** BODY : " + bodyStr);
-        }
+        }*/
 
         LogUtils.d(DEBUG_TAG, "******** [REQUEST END] ********");
 
