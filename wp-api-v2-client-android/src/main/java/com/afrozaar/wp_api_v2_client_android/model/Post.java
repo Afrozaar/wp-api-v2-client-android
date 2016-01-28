@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +23,7 @@ public class Post extends WPObject<Post> {
     public static final String JSON_FIELD_STICKY = "sticky";
     public static final String JSON_FIELD_FORMAT = "format";
     public static final String JSON_FIELD_STATUS = "status";
+    public static final String JSON_FIELD_CATEGORIES = "categories";
 
 
     /**
@@ -139,6 +141,35 @@ public class Post extends WPObject<Post> {
 
     public Post withStatus(String status) {
         setStatus(status);
+        return this;
+    }
+
+    @SerializedName(JSON_FIELD_CATEGORIES)
+    private List<Long> mCategories;
+
+    public void setCategories(List<Long> categories) {
+        mCategories = categories;
+    }
+
+    public List<Long> getCategories() {
+        return mCategories;
+    }
+
+    public void addCategory(long catId) {
+        if (mCategories == null) {
+            mCategories = new ArrayList<>();
+        }
+
+        mCategories.add(catId);
+    }
+
+    public Post withCategories(List<Long> categories) {
+        setCategories(categories);
+        return this;
+    }
+
+    public Post withCategory(long catId) {
+        addCategory(catId);
         return this;
     }
 
@@ -272,6 +303,7 @@ public class Post extends WPObject<Post> {
         Validate.validateMapEntry(JSON_FIELD_FORMAT, post.getFormat(), builder);
         Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);
         Validate.validateMapEntry(JSON_FIELD_STATUS, post.getStatus(), builder);
+        Validate.validateMapEntry(JSON_FIELD_CATEGORIES, post.getCategories(), builder);
 
         return builder;
     }

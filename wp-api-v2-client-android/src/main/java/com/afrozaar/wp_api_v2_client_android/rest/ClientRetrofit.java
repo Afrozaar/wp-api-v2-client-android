@@ -2,10 +2,10 @@ package com.afrozaar.wp_api_v2_client_android.rest;
 
 import com.afrozaar.wp_api_v2_client_android.WordPressRestInterface;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
+import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
-import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpAuthenticator;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -37,6 +38,10 @@ public class ClientRetrofit {
 
     public ClientRetrofit(String baseUrl, final String username, final String password, boolean debugEnabled) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        //builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.readTimeout(30, TimeUnit.SECONDS);
+        // builder.writeTimeout(30, TimeUnit.SECONDS);
 
         // add the Basic Auth header
         //builder.authenticator(new OkHttpAuthenticator(username, password));
@@ -164,6 +169,12 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.createMedia(header, map), callback);
     }
 
+    public Call<Media> createMedia(Media media, File file) {
+        Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
+        String header = "filename=" + file.getName();
+        return mRestInterface.createMedia(header, map);
+    }
+
     public void getMedia(WordPressRestResponse<List<Media>> callback) {
         doRetrofitCall(mRestInterface.getMedia(), callback);
     }
@@ -199,6 +210,10 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.setPostCategory(postId, catId), callback);
     }
 
+    public Call<Taxonomy> setCategoryForPost(long postId, long catId) {
+        return mRestInterface.setPostCategory(postId, catId);
+    }
+
     public void getCategoriesForPost(long postId, WordPressRestResponse<List<Taxonomy>> callback) {
         doRetrofitCall(mRestInterface.getPostCategories(postId), callback);
     }
@@ -212,5 +227,23 @@ public class ClientRetrofit {
         map.put("parent", parentId);
 
         doRetrofitCall(mRestInterface.getCategories(map), callback);
+    }
+
+    /* META */
+
+    public void createPostMeta(long postId, Meta meta, WordPressRestResponse<Meta> callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", meta.getKey());
+        map.put("value", meta.getValue());
+
+        doRetrofitCall(mRestInterface.createPostMeta(postId, map), callback);
+    }
+
+    public Call<Meta> createPostMeta(long postId, Meta meta) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", meta.getKey());
+        map.put("value", meta.getValue());
+
+        return mRestInterface.createPostMeta(postId, map);
     }
 }

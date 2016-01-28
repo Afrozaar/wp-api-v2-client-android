@@ -34,7 +34,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
 
     //AWS Libs
-    compile 'com.amazonaws:aws-android-sdk-core:2.2.10'
-    compile 'com.amazonaws:aws-android-sdk-cognito:2.2.10'
-    compile 'com.amazonaws:aws-android-sdk-s3:2.2.10'
+    //compile 'com.amazonaws:aws-android-sdk-core:2.2.10'
+    //compile 'com.amazonaws:aws-android-sdk-cognito:2.2.10'
+    //compile 'com.amazonaws:aws-android-sdk-s3:2.2.10'
 }

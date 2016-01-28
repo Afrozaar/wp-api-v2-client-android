@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/01/13.
@@ -70,6 +73,14 @@ public class Meta implements Parcelable {
     public Meta withValue(String value) {
         setValue(value);
         return this;
+    }
+
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put(mKey, mValue);
+
+        return map;
     }
 
     public Meta() {

@@ -1,6 +1,7 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.afrozaar.wp_api_v2_client_android.R;
 
@@ -60,8 +61,8 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     }
 
     public void resetUserState() {
-
-        setInitialSetupDone(false);
+        SharedPreferences preferences = getPreferences();
+        preferences.edit().clear().commit();
     }
 
     // USER PREFERENCES

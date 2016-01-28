@@ -104,7 +104,6 @@ public interface WordPressRestInterface {
     @GET("posts/{id}/meta")
     Call<List<Meta>> getPostMeta(@Path("id") long postId);
 
-
     @GET("posts/{postId}/meta/{metaId}")
     Call<Meta> getPostMeta(@Path("postId") long postId, @Path("metaId") long metaId);
 

@@ -1,37 +1,27 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.net.Uri;
-
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by jay on 1/14/16.
  */
 public class AmazonHelper {
+/*
 
-    /* -- Key for Cognito Identity Pool in Android Manifest -- */
+    */
+/* -- Key for Cognito Identity Pool in Android Manifest -- *//*
+
     private final static String COGNITO_IDENTITY_POOL = "com.afrozaar.wp_api_v2_client_android.IdentityPoolId";
-    /* -- Key for Identity Pool Region in Android Manifest -- */
+    */
+/* -- Key for Identity Pool Region in Android Manifest -- *//*
+
     private final static String IDENTITY_POOL_REGION = "com.afrozaar.wp_api_v2_client_android.IdentityPoolRegion";
-    /* -- Key for S3 Bucket in Android Manifest -- */
+    */
+/* -- Key for S3 Bucket in Android Manifest -- *//*
+
     private final static String S3_BUCKET_NAME = "com.afrozaar.wp_api_v2_client_android.S3BucketName";
 
-    /* -- Url Location of Uploaded File -- */
+    */
+/* -- Url Location of Uploaded File -- *//*
+
     private String mS3BucketLocationPrefix = "https://s3-";
 
     private String mCognitoIdentityPoolId = null;
@@ -174,5 +164,6 @@ public class AmazonHelper {
             }
         }
     }
+*/
 
 }
