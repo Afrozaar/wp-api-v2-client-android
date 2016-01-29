@@ -106,6 +106,10 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.createPost(Post.mapFromFields(post)), callback);
     }
 
+    public Call<Post> createPost(Post post) {
+        return mRestInterface.createPost(Post.mapFromFields(post));
+    }
+
     public void getPost(long postId, WordPressRestResponse<Post> callback) {
         Map<String, String> map = new HashMap<>();
         map.put("context", "view");

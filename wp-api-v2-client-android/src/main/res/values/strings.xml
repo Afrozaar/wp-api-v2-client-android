@@ -12,6 +12,7 @@
         ]]>
     </string>
 
+    <string name="content_location">[wp_gmaps address=\""%s\"" zoom="13" marker="1"]</string>
 
     <!-- PW Prefs -->
     <string name="pref_title_wp">WordPress</string>

@@ -82,6 +82,10 @@ public class ContentUtil {
         return context.getString(R.string.content_video_uri, videoUrl);
     }
 
+    public static String getContentLocationShortcode(Context context, String address) {
+        return context.getString(R.string.content_location, address);
+    }
+
     /**
      * Returns the MIME type for an image file based on it's extension.
      *
