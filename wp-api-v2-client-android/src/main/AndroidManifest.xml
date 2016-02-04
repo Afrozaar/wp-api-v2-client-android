@@ -10,6 +10,12 @@
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
 
+        <service
+            android:name=".upload.UploadPostIntentService"
+            android:exported="false"/>
+
+        <receiver android:name=".upload.CancelPostUploadReceiver"/>
+
     </application>
 
 </manifest>

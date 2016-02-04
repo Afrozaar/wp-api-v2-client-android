@@ -17,13 +17,9 @@ import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.rest.ClientRetrofit;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.afrozaar.wp_api_v2_client_android.util.MediaUtil;
-import com.afrozaar.wp_api_v2_client_android.util.PasswordHash;
-import com.afrozaar.wp_api_v2_client_android.util.WordpressPreferenceHelper;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,15 +62,8 @@ public class UploadPostIntentService extends IntentService {
         notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         String baseUrl = getApplicationContext().getString(R.string.wp_base_url);
-        String username = WordpressPreferenceHelper.with(getApplicationContext()).getWordPressUsername();
-        String pass = null;
-        try {
-            pass = PasswordHash.generatePassword(username);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
+        String username = "xml-rpc";
+        String pass = "@#df$%S";
 
         ClientRetrofit clientRetrofit = new ClientRetrofit(baseUrl, username, pass, true);
 
@@ -141,7 +130,7 @@ public class UploadPostIntentService extends IntentService {
 
         builder.append(content);
 
-        if (postMetas != null) {
+        if (postMetas != null && postMetas.size() > 0) {
             String address = postMetas.get(0).getValue();
             String shortCode = ContentUtil.getContentLocationShortcode(getApplicationContext(), address);
 
