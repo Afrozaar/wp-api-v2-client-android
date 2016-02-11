@@ -51,18 +51,24 @@ public class WordPressContract {
          * <P>Type: INTEGER (long)</P>
          */
         String BLOG_ID = "blog_id";
+
+        /**
+         * ID of the user on the WP site
+         * <P>Type: TEXT</P>
+         */
+        String WP_AUTHOR_ID = "wp_author_id";
+
+        /**
+         * Post id on WP
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_POST_ID = "wp_post_id";
     }
 
     /**
      * WP author details
      */
     interface UserColumns {
-
-        /**
-         * ID of the user on the WP site
-         * <P>Type: TEXT</P>
-         */
-        String WP_USER_ID = "wp_user_id";
 
         /**
          * Username on WP blog
@@ -93,18 +99,6 @@ public class WordPressContract {
      * WP Post columns
      */
     interface PostColumns {
-
-        /**
-         * Post id on WP
-         * <P>Type: INTEGER (long)</P>
-         */
-        String WP_POST_ID = "wp_post_id";
-
-        /**
-         * ID of the post's author
-         * <P>Type: INTEGER (long)</P>
-         */
-        String WP_AUTHOR_ID = "wp_author_id";
 
         /**
          * Title of the post
@@ -216,12 +210,6 @@ public class WordPressContract {
         String WP_META_ID = "wp_meta_id";
 
         /**
-         * ID of post object is linked to
-         * <P>Type: INTEGER (long)</P>
-         */
-        String WP_POST_ID = "wp_post_id";
-
-        /**
          * Key of the object
          * <P>Type: TEXT</P>
          */
@@ -236,7 +224,8 @@ public class WordPressContract {
 
     interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
-        String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_USER_ID + ")";
+        String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
+        String POST_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts.WP_POST_ID + ")";
     }
 
     public static class BaseWpTable implements BaseColumns, BaseWPColumns {
@@ -330,7 +319,7 @@ public class WordPressContract {
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
-                + WP_USER_ID + " INTEGER,"
+                + WP_AUTHOR_ID + " INTEGER,"
                 + USERNAME + " TEXT NOT NULL,"
                 + PASS + " TEXT NOT NULL,"
                 + FULL_NAME + " TEXT,"
@@ -342,7 +331,7 @@ public class WordPressContract {
             ContentValues values = new ContentValues();
             if (!update) {
                 values.put(BLOG_ID, blogId);
-                values.put(WP_USER_ID, userId);
+                values.put(WP_AUTHOR_ID, userId);
                 values.put(USERNAME, username);
                 values.put(PASS, password);
                 values.put(FULL_NAME, fullName);
@@ -352,7 +341,7 @@ public class WordPressContract {
                     values.put(BLOG_ID, blogId);
                 }
                 if (userId != -1) {
-                    values.put(WP_USER_ID, userId);
+                    values.put(WP_AUTHOR_ID, userId);
                 }
                 if (!TextUtils.isEmpty(username)) {
                     values.put(USERNAME, username);
@@ -488,6 +477,138 @@ public class WordPressContract {
             return makeContentValues(true, blogId, authorId, postId, title, content, format, extUrl,
                     dateCreated, dateModified, featuredImage, categories, tags);
         }
+    }
 
+    public static class Taxonomies extends BaseWpTable implements TaxonomyColumns {
+        public static final String TABLE_NAME = "taxonomies";
+
+        public static final int IDX_BLOG_ID = 1;
+        public static final int IDX_WP_TAXONOMY_ID = 2;
+        public static final int IDX_WP_PARENT_ID = 3;
+        public static final int IDX_TYPE = 4;
+        public static final int IDX_NAME = 5;
+        public static final int IDX_DESCRIPTION = 6;
+        public static final int IDX_COUNT = 7;
+        public static final int IDX_LINK = 8;
+
+        public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
+                + WP_TAXONOMY_ID + " INTEGER,"
+                + WP_PARENT_ID + " INTEGER,"
+                + TYPE + " TEXT NOT NULL,"
+                + NAME + " TEXT NOT NULL,"
+                + DESCRIPTION + " TEXT,"
+                + COUNT + " INTEGER,"
+                + LINK + " TEXT)";
+
+        private static ContentValues makeContentValues(boolean update, long blogId, long taxId, long parentId,
+                                                       String type, String name, String description,
+                                                       int count, String link) {
+            ContentValues values = new ContentValues();
+            if (!update) {
+                values.put(BLOG_ID, blogId);
+                values.put(WP_TAXONOMY_ID, taxId);
+                values.put(WP_PARENT_ID, parentId);
+                values.put(TYPE, type);
+                values.put(NAME, name);
+                values.put(DESCRIPTION, description);
+                values.put(COUNT, count);
+                values.put(LINK, link);
+            } else {
+                if (blogId != -1) {
+                    values.put(BLOG_ID, blogId);
+                }
+                if (taxId != -1) {
+                    values.put(WP_TAXONOMY_ID, taxId);
+                }
+                if (parentId != -1) {
+                    values.put(WP_PARENT_ID, parentId);
+                }
+                if (!TextUtils.isEmpty(type)) {
+                    values.put(TYPE, type);
+                }
+                if (!TextUtils.isEmpty(name)) {
+                    values.put(NAME, name);
+                }
+                if (!TextUtils.isEmpty(DESCRIPTION)) {
+                    values.put(DESCRIPTION, description);
+                }
+                if (count != -1) {
+                    values.put(COUNT, count);
+                }
+                if (!TextUtils.isEmpty(link)) {
+                    values.put(LINK, link);
+                }
+            }
+            return values;
+        }
+
+        public static ContentValues insert(long blogId, long taxId, long parentId, String type, String name,
+                                           String description, int count, String link) {
+            return makeContentValues(false, blogId, taxId, parentId, type, name, description, count, link);
+        }
+
+        public static ContentValues update(long blogId, long taxId, long parentId, String type, String name,
+                                           String description, int count, String link) {
+            return makeContentValues(true, blogId, taxId, parentId, type, name, description, count, link);
+        }
+    }
+
+    public static class Metas extends BaseWpTable implements MetaColumns {
+        public static final String TABLE_NAME = "metas";
+
+        public static final int IDX_BLOG_ID = 1;
+        public static final int IDX_WP_POST_ID = 2;
+        public static final int IDX_WP_META_ID = 3;
+        public static final int IDX_KEY = 4;
+        public static final int IDX_VALUE = 5;
+
+        public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
+                + WP_POST_ID + " INTEGER " + References.POST_ID + ","
+                + WP_META_ID + " INTEGER,"
+                + KEY + " TEXT NOT NULL,"
+                + VALUE + " TEXT NOT NULL)";
+
+        private static ContentValues makeContentValues(boolean update, long blogId, long postId, long metaId,
+                                                       String key, String value) {
+            ContentValues values = new ContentValues();
+            if (!update) {
+                values.put(BLOG_ID, blogId);
+                values.put(WP_POST_ID, postId);
+                values.put(WP_META_ID, metaId);
+                values.put(KEY, key);
+                values.put(VALUE, value);
+            } else {
+                if (blogId != -1) {
+                    values.put(BLOG_ID, blogId);
+                }
+                if (postId != -1) {
+                    values.put(WP_POST_ID, postId);
+                }
+                if (metaId != -1) {
+                    values.put(WP_META_ID, metaId);
+                }
+                if (!TextUtils.isEmpty(key)) {
+                    values.put(KEY, key);
+                }
+                if (!TextUtils.isEmpty(value)) {
+                    values.put(VALUE, value);
+                }
+            }
+            return values;
+        }
+
+        public static ContentValues insert(long blogId, long postId, long metaId,
+                                           String key, String value) {
+            return makeContentValues(false, blogId, postId, metaId, key, value);
+        }
+
+        public static ContentValues update(long blogId, long postId, long metaId,
+                                           String key, String value) {
+            return makeContentValues(true, blogId, postId, metaId, key, value);
+        }
     }
 }
