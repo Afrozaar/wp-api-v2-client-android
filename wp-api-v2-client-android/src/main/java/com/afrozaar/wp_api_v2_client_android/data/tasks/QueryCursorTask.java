@@ -7,7 +7,7 @@ import android.database.Cursor;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
-public abstract class QueryTask extends DatabaseTask<Void, Void, Cursor> {
+public class QueryCursorTask extends DatabaseTask<Void, Void, Cursor> {
 
     private boolean distinct;
     private String table;
@@ -19,12 +19,12 @@ public abstract class QueryTask extends DatabaseTask<Void, Void, Cursor> {
     private String orderBy;
     private String limit;
 
-    public QueryTask(Context context, DatabaseTaskCallback callback, String table, String[] projection, String selection, String[] selectionArgs) {
+    public QueryCursorTask(Context context, DatabaseTaskCallback<Cursor> callback, String table, String[] projection, String selection, String[] selectionArgs) {
         this(context, callback, false, table, projection, selection, selectionArgs, null, null, null, null);
     }
 
-    public QueryTask(Context context, DatabaseTaskCallback callback, boolean distinct, String table, String[] projection, String selection,
-                     String[] selectionArgs, String groupBy, String having, String orderBy, String limit) {
+    public QueryCursorTask(Context context, DatabaseTaskCallback<Cursor> callback, boolean distinct, String table, String[] projection, String selection,
+                           String[] selectionArgs, String groupBy, String having, String orderBy, String limit) {
         super(context, callback);
 
         this.distinct = distinct;
@@ -39,23 +39,8 @@ public abstract class QueryTask extends DatabaseTask<Void, Void, Cursor> {
     }
 
     @Override
-    protected Cursor doInBackground(Void... params) {
-        Cursor cursor = getReadableDatabase().query(distinct, table, projection, selection, selectionArgs,
+    protected Cursor exec() throws Exception {
+        return getReadableDatabase().query(distinct, table, projection, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-
-        onQueryDone(cursor);
-
-        return cursor;
     }
-
-    @Override
-    protected void onPostExecute(Cursor cursor) {
-        super.onPostExecute(cursor);
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-    }
-
-    protected abstract void onQueryDone(Cursor cursor);
 }

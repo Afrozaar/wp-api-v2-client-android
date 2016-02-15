@@ -14,13 +14,37 @@ public abstract class DatabaseTask<Params, Progress, Result> extends AsyncTask<P
 
     private WordPressDatabase database;
 
-    private DatabaseTaskCallback callback;
+    private DatabaseTaskCallback<Result> callback;
 
-    protected DatabaseTask(Context context, DatabaseTaskCallback callback) {
+    protected DatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
         database = new WordPressDatabase(context);
 
         this.callback = callback;
     }
+
+    @Override
+    protected Result doInBackground(Params... params) {
+        try {
+            return exec();
+        } catch (Exception e) {
+            cancel(true);
+            if (callback != null) {
+                callback.onTaskFailure(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+        super.onPostExecute(result);
+
+        if (callback != null) {
+            callback.onTaskSuccess(result);
+        }
+    }
+
+    protected abstract Result exec() throws Exception;
 
     protected SQLiteDatabase getReadableDatabase() {
         return database.getReadableDatabase();
