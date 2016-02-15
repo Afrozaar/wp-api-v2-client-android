@@ -51,6 +51,9 @@ public class OkHttpDebugInterceptor implements Interceptor {
 
         LogUtils.d(DEBUG_TAG, "******** [RESPONSE START] ********");
         LogUtils.d(DEBUG_TAG, "** (" + response.code() + ") " + response.message());
+        for (String head : response.headers().names()) {
+            LogUtils.d(DEBUG_TAG, "** HEADER : " + head + " = " + response.header(head));
+        }
 
         // Enabling this stops the callbacks from being able to read the response body because the inputstream gets closed.
         // only really useful to check what responses are to create proper handlers
@@ -61,6 +64,7 @@ public class OkHttpDebugInterceptor implements Interceptor {
         }
 
         LogUtils.d(DEBUG_TAG, "******** [RESPONSE END ********");
+        LogUtils.d(DEBUG_TAG, "");
 
         return response;
     }
