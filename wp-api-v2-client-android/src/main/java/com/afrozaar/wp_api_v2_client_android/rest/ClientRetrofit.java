@@ -20,9 +20,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Jan-Louis Crafford
@@ -69,7 +69,7 @@ public class ClientRetrofit {
     private <T> void doRetrofitCall(Call<T> call, final WordPressRestResponse<T> callback) {
         Callback<T> retroCallback = new Callback<T>() {
             @Override
-            public void onResponse(Response<T> response) {
+            public void onResponse(Call<T> call, Response<T> response) {
                 if (response.isSuccess()) {
                     callback.onSuccess(response.body());
                 } else {
@@ -78,7 +78,7 @@ public class ClientRetrofit {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<T> call, Throwable t) {
 
             }
         };
