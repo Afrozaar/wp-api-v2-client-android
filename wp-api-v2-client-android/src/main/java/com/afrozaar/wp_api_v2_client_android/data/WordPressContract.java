@@ -11,6 +11,30 @@ import android.text.TextUtils;
 public class WordPressContract {
 
     /**
+     * Shared columns for tables to link records
+     */
+    interface BaseWPColumns {
+
+        /**
+         * ID of the blog this record is linked to
+         * <P>Type: INTEGER (long)</P>
+         */
+        String BLOG_ID = "blog_id";
+
+        /**
+         * ID of the user on the WP site
+         * <P>Type: TEXT</P>
+         */
+        String WP_AUTHOR_ID = "wp_author_id";
+
+        /**
+         * Post id on WP
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_POST_ID = "wp_post_id";
+    }
+
+    /**
      * Table for keeping track of multiple WP sites
      */
     interface BlogColumns {
@@ -42,33 +66,9 @@ public class WordPressContract {
     }
 
     /**
-     * Shared columns for tables to link records
-     */
-    interface BaseWPColumns {
-
-        /**
-         * ID of the blog this record is linked to
-         * <P>Type: INTEGER (long)</P>
-         */
-        String BLOG_ID = "blog_id";
-
-        /**
-         * ID of the user on the WP site
-         * <P>Type: TEXT</P>
-         */
-        String WP_AUTHOR_ID = "wp_author_id";
-
-        /**
-         * Post id on WP
-         * <P>Type: INTEGER (long)</P>
-         */
-        String WP_POST_ID = "wp_post_id";
-    }
-
-    /**
      * WP author details
      */
-    interface UserColumns {
+    interface AuthorColumns {
 
         /**
          * Username on WP blog
@@ -224,7 +224,7 @@ public class WordPressContract {
 
     interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
-        String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
+        String AUTHOR_ID = "REFERENCES " + Authors.TABLE_NAME + "(" + Authors.WP_AUTHOR_ID + ")";
         String POST_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts.WP_POST_ID + ")";
     }
 
@@ -306,11 +306,11 @@ public class WordPressContract {
         }
     }
 
-    public static class Users extends BaseWpTable implements UserColumns {
-        public static final String TABLE_NAME = "users";
+    public static class Authors extends BaseWpTable implements AuthorColumns {
+        public static final String TABLE_NAME = "authors";
 
         public static final int IDX_BLOG_ID = 1;
-        public static final int IDX_WP_USER_ID = 2;
+        public static final int IDX_WP_AUTHOR_ID = 2;
         public static final int IDX_USERNAME = 3;
         public static final int IDX_PASSWORD = 4;
         public static final int IDX_FULL_NAME = 5;
@@ -325,13 +325,13 @@ public class WordPressContract {
                 + FULL_NAME + " TEXT,"
                 + AVATAR_URL + " TEXT)";
 
-        private static ContentValues makeContentValues(boolean update, long blogId, long userId,
+        private static ContentValues makeContentValues(boolean update, long blogId, long authorId,
                                                        String username, String password, String fullName,
                                                        String avatarUrl) {
             ContentValues values = new ContentValues();
             if (!update) {
                 values.put(BLOG_ID, blogId);
-                values.put(WP_AUTHOR_ID, userId);
+                values.put(WP_AUTHOR_ID, authorId);
                 values.put(USERNAME, username);
                 values.put(PASS, password);
                 values.put(FULL_NAME, fullName);
@@ -340,8 +340,8 @@ public class WordPressContract {
                 if (blogId != -1) {
                     values.put(BLOG_ID, blogId);
                 }
-                if (userId != -1) {
-                    values.put(WP_AUTHOR_ID, userId);
+                if (authorId != -1) {
+                    values.put(WP_AUTHOR_ID, authorId);
                 }
                 if (!TextUtils.isEmpty(username)) {
                     values.put(USERNAME, username);
@@ -360,14 +360,14 @@ public class WordPressContract {
             return values;
         }
 
-        public static ContentValues insert(long blogId, long userId, String username, String password,
+        public static ContentValues insert(long blogId, long authorId, String username, String password,
                                            String fullName, String avatarUrl) {
-            return makeContentValues(false, blogId, userId, username, password, fullName, avatarUrl);
+            return makeContentValues(false, blogId, authorId, username, password, fullName, avatarUrl);
         }
 
-        public static ContentValues update(long blogId, long userId, String username, String password,
+        public static ContentValues update(long blogId, long authorId, String username, String password,
                                            String fullName, String avatarUrl) {
-            return makeContentValues(true, blogId, userId, username, password, fullName, avatarUrl);
+            return makeContentValues(true, blogId, authorId, username, password, fullName, avatarUrl);
         }
     }
 
