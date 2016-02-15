@@ -13,7 +13,7 @@ public class DeleteTask extends DatabaseTask<Void, Void, Integer> {
     private String where;
     private String[] whereArgs;
 
-    public DeleteTask(Context context, DatabaseTaskCallback<Integer> callback, String table, String where, String[] whereArgs) {
+    public DeleteTask(Context context, String table, String where, String[] whereArgs, DatabaseTaskCallback<Integer> callback) {
         super(context, callback);
 
         this.table = table;

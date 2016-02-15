@@ -19,12 +19,12 @@ public class QueryCursorTask extends DatabaseTask<Void, Void, Cursor> {
     private String orderBy;
     private String limit;
 
-    public QueryCursorTask(Context context, DatabaseTaskCallback<Cursor> callback, String table, String[] projection, String selection, String[] selectionArgs) {
-        this(context, callback, false, table, projection, selection, selectionArgs, null, null, null, null);
+    public QueryCursorTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, DatabaseTaskCallback<Cursor> callback) {
+        this(context, false, table, projection, selection, selectionArgs, null, null, null, null, callback);
     }
 
-    public QueryCursorTask(Context context, DatabaseTaskCallback<Cursor> callback, boolean distinct, String table, String[] projection, String selection,
-                           String[] selectionArgs, String groupBy, String having, String orderBy, String limit) {
+    public QueryCursorTask(Context context, boolean distinct, String table, String[] projection, String selection,
+                           String[] selectionArgs, String groupBy, String having, String orderBy, String limit, DatabaseTaskCallback<Cursor> callback) {
         super(context, callback);
 
         this.distinct = distinct;

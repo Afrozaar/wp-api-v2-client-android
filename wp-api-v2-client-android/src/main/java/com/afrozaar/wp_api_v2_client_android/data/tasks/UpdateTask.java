@@ -15,7 +15,7 @@ public class UpdateTask extends DatabaseTask<Void, Void, Integer> {
     private String where;
     private String[] whereArgs;
 
-    public UpdateTask(Context context, DatabaseTaskCallback<Integer> callback, String table, ContentValues values, String where, String[] whereArgs) {
+    public UpdateTask(Context context, String table, ContentValues values, String where, String[] whereArgs, DatabaseTaskCallback<Integer> callback) {
         super(context, callback);
 
         this.table = table;

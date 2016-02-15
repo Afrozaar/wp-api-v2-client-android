@@ -7,7 +7,7 @@ import android.database.Cursor;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/15.
  */
-public abstract class QueryCustomClass<Result> extends DatabaseTask<Void, Void, Result> {
+public abstract class QueryCustomTask<Result> extends DatabaseTask<Void, Void, Result> {
 
     private boolean distinct;
     private String table;
@@ -19,12 +19,12 @@ public abstract class QueryCustomClass<Result> extends DatabaseTask<Void, Void, 
     private String orderBy;
     private String limit;
 
-    public QueryCustomClass(Context context, DatabaseTaskCallback<Result> callback, String table, String[] projection, String selection, String[] selectionArgs) {
-        this(context, callback, false, table, projection, selection, selectionArgs, null, null, null, null);
+    public QueryCustomTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, DatabaseTaskCallback<Result> callback) {
+        this(context, false, table, projection, selection, selectionArgs, null, null, null, null, callback);
     }
 
-    public QueryCustomClass(Context context, DatabaseTaskCallback<Result> callback, boolean distinct, String table, String[] projection, String selection, String[] selectionArgs,
-                            String groupBy, String having, String orderBy, String limit) {
+    public QueryCustomTask(Context context, boolean distinct, String table, String[] projection, String selection, String[] selectionArgs,
+                           String groupBy, String having, String orderBy, String limit, DatabaseTaskCallback<Result> callback) {
         super(context, callback);
 
         this.distinct = distinct;

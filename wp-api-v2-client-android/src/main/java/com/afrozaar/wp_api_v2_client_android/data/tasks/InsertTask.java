@@ -13,7 +13,7 @@ public class InsertTask extends DatabaseTask<Void, Void, Long> {
     private String table;
     private ContentValues values;
 
-    public InsertTask(Context context, DatabaseTaskCallback<Long> callback, String table, ContentValues values) {
+    public InsertTask(Context context, String table, ContentValues values, DatabaseTaskCallback<Long> callback) {
         super(context, callback);
 
         this.table = table;

@@ -261,7 +261,7 @@ public class WordPressContract {
          * @param pass   Password for the admin user
          * @return ContentValues for inserting/updating
          */
-        private static ContentValues makeContentValues(boolean update, String title, String url, String user, String pass) {
+        public static ContentValues makeContentValues(boolean update, String title, String url, String user, String pass) {
             ContentValues values = new ContentValues();
 
             if (!update) {
