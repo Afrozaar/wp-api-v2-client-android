@@ -135,6 +135,10 @@ public class ClientRetrofit {
         doRetrofitCall(mRestInterface.updatePost(post.getId(), Post.mapFromFields(post)), callback);
     }
 
+    public Call<Post> updatePost(Post post) {
+        return mRestInterface.updatePost(post.getId(), Post.mapFromFields(post));
+    }
+
     public void deletePost(long postId, WordPressRestResponse<Post> callback) {
         // 200 on success
         // 410 GONE on failure
