@@ -32,6 +32,12 @@ public class MediaUtil {
 
     public static String getRealPathFromURI(Context context, Uri uri) {
         try {
+            String rawString = uri.toString();
+            if (!rawString.startsWith("content")) {
+                // path is not a ContentResolver uri
+                return uri.toString();
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 return getRealPathFromURI_API19(context, uri);
             } else {
@@ -39,6 +45,8 @@ public class MediaUtil {
             }
         } catch (IllegalArgumentException e) {
             // path is not a uri, so we assume it's already an absolute path
+        } catch (Exception e) {
+            LogUtils.w("Something went wrong while reading Uri path", e);
         }
 
         return uri.toString();
@@ -66,7 +74,7 @@ public class MediaUtil {
             String id = wholeID.split(":")[1];
 
             String type = context.getContentResolver().getType(uri);
-            System.out.println("=============== type : " + type);
+            //System.out.println("=============== type : " + type);
 
             if (type == null) {
                 LogUtils.e("Cannot get type of media!");
