@@ -10,13 +10,13 @@ import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
-public abstract class DatabaseTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
+public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 
     private WordPressDatabase database;
 
     private DatabaseTaskCallback<Result> callback;
 
-    protected DatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
+    protected WpDatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
         database = new WordPressDatabase(context);
 
         this.callback = callback;

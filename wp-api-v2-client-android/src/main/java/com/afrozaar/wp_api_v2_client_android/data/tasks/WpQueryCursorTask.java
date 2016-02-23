@@ -5,9 +5,9 @@ import android.database.Cursor;
 
 /**
  * @author Jan-Louis Crafford
- *         Created on 2016/02/15.
+ *         Created on 2016/02/11.
  */
-public abstract class QueryCustomTask<Result> extends DatabaseTask<Void, Void, Result> {
+public class WpQueryCursorTask extends WpDatabaseTask<Void, Void, Cursor> {
 
     private boolean distinct;
     private String table;
@@ -19,12 +19,12 @@ public abstract class QueryCustomTask<Result> extends DatabaseTask<Void, Void, R
     private String orderBy;
     private String limit;
 
-    public QueryCustomTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, DatabaseTaskCallback<Result> callback) {
+    public WpQueryCursorTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, DatabaseTaskCallback<Cursor> callback) {
         this(context, false, table, projection, selection, selectionArgs, null, null, null, null, callback);
     }
 
-    public QueryCustomTask(Context context, boolean distinct, String table, String[] projection, String selection, String[] selectionArgs,
-                           String groupBy, String having, String orderBy, String limit, DatabaseTaskCallback<Result> callback) {
+    public WpQueryCursorTask(Context context, boolean distinct, String table, String[] projection, String selection,
+                             String[] selectionArgs, String groupBy, String having, String orderBy, String limit, DatabaseTaskCallback<Cursor> callback) {
         super(context, callback);
 
         this.distinct = distinct;
@@ -39,20 +39,8 @@ public abstract class QueryCustomTask<Result> extends DatabaseTask<Void, Void, R
     }
 
     @Override
-    protected Result exec() throws Exception {
-        Cursor cursor = getReadableDatabase().query(distinct, table, projection, selection, selectionArgs,
+    protected Cursor exec() throws Exception {
+        return getReadableDatabase().query(distinct, table, projection, selection, selectionArgs,
                 groupBy, having, orderBy, limit);
-
-        if (cursor != null) {
-            Result result = makeResult(cursor);
-
-            cursor.close();
-
-            return result;
-        }
-
-        return null;
     }
-
-    protected abstract Result makeResult(Cursor cursor);
 }

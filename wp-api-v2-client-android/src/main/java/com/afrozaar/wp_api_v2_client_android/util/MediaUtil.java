@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -13,6 +14,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -66,7 +68,6 @@ public class MediaUtil {
             String id = wholeID.split(":")[1];
 
             String type = context.getContentResolver().getType(uri);
-            System.out.println("=============== type : " + type);
 
             if (type == null) {
                 LogUtils.e("Cannot get type of media!");
@@ -132,13 +133,49 @@ public class MediaUtil {
         return result;
     }
 
-    public static String getImageFilename() {
-        String dateFormat = "yyyyMMdd_hhmmss";
+    public static File getImageFilename() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + ".jpg";
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
-        String date = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        if (!storageDir.exists()) {
+            boolean makeDir = storageDir.mkdirs();
+            if (!makeDir) {
+                throw new IOException("Unable to create parent dirs for image file.");
+            } else {
+                LogUtils.d("Created parent dir structure for file.");
+            }
+        }
+        File image = new File(storageDir, imageFileName);
 
-        return "IMG_" + date + ".jpg";
+        if (image.createNewFile()) {
+            LogUtils.d("Created new image file : " + image.getAbsolutePath());
+        } else {
+            LogUtils.d("New file not created; already exists?");
+        }
+
+        return image;
+    }
+
+    public static void addImageToMediaScanner(Context context, String currentPhotoPath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(currentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+    }
+
+    public static void deleteFile(File file) {
+        if (file.delete()) {
+            LogUtils.d("File (" + file.getPath() + ") was deleted successfully.");
+        } else {
+            LogUtils.d("Couldn't delete file : " + file.getPath());
+        }
+    }
+
+    public static void deleteFile(String filePath) {
+        deleteFile(new File(filePath));
     }
 
     public static String getMediaFilePath(Context context, String mediaKey, String type) {

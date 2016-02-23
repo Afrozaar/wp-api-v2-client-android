@@ -1,13 +1,18 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
+import android.util.Base64;
+
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Random;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author Jan-Louis Crafford
@@ -179,6 +184,39 @@ public class PasswordHash {
         String hex = toHex(hash);
 
         return hex;
+    }
+
+    public static String encrypt(String cleartext) throws Exception {
+
+        String cI = "AES/CBC/PKCS5Padding";
+        String alg = "AES";
+
+        String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
+        String iv = "1234567890123456";
+
+        Cipher cipher = Cipher.getInstance(cI);
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParameterSpec);
+        byte[] encrypted = cipher.doFinal(cleartext.getBytes());
+
+        return new String(Base64.encode(encrypted, Base64.DEFAULT));
+    }
+
+    public static String decrypt(String encrypted) throws Exception {
+        String cI = "AES/CBC/PKCS5Padding";
+        String alg = "AES";
+
+        String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
+        String iv = "1234567890123456";
+
+        Cipher cipher = Cipher.getInstance(cI);
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+        byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivParameterSpec);
+        byte[] decrypted = cipher.doFinal(enc);
+        return new String(decrypted);
     }
 
 }

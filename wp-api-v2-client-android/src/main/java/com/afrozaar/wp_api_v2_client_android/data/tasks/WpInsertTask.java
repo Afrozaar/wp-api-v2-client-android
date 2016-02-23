@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
-public class InsertTask extends DatabaseTask<Void, Void, Long> {
+public class WpInsertTask extends WpDatabaseTask<Void, Void, Long> {
 
     private String table;
     private ContentValues values;
 
-    public InsertTask(Context context, String table, ContentValues values, DatabaseTaskCallback<Long> callback) {
+    public WpInsertTask(Context context, String table, ContentValues values, DatabaseTaskCallback<Long> callback) {
         super(context, callback);
 
         this.table = table;
