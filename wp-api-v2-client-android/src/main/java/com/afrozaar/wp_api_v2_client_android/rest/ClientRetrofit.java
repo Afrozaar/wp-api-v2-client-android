@@ -254,4 +254,12 @@ public class ClientRetrofit {
 
         return mRestInterface.createPostMeta(postId, map);
     }
+
+    public Call<Meta> updatePostMeta(long postId, Meta meta) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", meta.getKey());
+        map.put("value", meta.getValue());
+
+        return mRestInterface.updatePostMeta(postId, meta.getId(), meta);
+    }
 }
