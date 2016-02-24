@@ -167,6 +167,29 @@ public class MediaUtil {
         return image;
     }
 
+    public static File getAudioFilename(Context context) throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String audioFileName = "AUD_" + timeStamp + ".mp4";
+
+        File storageDir = new File(context.getExternalFilesDir(null), "audio");
+        if (!storageDir.exists()) {
+            boolean makeDir = storageDir.mkdirs();
+            if (!makeDir) {
+                throw new IOException("Unable to create parent dirs for image file.");
+            } else {
+                LogUtils.d("Created parent dir structure for file.");
+            }
+        }
+        File audioFile = new File(storageDir, audioFileName);
+        if (audioFile.createNewFile()) {
+            LogUtils.d("Created new audio file : " + audioFile.getAbsolutePath());
+        } else {
+            LogUtils.d("New file not created; already exists?");
+        }
+
+        return audioFile;
+    }
+
     public static void addImageToMediaScanner(Context context, String currentPhotoPath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(currentPhotoPath);
