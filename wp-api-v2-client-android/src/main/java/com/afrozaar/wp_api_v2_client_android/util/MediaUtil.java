@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -35,6 +36,7 @@ public class MediaUtil {
     public static String getRealPathFromURI(Context context, Uri uri) {
         try {
             String rawString = uri.toString();
+            System.out.println("======= getting path for uri : " + rawString);
             if (!rawString.startsWith("content")) {
                 // path is not a ContentResolver uri
                 return uri.toString();
@@ -47,6 +49,7 @@ public class MediaUtil {
             }
         } catch (IllegalArgumentException e) {
             // path is not a uri, so we assume it's already an absolute path
+            LogUtils.w("Error while trying to get real path from uri", e);
         } catch (Exception e) {
             LogUtils.w("Something went wrong while reading Uri path", e);
         }
@@ -57,9 +60,10 @@ public class MediaUtil {
     @SuppressLint("NewApi")
     private static String getRealPathFromURI_API19(Context context, Uri uri) {
         String filePath = "";
-        String wholeID = DocumentsContract.getDocumentId(uri);
 
         if (uri.getHost().equals(HOST_EXTERNAL_STORAGE)) {
+            String wholeID = DocumentsContract.getDocumentId(uri);
+
             String[] parts = wholeID.split(":");
 
             // parts[0] # should be primary
@@ -72,8 +76,15 @@ public class MediaUtil {
 
             filePath = builder.toString();
         } else {
-            // Split at colon, use second item in the array
-            String id = wholeID.split(":")[1];
+            String id;
+            List<String> paths = uri.getPathSegments();
+            if (paths.contains("media") && paths.contains("external")) {
+                id = paths.get(paths.size() - 1);
+            } else {
+                String wholeID = DocumentsContract.getDocumentId(uri);
+                // Split at colon, use second item in the array
+                id = wholeID.split(":")[1];
+            }
 
             String type = context.getContentResolver().getType(uri);
             //System.out.println("=============== type : " + type);
