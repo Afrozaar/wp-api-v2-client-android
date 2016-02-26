@@ -186,21 +186,26 @@ public class PasswordHash {
         return hex;
     }
 
-    public static String encrypt(String cleartext) throws Exception {
+    public static String encrypt(String cleartext) {
+        try {
+            String cI = "AES/CBC/PKCS5Padding";
+            String alg = "AES";
 
-        String cI = "AES/CBC/PKCS5Padding";
-        String alg = "AES";
+            String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
+            String iv = "1234567890123456";
 
-        String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
-        String iv = "1234567890123456";
+            Cipher cipher = Cipher.getInstance(cI);
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParameterSpec);
+            byte[] encrypted = cipher.doFinal(cleartext.getBytes());
 
-        Cipher cipher = Cipher.getInstance(cI);
-        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParameterSpec);
-        byte[] encrypted = cipher.doFinal(cleartext.getBytes());
+            return new String(Base64.encode(encrypted, Base64.DEFAULT));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return new String(Base64.encode(encrypted, Base64.DEFAULT));
+        return null;
     }
 
     public static String decrypt(String encrypted) throws Exception {

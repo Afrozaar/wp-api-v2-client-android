@@ -67,10 +67,11 @@ public interface WordPressRestInterface {
      * Gets all Posts created by a User.
      *
      * @param authorId Id of the User
+     * @param status   The status of the post, eg. draft or publish
      * @return List of Post objects for the User
      */
     @GET("posts")
-    Call<List<Post>> getPostsForAuthor(@Query("author") long authorId);
+    Call<List<Post>> getPostsForAuthor(@Query("author") long authorId, @Query("status") String status, @Query("context") String context);
 
     /**
      * Updates an existing Post.

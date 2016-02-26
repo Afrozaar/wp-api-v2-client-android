@@ -14,7 +14,7 @@ import com.afrozaar.wp_api_v2_client_android.R;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
-import com.afrozaar.wp_api_v2_client_android.rest.ClientRetrofit;
+import com.afrozaar.wp_api_v2_client_android.rest.WpClientRetrofit;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 import com.afrozaar.wp_api_v2_client_android.util.MediaUtil;
 
@@ -65,7 +65,7 @@ public class UploadPostIntentService extends IntentService {
         String username = "xml-rpc";
         String pass = "@#df$%S";
 
-        ClientRetrofit clientRetrofit = new ClientRetrofit(baseUrl, username, pass, true);
+        WpClientRetrofit wpClientRetrofit = new WpClientRetrofit(baseUrl, username, pass, true);
 
         Bundle extras = intent.getExtras();
 
@@ -92,7 +92,7 @@ public class UploadPostIntentService extends IntentService {
                     .withCaption(mediaItems.get(i).caption);
 
             try {
-                activeCall = clientRetrofit.createMedia(media, f);
+                activeCall = wpClientRetrofit.createMedia(media, f);
                 Response<Media> mediaResponse = activeCall.execute();
                 if (mediaResponse.isSuccess()) {
                     mediaIds.add(mediaResponse.body().getId());
@@ -155,7 +155,7 @@ public class UploadPostIntentService extends IntentService {
 
         long postId = -1;
         try {
-            Response<Post> postResponse = clientRetrofit.createPost(post).execute();
+            Response<Post> postResponse = wpClientRetrofit.createPost(post).execute();
             if (postResponse.isSuccess()) {
                 postId = postResponse.body().getId();
                 link = postResponse.body().getLink();
@@ -171,7 +171,7 @@ public class UploadPostIntentService extends IntentService {
         if (postId != -1 && postMetas != null && postMetas.size() > 0) {
             for (Meta meta : postMetas) {
                 try {
-                    Response<Meta> metaResponse = clientRetrofit.createPostMeta(postId, meta).execute();
+                    Response<Meta> metaResponse = wpClientRetrofit.createPostMeta(postId, meta).execute();
                     if (metaResponse.isSuccess()) {
                         //log("uploaded post meta data");
                     } else {

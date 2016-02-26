@@ -30,7 +30,6 @@ public class User implements Parcelable {
     public static final String JSON_FIELD_NICKNAME = "nickname";
     public static final String JSON_FIELD_REGISTERED_DATE = "registered_date";
     public static final String JSON_FIELD_ROLES = "roles";
-    public static final String JSON_FIELD_ROLE = "role";
     public static final String JSON_FIELD_SLUG = "slug";
     public static final String JSON_FIELD_URL = "url";
     public static final String JSON_FIELD_USERNAME = "username";
@@ -273,25 +272,6 @@ public class User implements Parcelable {
     }
 
     /**
-     * Role assigned to the user.
-     */
-    @SerializedName("role")
-    private String mRole;
-
-    public void setRole(String role) {
-        mRole = role;
-    }
-
-    public String getRole() {
-        return mRole;
-    }
-
-    public User withRole(String role) {
-        setRole(role);
-        return this;
-    }
-
-    /**
      * An alphanumeric identifier for the object unique to its type.
      */
     @SerializedName("slug")
@@ -404,7 +384,6 @@ public class User implements Parcelable {
         mNickName = in.readString();
         mRegisteredDate = in.readString();
         in.readStringList(mRoles);
-        mRole = in.readString();
         mSlug = in.readString();
         mUrl = in.readString();
         mUserName = in.readString();
@@ -427,7 +406,6 @@ public class User implements Parcelable {
         dest.writeString(mNickName);
         dest.writeString(mRegisteredDate);
         dest.writeStringList(mRoles);
-        dest.writeString(mRole);
         dest.writeString(mSlug);
         dest.writeString(mUrl);
         dest.writeString(mUserName);
@@ -448,8 +426,7 @@ public class User implements Parcelable {
         Validate.validateMapEntry(JSON_FIELD_NAME, user.getName(), map);
         Validate.validateMapEntry(JSON_FIELD_NICKNAME, user.getNickName(), map);
         Validate.validateMapEntry(JSON_FIELD_REGISTERED_DATE, user.getRegisteredDate(), map);
-        //Validate.validateMapEntry(JSON_FIELD_ROLES, user.getRoles(), map);
-        Validate.validateMapEntry(JSON_FIELD_ROLE, user.getRole(), map);
+        Validate.validateMapEntry(JSON_FIELD_ROLES, user.getRoles(), map);
         Validate.validateMapEntry(JSON_FIELD_SLUG, user.getSlug(), map);
         Validate.validateMapEntry(JSON_FIELD_URL, user.getUrl(), map);
         Validate.validateMapEntry(JSON_FIELD_USERNAME, user.getUsername(), map);
@@ -489,7 +466,6 @@ public class User implements Parcelable {
                 "nickname : " + mNickName + "\n" +
                 "registeredDate : " + mRegisteredDate + "\n" +
                 "roles : " + mRoles + "\n" +
-                "role : " + mRole + "\n" +
                 "slug : " + mSlug + "\n" +
                 "url : " + mUrl + "\n" +
                 "links : " + mLinks;
@@ -509,7 +485,6 @@ public class User implements Parcelable {
                 ", mNickName='" + mNickName + '\'' +
                 ", mRegisteredDate='" + mRegisteredDate + '\'' +
                 ", mRoles=" + mRoles +
-                ", mRole='" + mRole + '\'' +
                 ", mSlug='" + mSlug + '\'' +
                 ", mUrl='" + mUrl + '\'' +
                 ", mUserName='" + mUserName + '\'' +

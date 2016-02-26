@@ -14,6 +14,8 @@ import okhttp3.ResponseBody;
 public class HttpServerErrorResponse {
 
     public static final String CODE_EXISTING_USER_LOGIN = "existing_user_login";
+    public static final String CODE_EXISTING_USER_EMAIL = "existing_user_email";
+
     public static final String CODE_FORBIDDEN = "rest_forbidden";
     public static final String CODE_NOT_LOGGED_IN = "rest_not_logged_in";  // 401
 

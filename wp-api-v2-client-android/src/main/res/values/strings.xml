@@ -22,14 +22,6 @@
     <string name="pref_id_wp_server_ip">pref.ftp.server.ip</string>
     <string name="pref_id_wp_server_port">pref.ftp.server.port</string>
 
-    <string name="pref_id_has_profile">pref.user.has_profile</string>
-    <string name="pref_id_username">pref.user.id</string>
-    <string name="pref_id_email">pref.user.email</string>
-    <string name="pref_id_name">pref.user.name</string>
-    <string name="pref_id_first_name">pref.user.first_name</string>
-    <string name="pref_id_last_name">pref.user.last_name</string>
-    <string name="pref_id_profile_pic">pref.user.profile_pic</string>
-
     <string name="pref_id_wordpress_id">pref.wp.id</string>
     <string name="pref_id_wordpress_username">pref.wp.username</string>
     <string name="pref_id_wordpress_password">pref.wp.password</string>
