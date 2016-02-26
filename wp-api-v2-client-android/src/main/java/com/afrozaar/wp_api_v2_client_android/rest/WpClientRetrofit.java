@@ -28,15 +28,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author Jan-Louis Crafford
  *         Created on 2016/01/12.
  */
-public class ClientRetrofit {
+public class WpClientRetrofit {
 
     private WordPressRestInterface mRestInterface;
 
-    public ClientRetrofit(String baseUrl, final String username, final String password) {
+    public WpClientRetrofit(String baseUrl, final String username, final String password) {
         this(baseUrl, username, password, false);
     }
 
-    public ClientRetrofit(String baseUrl, final String username, final String password, boolean debugEnabled) {
+    public WpClientRetrofit(String baseUrl, final String username, final String password, boolean debugEnabled) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         //builder.connectTimeout(30, TimeUnit.SECONDS);
