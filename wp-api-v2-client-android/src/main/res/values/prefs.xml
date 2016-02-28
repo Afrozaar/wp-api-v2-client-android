@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_id_has_profile">pref.user.has_profile</string>
+    <string name="pref_id_username">pref.user.id</string>
+    <string name="pref_id_email">pref.user.email</string>
+    <string name="pref_id_name">pref.user.name</string>
+    <string name="pref_id_first_name">pref.user.first_name</string>
+    <string name="pref_id_last_name">pref.user.last_name</string>
+    <string name="pref_id_profile_pic">pref.user.profile_pic</string>
+    
+</resources>
