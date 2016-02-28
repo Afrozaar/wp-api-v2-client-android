@@ -10,7 +10,7 @@ import com.afrozaar.wp_api_v2_client_android.R;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/26.
  */
-public class AccountHelper extends BasePreferenceHelper {
+public class LoginAccountHelper extends BasePreferenceHelper {
 
     private static final String APP_PREFS = "account_preferences";
 
@@ -23,17 +23,17 @@ public class AccountHelper extends BasePreferenceHelper {
     private static final int PREF_USER_LAST_NAME = R.string.pref_id_last_name;
     private static final int PREF_USER_PROFILE_PIC = R.string.pref_id_profile_pic;
 
-    private static AccountHelper sInstance = null;
+    private static LoginAccountHelper sInstance = null;
 
-    public static AccountHelper with(Context context) {
+    public static LoginAccountHelper with(Context context) {
         if (sInstance == null) {
-            sInstance = new AccountHelper(context);
+            sInstance = new LoginAccountHelper(context);
         }
 
         return sInstance;
     }
 
-    private AccountHelper(Context context) {
+    private LoginAccountHelper(Context context) {
         if (context == null) {
             throw new IllegalStateException("Context can not be null!");
         }
@@ -52,7 +52,7 @@ public class AccountHelper extends BasePreferenceHelper {
 
     // USER PREFERENCES
 
-    public AccountHelper setUserHasProfile(boolean hasProfile) {
+    public LoginAccountHelper setUserHasProfile(boolean hasProfile) {
         String pref = mContext.getString(PREF_USER_HAS_PROFILE);
         putBooleanPref(pref, hasProfile);
         return this;
@@ -63,7 +63,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getBooleanPref(pref);
     }
 
-    public AccountHelper setUserId(String id) {
+    public LoginAccountHelper setUserId(String id) {
         String pref = mContext.getString(PREF_USER_ID);
         putStringPref(pref, id);
         return this;
@@ -74,7 +74,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getStringPref(pref);
     }
 
-    public AccountHelper setUserEmail(String email) {
+    public LoginAccountHelper setUserEmail(String email) {
         String pref = mContext.getString(PREF_USER_EMAIL);
         putStringPref(pref, email);
         return this;
@@ -85,7 +85,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getStringPref(pref);
     }
 
-    public AccountHelper setUserName(String name) {
+    public LoginAccountHelper setUserName(String name) {
         String pref = mContext.getString(PREF_USER_NAME);
         putStringPref(pref, name);
         return this;
@@ -96,7 +96,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getStringPref(pref);
     }
 
-    public AccountHelper setUserFirstName(String firstName) {
+    public LoginAccountHelper setUserFirstName(String firstName) {
         String pref = mContext.getString(PREF_USER_FIRST_NAME);
         putStringPref(pref, firstName);
         return this;
@@ -107,7 +107,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getStringPref(pref);
     }
 
-    public AccountHelper setUserLastName(String lastName) {
+    public LoginAccountHelper setUserLastName(String lastName) {
         String pref = mContext.getString(PREF_USER_LAST_NAME);
         putStringPref(pref, lastName);
         return this;
@@ -118,7 +118,7 @@ public class AccountHelper extends BasePreferenceHelper {
         return getStringPref(pref);
     }
 
-    public AccountHelper setUserProfilePic(String pic) {
+    public LoginAccountHelper setUserProfilePic(String pic) {
         String pref = mContext.getString(PREF_USER_PROFILE_PIC);
         putStringPref(pref, pic);
         return this;
