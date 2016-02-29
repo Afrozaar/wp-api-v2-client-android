@@ -2,6 +2,7 @@ package com.afrozaar.wp_api_v2_client_android.util;
 
 import android.text.TextUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +24,12 @@ public class Validate {
     public static void validateMapStringEntry(String key, String value, Map<String, String> map) {
         if (!TextUtils.isEmpty(value)) {
             map.put(key, value);
+        }
+    }
+
+    public static <T> void validateMapListEntry(String key, List<T> list, Map<String, Object> map) {
+        if (list != null && list.size() > 0) {
+            map.put(key, list);
         }
     }
 }

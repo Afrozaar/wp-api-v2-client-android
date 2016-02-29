@@ -341,7 +341,7 @@ public interface WordPressRestInterface {
     Call<User> getUser(@Path("id") long id);
 
     @POST("users/{id}")
-    Call<User> updateUser(@Path("id") long id, Map<String, Object> fields);
+    Call<User> updateUser(@Path("id") long id, @Body Map<String, Object> fields);
 
     @DELETE("users/{id}")
     Call<User> deleteUser(@Path("id") long id);

@@ -99,6 +99,11 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getUserMe(), callback);
     }
 
+    public void updateUser(User user, WordPressRestResponse<User> callback) {
+        Map<String, Object> map = User.mapFromFields(user);
+        doRetrofitCall(mRestInterface.updateUser(user.getId(), map), callback);
+    }
+
     // POSTS
 
     public void createPost(Post post, WordPressRestResponse<Post> callback) {

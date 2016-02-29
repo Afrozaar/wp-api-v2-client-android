@@ -142,17 +142,17 @@ public class User implements Parcelable {
      * Unique identifier for the object.
      */
     @SerializedName("id")
-    private int mId;
+    private long mId;
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public User withId(int id) {
+    public User withId(long id) {
         setId(id);
         return this;
     }
@@ -377,7 +377,7 @@ public class User implements Parcelable {
         mEmail = in.readString();
         //in.readParcelable(mExtraCapabilities);
         mFirstName = in.readString();
-        mId = in.readInt();
+        mId = in.readLong();
         mLastName = in.readString();
         mLink = in.readString();
         mName = in.readString();
@@ -399,7 +399,7 @@ public class User implements Parcelable {
         dest.writeString(mEmail);
         //dest.writeParcelable(mExtraCapabilities, flags);
         dest.writeString(mFirstName);
-        dest.writeInt(mId);
+        dest.writeLong(mId);
         dest.writeString(mLastName);
         dest.writeString(mLink);
         dest.writeString(mName);
@@ -426,7 +426,7 @@ public class User implements Parcelable {
         Validate.validateMapEntry(JSON_FIELD_NAME, user.getName(), map);
         Validate.validateMapEntry(JSON_FIELD_NICKNAME, user.getNickName(), map);
         Validate.validateMapEntry(JSON_FIELD_REGISTERED_DATE, user.getRegisteredDate(), map);
-        Validate.validateMapEntry(JSON_FIELD_ROLES, user.getRoles(), map);
+        Validate.validateMapListEntry(JSON_FIELD_ROLES, user.getRoles(), map);
         Validate.validateMapEntry(JSON_FIELD_SLUG, user.getSlug(), map);
         Validate.validateMapEntry(JSON_FIELD_URL, user.getUrl(), map);
         Validate.validateMapEntry(JSON_FIELD_USERNAME, user.getUsername(), map);
