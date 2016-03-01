@@ -22,6 +22,7 @@ public class Post extends WPObject<Post> {
     public static final String POST_STATUS_FUTURE = "future";
     public static final String POST_STATUS_PENDING = "pending";
     public static final String POST_STATUS_PRIVATE = "private";
+    public static final String POST_STATUS_TRASH = "trash";
 
     public static final String JSON_FIELD_CONTENT = "content";
     public static final String JSON_FIELD_EXCERPT = "excerpt";

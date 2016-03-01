@@ -144,10 +144,10 @@ public class WpClientRetrofit {
         return mRestInterface.updatePost(post.getId(), Post.mapFromFields(post));
     }
 
-    public void deletePost(long postId, WordPressRestResponse<Post> callback) {
+    public void deletePost(long postId, boolean force, WordPressRestResponse<Post> callback) {
         // 200 on success
         // 410 GONE on failure
-        doRetrofitCall(mRestInterface.deletePost(postId), callback);
+        doRetrofitCall(mRestInterface.deletePost(postId, force), callback);
     }
 
     /* MEDIA */

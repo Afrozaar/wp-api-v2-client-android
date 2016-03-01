@@ -87,10 +87,11 @@ public interface WordPressRestInterface {
      * Deletes a Post.
      *
      * @param postId Id of the Post
+     * @param force  Whether to bypass trash and force deletion.
      * @return Post object that was deleted
      */
     @DELETE("posts/{id}")
-    Call<Post> deletePost(@Path("id") long postId);
+    Call<Post> deletePost(@Path("id") long postId, @Query("force") boolean force);
 
     /**
      * Creates new Meta objects for a Post
