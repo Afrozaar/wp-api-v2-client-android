@@ -37,14 +37,14 @@ public class Post extends WPObject<Post> {
      * The content for the object.
      */
     @SerializedName("content")
-    private WPGeneric mContent;
+    private WPGeneric content;
 
     public void setContent(WPGeneric content) {
-        mContent = content;
+        this.content = content;
     }
 
     public WPGeneric getContent() {
-        return mContent;
+        return content;
     }
 
     public Post withContent(String content) {
@@ -58,14 +58,14 @@ public class Post extends WPObject<Post> {
      * The excerpt for the object.
      */
     @SerializedName("excerpt")
-    private WPGeneric mExcerpt;
+    private WPGeneric excerpt;
 
     public void setExcerpt(WPGeneric excerpt) {
-        mExcerpt = excerpt;
+        this.excerpt = excerpt;
     }
 
     public WPGeneric getExcerpt() {
-        return mExcerpt;
+        return excerpt;
     }
 
     public Post withExcerpt(WPGeneric excerpt) {
@@ -77,14 +77,14 @@ public class Post extends WPObject<Post> {
      * ID of the featured image for the object.
      */
     @SerializedName("featured_media")
-    private int mFeaturedImage;
+    private int featuredImage;
 
     public void setFeaturedImage(int featuredImage) {
-        mFeaturedImage = featuredImage;
+        this.featuredImage = featuredImage;
     }
 
     public int getFeaturedImage() {
-        return mFeaturedImage;
+        return featuredImage;
     }
 
     public Post withFeaturedImage(int featuredImage) {
@@ -96,14 +96,14 @@ public class Post extends WPObject<Post> {
      * Whether or not the object should be treated as sticky.
      */
     @SerializedName("sticky")
-    private boolean mSticky;
+    private boolean sticky;
 
     public void setSticky(boolean sticky) {
-        mSticky = sticky;
+        this.sticky = sticky;
     }
 
     public boolean getSticky() {
-        return mSticky;
+        return sticky;
     }
 
     public Post withSticky(boolean sticky) {
@@ -115,14 +115,14 @@ public class Post extends WPObject<Post> {
      * The format for the object.
      */
     @SerializedName("format")
-    private String mFormat;
+    private String format;
 
     public void setFormat(String format) {
-        mFormat = format;
+        this.format = format;
     }
 
     public String getFormat() {
-        return mFormat;
+        return format;
     }
 
     public Post withFormat(String format) {
@@ -136,14 +136,14 @@ public class Post extends WPObject<Post> {
      * One of: publish, future, draft, pending, private
      */
     @SerializedName("status")
-    private String mStatus;
+    private String status;
 
     public void setStatus(String status) {
-        mStatus = status;
+        this.status = status;
     }
 
     public String getStatus() {
-        return mStatus;
+        return status;
     }
 
     public Post withStatus(String status) {
@@ -152,22 +152,22 @@ public class Post extends WPObject<Post> {
     }
 
     @SerializedName(JSON_FIELD_CATEGORIES)
-    private List<Long> mCategories;
+    private List<Long> categories;
 
     public void setCategories(List<Long> categories) {
-        mCategories = categories;
+        this.categories = categories;
     }
 
     public List<Long> getCategories() {
-        return mCategories;
+        return categories;
     }
 
     public void addCategory(long catId) {
-        if (mCategories == null) {
-            mCategories = new ArrayList<>();
+        if (categories == null) {
+            categories = new ArrayList<>();
         }
 
-        mCategories.add(catId);
+        categories.add(catId);
     }
 
     public Post withCategories(List<Long> categories) {
@@ -278,22 +278,22 @@ public class Post extends WPObject<Post> {
     public Post(Parcel in) {
         super(in);
 
-        mContent = in.readParcelable(WPGeneric.class.getClassLoader());
-        mExcerpt = in.readParcelable(WPGeneric.class.getClassLoader());
-        mFeaturedImage = in.readInt();
-        mSticky = in.readByte() == 1;
-        mFormat = in.readString();
+        content = in.readParcelable(WPGeneric.class.getClassLoader());
+        excerpt = in.readParcelable(WPGeneric.class.getClassLoader());
+        featuredImage = in.readInt();
+        sticky = in.readByte() == 1;
+        format = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeParcelable(mContent, flags);
-        dest.writeParcelable(mExcerpt, flags);
-        dest.writeInt(mFeaturedImage);
-        dest.writeByte((byte) (mSticky ? 1 : 0));
-        dest.writeString(mFormat);
+        dest.writeParcelable(content, flags);
+        dest.writeParcelable(excerpt, flags);
+        dest.writeInt(featuredImage);
+        dest.writeByte((byte) (sticky ? 1 : 0));
+        dest.writeString(format);
     }
 
     public static Map<String, Object> mapFromFields(Post post) {
@@ -330,11 +330,11 @@ public class Post extends WPObject<Post> {
     @Override
     public String toString() {
         return super.toString() + "--> Post{" +
-                ", mContent=" + mContent +
-                ", mExcerpt=" + mExcerpt +
-                ", mFeaturedImage=" + mFeaturedImage +
-                ", mSticky=" + mSticky +
-                ", mFormat='" + mFormat + '\'' +
+                ", content=" + content +
+                ", excerpt=" + excerpt +
+                ", featuredImage=" + featuredImage +
+                ", sticky=" + sticky +
+                ", format='" + format + '\'' +
                 '}';
     }
 }

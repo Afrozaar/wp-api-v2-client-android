@@ -16,7 +16,7 @@ import java.util.Map;
  * @author Jan-Louis Crafford
  *         Created on 2016/01/07.
  */
-public class User implements Parcelable {
+public class User extends BaseModel {
 
     public static final String JSON_FIELD_AVATAR_URLS = "avatar_urls";
     public static final String JSON_FIELD_CAPABILITIES = "capabilities";
@@ -41,18 +41,18 @@ public class User implements Parcelable {
      */
     @JsonAdapter(AvatarUrlsDeserializer.class)
     @SerializedName("avatar_urls")
-    private Map<String, String> mAvatarUrls = new HashMap<>();
+    private Map<String, String> avatarUrls = new HashMap<>();
 
     public void setAvatarUrls(Map<String, String> map) {
-        mAvatarUrls = map;
+        avatarUrls = map;
     }
 
     public void addAvatarUrl(String key, String value) {
-        mAvatarUrls.put(key, value);
+        avatarUrls.put(key, value);
     }
 
     public Map<String, String> getAvatarUrls() {
-        return mAvatarUrls;
+        return avatarUrls;
     }
 
     public User withAvatarUrls(Map<String, String> map) {
@@ -77,14 +77,14 @@ public class User implements Parcelable {
      * Description of the object.
      */
     @SerializedName("description")
-    private String mDescription;
+    private String description;
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public User withDescription(String description) {
@@ -96,14 +96,14 @@ public class User implements Parcelable {
      * The email address for the object.
      */
     @SerializedName("email")
-    private String mEmail;
+    private String email;
 
     public void setEmail(String email) {
-        mEmail = email;
+        this.email = email;
     }
 
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     public User withEmail(String email) {
@@ -123,14 +123,14 @@ public class User implements Parcelable {
      * First name for the object.
      */
     @SerializedName("first_name")
-    private String mFirstName;
+    private String firstName;
 
     public void setFirstName(String firstName) {
-        mFirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getFirstName() {
-        return mFirstName;
+        return firstName;
     }
 
     public User withFirstName(String firstName) {
@@ -142,14 +142,14 @@ public class User implements Parcelable {
      * Unique identifier for the object.
      */
     @SerializedName("id")
-    private long mId;
+    private long id;
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public User withId(long id) {
@@ -161,14 +161,14 @@ public class User implements Parcelable {
      * Last name for the object.
      */
     @SerializedName("last_name")
-    private String mLastName;
+    private String lastName;
 
     public void setLastName(String lastName) {
-        mLastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getLastName() {
-        return mLastName;
+        return lastName;
     }
 
     public User withLastName(String lastName) {
@@ -180,14 +180,14 @@ public class User implements Parcelable {
      * Author URL to the object.
      */
     @SerializedName("link")
-    private String mLink;
+    private String link;
 
     public void setLink(String link) {
-        mLink = link;
+        this.link = link;
     }
 
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     public User withLink(String link) {
@@ -199,14 +199,14 @@ public class User implements Parcelable {
      * Display name for the object.
      */
     @SerializedName("name")
-    private String mName;
+    private String name;
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public User withName(String name) {
@@ -218,14 +218,14 @@ public class User implements Parcelable {
      * The nickname for the object.
      */
     @SerializedName("nickname")
-    private String mNickName;
+    private String nickName;
 
     public void setNickName(String nickName) {
-        mNickName = nickName;
+        this.nickName = nickName;
     }
 
     public String getNickName() {
-        return mNickName;
+        return nickName;
     }
 
     public User withNickName(String nickName) {
@@ -237,14 +237,14 @@ public class User implements Parcelable {
      * Registration date for the user.
      */
     @SerializedName("registered_date")
-    private String mRegisteredDate;
+    private String registeredDate;
 
     public void setRegisteredDate(String date) {
-        mRegisteredDate = date;
+        registeredDate = date;
     }
 
     public String getRegisteredDate() {
-        return mRegisteredDate;
+        return registeredDate;
     }
 
     public User withRegisteredDate(String date) {
@@ -256,14 +256,14 @@ public class User implements Parcelable {
      * Roles assigned to the user.
      */
     @SerializedName("roles")
-    private List<String> mRoles = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
 
     public void setRoles(List<String> roles) {
-        mRoles = roles;
+        this.roles = roles;
     }
 
     public List<String> getRoles() {
-        return mRoles;
+        return roles;
     }
 
     public User withRoles(List<String> roles) {
@@ -275,14 +275,14 @@ public class User implements Parcelable {
      * An alphanumeric identifier for the object unique to its type.
      */
     @SerializedName("slug")
-    private String mSlug;
+    private String slug;
 
     public void setSlug(String slug) {
-        mSlug = slug;
+        this.slug = slug;
     }
 
     public String getSlug() {
-        return mSlug;
+        return slug;
     }
 
     public User withSlug(String slug) {
@@ -294,14 +294,14 @@ public class User implements Parcelable {
      * URL of the object.
      */
     @SerializedName("url")
-    private String mUrl;
+    private String url;
 
     public void setUrl(String url) {
-        mUrl = url;
+        this.url = url;
     }
 
     public String getUrl() {
-        return mUrl;
+        return url;
     }
 
     public User withUrl(String url) {
@@ -313,14 +313,14 @@ public class User implements Parcelable {
      * Login name for the user.
      */
     @SerializedName("username")
-    private String mUserName;
+    private String userName;
 
     public void setUserName(String userName) {
-        mUserName = userName;
+        this.userName = userName;
     }
 
     public String getUsername() {
-        return mUserName;
+        return userName;
     }
 
     public User withUsername(String userName) {
@@ -332,14 +332,14 @@ public class User implements Parcelable {
      * Login password for the user.
      */
     @SerializedName("password")
-    private String mPassword;
+    private String password;
 
     public void setPassword(String password) {
-        mPassword = password;
+        this.password = password;
     }
 
     public String getPassword() {
-        return mPassword;
+        return password;
     }
 
     public User withPassword(String password) {
@@ -352,14 +352,14 @@ public class User implements Parcelable {
      */
     @JsonAdapter(LinksDeserializer.class)
     @SerializedName("_links")
-    private ArrayList<Link> mLinks = new ArrayList<>();
+    private ArrayList<Link> links = new ArrayList<>();
 
     public void setLinks(ArrayList<Link> links) {
-        mLinks = links;
+        this.links = links;
     }
 
     public ArrayList<Link> getLinks() {
-        return mLinks;
+        return links;
     }
 
     public User withLinks(ArrayList<Link> links) {
@@ -371,46 +371,50 @@ public class User implements Parcelable {
     }
 
     public User(Parcel in) {
-        in.readMap(mAvatarUrls, String.class.getClassLoader());
+        super(in);
+
+        in.readMap(avatarUrls, String.class.getClassLoader());
         //in.readParcelable(mCapabilities);
-        mDescription = in.readString();
-        mEmail = in.readString();
+        description = in.readString();
+        email = in.readString();
         //in.readParcelable(mExtraCapabilities);
-        mFirstName = in.readString();
-        mId = in.readLong();
-        mLastName = in.readString();
-        mLink = in.readString();
-        mName = in.readString();
-        mNickName = in.readString();
-        mRegisteredDate = in.readString();
-        in.readStringList(mRoles);
-        mSlug = in.readString();
-        mUrl = in.readString();
-        mUserName = in.readString();
-        mPassword = in.readString();
-        in.readTypedList(mLinks, Link.CREATOR);
+        firstName = in.readString();
+        id = in.readLong();
+        lastName = in.readString();
+        link = in.readString();
+        name = in.readString();
+        nickName = in.readString();
+        registeredDate = in.readString();
+        in.readStringList(roles);
+        slug = in.readString();
+        url = in.readString();
+        userName = in.readString();
+        password = in.readString();
+        in.readTypedList(links, Link.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeMap(mAvatarUrls);
+        super.writeToParcel(dest, flags);
+
+        dest.writeMap(avatarUrls);
         //dest.writeParcelable(mCapabilities, flags);
-        dest.writeString(mDescription);
-        dest.writeString(mEmail);
+        dest.writeString(description);
+        dest.writeString(email);
         //dest.writeParcelable(mExtraCapabilities, flags);
-        dest.writeString(mFirstName);
-        dest.writeLong(mId);
-        dest.writeString(mLastName);
-        dest.writeString(mLink);
-        dest.writeString(mName);
-        dest.writeString(mNickName);
-        dest.writeString(mRegisteredDate);
-        dest.writeStringList(mRoles);
-        dest.writeString(mSlug);
-        dest.writeString(mUrl);
-        dest.writeString(mUserName);
-        dest.writeString(mPassword);
-        dest.writeTypedList(mLinks);
+        dest.writeString(firstName);
+        dest.writeLong(id);
+        dest.writeString(lastName);
+        dest.writeString(link);
+        dest.writeString(name);
+        dest.writeString(nickName);
+        dest.writeString(registeredDate);
+        dest.writeStringList(roles);
+        dest.writeString(slug);
+        dest.writeString(url);
+        dest.writeString(userName);
+        dest.writeString(password);
+        dest.writeTypedList(links);
     }
 
     public static Map<String, Object> mapFromFields(User user) {
@@ -455,41 +459,41 @@ public class User implements Parcelable {
 
     public String toPrettyString() {
         return "User:\n" +
-                "avatarUrls : " + mAvatarUrls + "\n"
-                + "description : " + mDescription + "\n"
-                + "email : " + mEmail + "\n"
-                + "firstName : " + mFirstName + "\n"
-                + "id : " + mId + "\n"
-                + "lastName : " + mLastName + "\n"
-                + "link : " + mLink + "\n" +
-                "name : " + mName + "\n" +
-                "nickname : " + mNickName + "\n" +
-                "registeredDate : " + mRegisteredDate + "\n" +
-                "roles : " + mRoles + "\n" +
-                "slug : " + mSlug + "\n" +
-                "url : " + mUrl + "\n" +
-                "links : " + mLinks;
+                "avatarUrls : " + avatarUrls + "\n"
+                + "description : " + description + "\n"
+                + "email : " + email + "\n"
+                + "firstName : " + firstName + "\n"
+                + "id : " + id + "\n"
+                + "lastName : " + lastName + "\n"
+                + "link : " + link + "\n" +
+                "name : " + name + "\n" +
+                "nickname : " + nickName + "\n" +
+                "registeredDate : " + registeredDate + "\n" +
+                "roles : " + roles + "\n" +
+                "slug : " + slug + "\n" +
+                "url : " + url + "\n" +
+                "links : " + links;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "mAvatarUrls=" + mAvatarUrls +
-                ", mDescription='" + mDescription + '\'' +
-                ", mEmail='" + mEmail + '\'' +
-                ", mFirstName='" + mFirstName + '\'' +
-                ", mId=" + mId +
-                ", mLastName='" + mLastName + '\'' +
-                ", mLink='" + mLink + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mNickName='" + mNickName + '\'' +
-                ", mRegisteredDate='" + mRegisteredDate + '\'' +
-                ", mRoles=" + mRoles +
-                ", mSlug='" + mSlug + '\'' +
-                ", mUrl='" + mUrl + '\'' +
-                ", mUserName='" + mUserName + '\'' +
-                ", mPassword='" + mPassword + '\'' +
-                ", mLinks=" + mLinks +
+                "avatarUrls=" + avatarUrls +
+                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", link='" + link + '\'' +
+                ", name='" + name + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", registeredDate='" + registeredDate + '\'' +
+                ", roles=" + roles +
+                ", slug='" + slug + '\'' +
+                ", url='" + url + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", links=" + links +
                 '}';
     }
 }

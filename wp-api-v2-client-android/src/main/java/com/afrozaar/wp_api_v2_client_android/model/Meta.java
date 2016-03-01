@@ -3,8 +3,6 @@ package com.afrozaar.wp_api_v2_client_android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +10,7 @@ import java.util.Map;
  * @author Jan-Louis Crafford
  *         Created on 2016/01/13.
  */
-public class Meta implements Parcelable {
+public class Meta extends BaseModel {
 
     public static final String JSON_FIELD_ID = "id";
     public static final String JSON_FIELD_KEY = "key";
@@ -21,15 +19,14 @@ public class Meta implements Parcelable {
     /**
      * Unique identifier for the object.
      */
-    @SerializedName("id")
-    private long mId;
+    private long id;
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public Meta withId(long id) {
@@ -40,15 +37,14 @@ public class Meta implements Parcelable {
     /**
      * The key for the custom field.
      */
-    @SerializedName("key")
-    private String mKey;
+    private String key;
 
     public void setKey(String key) {
-        mKey = key;
+        this.key = key;
     }
 
     public String getKey() {
-        return mKey;
+        return key;
     }
 
     public Meta withKey(String key) {
@@ -59,15 +55,14 @@ public class Meta implements Parcelable {
     /**
      * The value of the custom field.
      */
-    @SerializedName("value")
-    private String mValue;
+    private String value;
 
     public void setValue(String value) {
-        mValue = value;
+        this.value = value;
     }
 
     public String getValue() {
-        return mValue;
+        return value;
     }
 
     public Meta withValue(String value) {
@@ -78,7 +73,7 @@ public class Meta implements Parcelable {
     public Map<String, Object> getMap() {
         Map<String, Object> map = new HashMap<>();
 
-        map.put(mKey, mValue);
+        map.put(key, value);
 
         return map;
     }
@@ -87,16 +82,18 @@ public class Meta implements Parcelable {
     }
 
     public Meta(Parcel in) {
-        mId = in.readLong();
-        mKey = in.readString();
-        mValue = in.readString();
+        super(in);
+        id = in.readLong();
+        key = in.readString();
+        value = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mId);
-        dest.writeString(mKey);
-        dest.writeString(mValue);
+        super.writeToParcel(dest, flags);
+        dest.writeLong(id);
+        dest.writeString(key);
+        dest.writeString(value);
     }
 
     @Override
@@ -119,9 +116,9 @@ public class Meta implements Parcelable {
     @Override
     public String toString() {
         return "Meta{" +
-                "mId=" + mId +
-                ", mKey='" + mKey + '\'' +
-                ", mValue='" + mValue + '\'' +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }

@@ -3,22 +3,17 @@ package com.afrozaar.wp_api_v2_client_android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/01/07.
  */
-public class MediaDetails implements Parcelable {
+public class MediaDetails extends BaseModel {
 
-    @SerializedName("width")
-    private int mWidth;
+    private int width;
 
-    @SerializedName("height")
-    private int mHeight;
+    private int height;
 
-    @SerializedName("file")
-    private String mFile;
+    private String file;
 
     // TODO add 'sizes' and 'image_meta' data
 
@@ -26,16 +21,18 @@ public class MediaDetails implements Parcelable {
     }
 
     public MediaDetails(Parcel in) {
-        mWidth = in.readInt();
-        mHeight = in.readInt();
-        mFile = in.readString();
+        super(in);
+        width = in.readInt();
+        height = in.readInt();
+        file = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mWidth);
-        dest.writeInt(mHeight);
-        dest.writeString(mFile);
+        super.writeToParcel(dest, flags);
+        dest.writeInt(width);
+        dest.writeInt(height);
+        dest.writeString(file);
     }
 
     @Override

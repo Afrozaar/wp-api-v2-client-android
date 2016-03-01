@@ -24,14 +24,14 @@ public class Page extends WPObject<Page> {
      * The content for the object.
      */
     @SerializedName(JSON_FIELD_CONTENT)
-    private WPGeneric mContent;
+    private WPGeneric content;
 
     public void setContent(WPGeneric content) {
-        mContent = content;
+        this.content = content;
     }
 
     public WPGeneric getContent() {
-        return mContent;
+        return content;
     }
 
     public Page withContent(String content) {
@@ -45,14 +45,14 @@ public class Page extends WPObject<Page> {
      * The excerpt for the object.
      */
     @SerializedName(JSON_FIELD_EXCERPT)
-    private WPGeneric mExcerpt;
+    private WPGeneric excerpt;
 
     public void setExcerpt(WPGeneric excerpt) {
-        mExcerpt = excerpt;
+        this.excerpt = excerpt;
     }
 
     public WPGeneric getExcerpt() {
-        return mExcerpt;
+        return excerpt;
     }
 
     public Page withExcerpt(WPGeneric excerpt) {
@@ -64,14 +64,14 @@ public class Page extends WPObject<Page> {
      * ID of the featured image for the object.
      */
     @SerializedName(JSON_FIELD_FEATURED_IMAGE)
-    private int mFeaturedImage;
+    private int featuredImage;
 
     public void setFeaturedImage(int featuredImage) {
-        mFeaturedImage = featuredImage;
+        this.featuredImage = featuredImage;
     }
 
     public int getFeaturedImage() {
-        return mFeaturedImage;
+        return featuredImage;
     }
 
     public Page withFeaturedImage(int featuredImage) {
@@ -83,14 +83,14 @@ public class Page extends WPObject<Page> {
      * The id for the parent of the object.
      */
     @SerializedName(JSON_FIELDS_PARENT)
-    private long mParent;
+    private long parent;
 
     public void setParent(long parent) {
-        mParent = parent;
+        this.parent = parent;
     }
 
     public long getParent() {
-        return mParent;
+        return parent;
     }
 
     public Page withParent(long parent) {
@@ -102,14 +102,14 @@ public class Page extends WPObject<Page> {
      * The order of the object in relation to other object of its type.
      */
     @SerializedName(JSON_FIELDS_MENU_ORDER)
-    private int mMenuOrder;
+    private int menuOrder;
 
     public void setMenuOrder(int menuOrder) {
-        mMenuOrder = menuOrder;
+        this.menuOrder = menuOrder;
     }
 
     public int getMenuOrder() {
-        return mMenuOrder;
+        return menuOrder;
     }
 
     public Page withMenuOrder(int menuOrder) {
@@ -121,14 +121,14 @@ public class Page extends WPObject<Page> {
      * The theme file to use to display the object.
      */
     @SerializedName(JSON_FIELDS_TEMPLATE)
-    private String mTemplate;
+    private String template;
 
     public void setTemplate(String template) {
-        mTemplate = template;
+        this.template = template;
     }
 
     public String getTemplate() {
-        return mTemplate;
+        return template;
     }
 
     public Page withTemplate(String template) {
@@ -234,24 +234,24 @@ public class Page extends WPObject<Page> {
     public Page(Parcel in) {
         super(in);
 
-        mContent = in.readParcelable(WPGeneric.class.getClassLoader());
-        mExcerpt = in.readParcelable(WPGeneric.class.getClassLoader());
-        mFeaturedImage = in.readInt();
-        mParent = in.readLong();
-        mMenuOrder = in.readInt();
-        mTemplate = in.readString();
+        content = in.readParcelable(WPGeneric.class.getClassLoader());
+        excerpt = in.readParcelable(WPGeneric.class.getClassLoader());
+        featuredImage = in.readInt();
+        parent = in.readLong();
+        menuOrder = in.readInt();
+        template = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeParcelable(mContent, flags);
-        dest.writeParcelable(mExcerpt, flags);
-        dest.writeInt(mFeaturedImage);
-        dest.writeLong(mParent);
-        dest.writeInt(mMenuOrder);
-        dest.writeString(mTemplate);
+        dest.writeParcelable(content, flags);
+        dest.writeParcelable(excerpt, flags);
+        dest.writeInt(featuredImage);
+        dest.writeLong(parent);
+        dest.writeInt(menuOrder);
+        dest.writeString(template);
     }
 
     public static final Parcelable.Creator<Page> CREATOR = new Creator<Page>() {

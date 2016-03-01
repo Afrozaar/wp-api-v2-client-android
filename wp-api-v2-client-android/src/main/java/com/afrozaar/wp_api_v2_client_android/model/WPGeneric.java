@@ -11,33 +11,33 @@ import com.google.gson.annotations.SerializedName;
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
  */
-public class WPGeneric implements Parcelable {
+public class WPGeneric extends BaseModel {
 
     @SerializedName("rendered")
-    private String mRendered;
+    private String rendered;
 
     public String getRendered() {
-        return mRendered;
+        return rendered;
     }
 
     public void setRendered(String rendered) {
-        this.mRendered = rendered;
+        this.rendered = rendered;
     }
 
     public WPGeneric withRendered(String rendered) {
-        mRendered = rendered;
+        this.rendered = rendered;
         return this;
     }
 
     @SerializedName("raw")
-    private String mRaw;
+    private String raw;
 
     public String getRaw() {
-        return mRaw;
+        return raw;
     }
 
     public void setRaw(String raw) {
-        mRaw = raw;
+        this.raw = raw;
     }
 
     public WPGeneric withRaw(String raw) {
@@ -49,14 +49,18 @@ public class WPGeneric implements Parcelable {
     }
 
     public WPGeneric(Parcel in) {
-        mRendered = in.readString();
-        mRaw = in.readString();
+        super(in);
+
+        rendered = in.readString();
+        raw = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mRendered);
-        dest.writeString(mRaw);
+        super.writeToParcel(dest, flags);
+
+        dest.writeString(rendered);
+        dest.writeString(raw);
     }
 
     @Override
@@ -79,8 +83,8 @@ public class WPGeneric implements Parcelable {
     @Override
     public String toString() {
         return "WPGeneric{" +
-                "mRendered='" + mRendered + '\'' +
-                ", mRaw='" + mRaw + '\'' +
+                "rendered='" + rendered + '\'' +
+                ", raw='" + raw + '\'' +
                 '}';
     }
 }

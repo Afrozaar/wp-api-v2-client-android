@@ -28,14 +28,14 @@ public class Media extends WPObject<Media> {
      * Alternative text to display when attachment is not displayed.
      */
     @SerializedName("alt_text")
-    private String mAltText;
+    private String altText;
 
     public void setAltText(String altText) {
-        mAltText = altText;
+        this.altText = altText;
     }
 
     public String getAltText() {
-        return mAltText;
+        return altText;
     }
 
     public Media withAltText(String altText) {
@@ -47,14 +47,14 @@ public class Media extends WPObject<Media> {
      * The caption for the attachment.
      */
     @SerializedName("caption")
-    private String mCaption;
+    private String caption;
 
     public void setCaption(String caption) {
-        mCaption = caption;
+        this.caption = caption;
     }
 
     public String getCaption() {
-        return mCaption;
+        return caption;
     }
 
     public Media withCaption(String caption) {
@@ -66,14 +66,14 @@ public class Media extends WPObject<Media> {
      * The description for the attachment.
      */
     @SerializedName("description")
-    private String mDescription;
+    private String description;
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public Media withDescription(String description) {
@@ -85,14 +85,14 @@ public class Media extends WPObject<Media> {
      * Type of attachment.
      */
     @SerializedName("media_type")
-    private String mMediaType;
+    private String mediaType;
 
     public void setMediaType(String mediaType) {
-        mMediaType = mediaType;
+        this.mediaType = mediaType;
     }
 
     public String getMediaType() {
-        return mMediaType;
+        return mediaType;
     }
 
     public Media withMediaType(String mediaType) {
@@ -104,14 +104,14 @@ public class Media extends WPObject<Media> {
      * The ID for the associated post of the attachment.
      */
     @SerializedName("post")
-    private long mPostId;
+    private long postId;
 
     public void setPost(long postId) {
-        mPostId = postId;
+        this.postId = postId;
     }
 
     public long getPostId() {
-        return mPostId;
+        return postId;
     }
 
     public Media withPostId(long postId) {
@@ -123,14 +123,14 @@ public class Media extends WPObject<Media> {
      * URL to the original attachment file.
      */
     @SerializedName("source_url")
-    private String mSourceUrl;
+    private String sourceUrl;
 
     public void setSourceUrl(String sourceUrl) {
-        mSourceUrl = sourceUrl;
+        this.sourceUrl = sourceUrl;
     }
 
     public String getSourceUrl() {
-        return mSourceUrl;
+        return sourceUrl;
     }
 
     public Media withSourceUrl(String sourceUrl) {
@@ -142,14 +142,14 @@ public class Media extends WPObject<Media> {
      * Details about the attachment file, specific to its type.
      */
     @SerializedName("media_details")
-    private MediaDetails mMediaDetails;
+    private MediaDetails mediaDetails;
 
     public void setMediaDetails(MediaDetails mediaDetails) {
-        mMediaDetails = mediaDetails;
+        this.mediaDetails = mediaDetails;
     }
 
     public MediaDetails getMediaDetails() {
-        return mMediaDetails;
+        return mediaDetails;
     }
 
     public Media withMediaDetails(MediaDetails mediaDetails) {
@@ -252,26 +252,26 @@ public class Media extends WPObject<Media> {
 
     public Media(Parcel in) {
         super(in);
-        mAltText = in.readString();
-        mCaption = in.readString();
-        mDescription = in.readString();
-        mMediaType = in.readString();
-        mPostId = in.readLong();
-        mSourceUrl = in.readString();
-        mMediaDetails = in.readParcelable(MediaDetails.class.getClassLoader());
+        altText = in.readString();
+        caption = in.readString();
+        description = in.readString();
+        mediaType = in.readString();
+        postId = in.readLong();
+        sourceUrl = in.readString();
+        mediaDetails = in.readParcelable(MediaDetails.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeString(mAltText);
-        dest.writeString(mCaption);
-        dest.writeString(mDescription);
-        dest.writeString(mMediaType);
-        dest.writeLong(mPostId);
-        dest.writeString(mSourceUrl);
-        dest.writeParcelable(mMediaDetails, flags);
+        dest.writeString(altText);
+        dest.writeString(caption);
+        dest.writeString(description);
+        dest.writeString(mediaType);
+        dest.writeLong(postId);
+        dest.writeString(sourceUrl);
+        dest.writeParcelable(mediaDetails, flags);
     }
 
     public static Map<String, Object> mapFromFields(Media media) {

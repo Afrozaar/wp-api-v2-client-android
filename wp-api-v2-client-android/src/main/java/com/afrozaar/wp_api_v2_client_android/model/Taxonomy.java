@@ -12,17 +12,17 @@ import java.util.ArrayList;
  * @author Jan-Louis Crafford
  *         Created on 2016/01/14.
  */
-public class Taxonomy implements Parcelable {
+public class Taxonomy extends BaseModel {
 
     @SerializedName("id")
-    private long mId;
+    private long id;
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public Taxonomy withId(long id) {
@@ -31,14 +31,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("count")
-    private int mCount;
+    private int count;
 
     public void setCount(int count) {
-        mCount = count;
+        this.count = count;
     }
 
     public int getCount() {
-        return mCount;
+        return count;
     }
 
     public Taxonomy withCount(int count) {
@@ -47,14 +47,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("description")
-    private String mDescription;
+    private String description;
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public Taxonomy withDescription(String description) {
@@ -63,14 +63,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("link")
-    private String mLink;
+    private String link;
 
     public void setLink(String link) {
-        mLink = link;
+        this.link = link;
     }
 
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     public Taxonomy withLink(String link) {
@@ -79,14 +79,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("name")
-    private String mName;
+    private String name;
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public Taxonomy withName(String name) {
@@ -95,14 +95,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("slug")
-    private String mSlug;
+    private String slug;
 
     public void setSlug(String slug) {
-        mSlug = slug;
+        this.slug = slug;
     }
 
     public String getSlug() {
-        return mSlug;
+        return slug;
     }
 
     public Taxonomy withSlug(String slug) {
@@ -111,14 +111,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("taxonomy")
-    private String mTaxonomy;
+    private String taxonomy;
 
     public void setTaxonomy(String taxonomy) {
-        mTaxonomy = taxonomy;
+        this.taxonomy = taxonomy;
     }
 
     public String getTaxonomy() {
-        return mTaxonomy;
+        return taxonomy;
     }
 
     public Taxonomy withTaxonomy(String taxonomy) {
@@ -127,14 +127,14 @@ public class Taxonomy implements Parcelable {
     }
 
     @SerializedName("parent")
-    private long mParent;
+    private long parent;
 
     public void setParent(long parent) {
-        mParent = parent;
+        this.parent = parent;
     }
 
     public long getParent() {
-        return mParent;
+        return parent;
     }
 
     public Taxonomy withParent(long parent) {
@@ -147,21 +147,21 @@ public class Taxonomy implements Parcelable {
      */
     @JsonAdapter(LinksDeserializer.class)
     @SerializedName("_links")
-    private ArrayList<Link> mLinks;
+    private ArrayList<Link> links;
 
     public void setLinks(ArrayList<Link> links) {
-        mLinks = links;
+        this.links = links;
     }
 
     public void addLink(Link link) {
-        if (mLinks == null) {
-            mLinks = new ArrayList<>();
+        if (links == null) {
+            links = new ArrayList<>();
         }
-        mLinks.add(link);
+        links.add(link);
     }
 
     public ArrayList<Link> getLinks() {
-        return mLinks;
+        return links;
     }
 
     public Taxonomy withLinks(ArrayList<Link> links) {
@@ -178,28 +178,30 @@ public class Taxonomy implements Parcelable {
     }
 
     public Taxonomy(Parcel in) {
-        mId = in.readLong();
-        mCount = in.readInt();
-        mDescription = in.readString();
-        mLink = in.readString();
-        mName = in.readString();
-        mSlug = in.readString();
-        mTaxonomy = in.readString();
-        mParent = in.readLong();
-        in.readTypedList(mLinks, Link.CREATOR);
+        super(in);
+        id = in.readLong();
+        count = in.readInt();
+        description = in.readString();
+        link = in.readString();
+        name = in.readString();
+        slug = in.readString();
+        taxonomy = in.readString();
+        parent = in.readLong();
+        in.readTypedList(links, Link.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mId);
-        dest.writeInt(mCount);
-        dest.writeString(mDescription);
-        dest.writeString(mLink);
-        dest.writeString(mName);
-        dest.writeString(mSlug);
-        dest.writeString(mTaxonomy);
-        dest.writeLong(mParent);
-        dest.writeTypedList(mLinks);
+        super.writeToParcel(dest, flags);
+        dest.writeLong(id);
+        dest.writeInt(count);
+        dest.writeString(description);
+        dest.writeString(link);
+        dest.writeString(name);
+        dest.writeString(slug);
+        dest.writeString(taxonomy);
+        dest.writeLong(parent);
+        dest.writeTypedList(links);
     }
 
     @Override
@@ -222,15 +224,15 @@ public class Taxonomy implements Parcelable {
     @Override
     public String toString() {
         return "Taxonomy{" +
-                "mId=" + mId +
-                ", mCount=" + mCount +
-                ", mDescription='" + mDescription + '\'' +
-                ", mLink='" + mLink + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mSlug='" + mSlug + '\'' +
-                ", mTaxonomy='" + mTaxonomy + '\'' +
-                ", mParent=" + mParent +
-                ", mLinks=" + mLinks +
+                "id=" + id +
+                ", count=" + count +
+                ", description='" + description + '\'' +
+                ", link='" + link + '\'' +
+                ", name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                ", taxonomy='" + taxonomy + '\'' +
+                ", parent=" + parent +
+                ", links=" + links +
                 '}';
     }
 }

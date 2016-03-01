@@ -7,34 +7,35 @@ import android.os.Parcelable;
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
  */
-public class Link implements Parcelable {
+public class Link extends BaseModel {
 
-    private String mTitle;
+    private String title;
 
-    private String mHref;
+    private String href;
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.mTitle = title;
+        this.title = title;
     }
 
     public String getHref() {
-        return mHref;
+        return href;
     }
 
     public void setHref(String href) {
-        this.mHref = href;
+        this.href = href;
     }
 
     public Link() {
     }
 
     public Link(Parcel in) {
-        mTitle = in.readString();
-        mHref = in.readString();
+        super(in);
+        title = in.readString();
+        href = in.readString();
     }
 
     @Override
@@ -44,8 +45,9 @@ public class Link implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mTitle);
-        dest.writeString(mHref);
+        super.writeToParcel(dest, flags);
+        dest.writeString(title);
+        dest.writeString(href);
     }
 
     public static Parcelable.Creator<Link> CREATOR = new Creator<Link>() {
@@ -63,8 +65,8 @@ public class Link implements Parcelable {
     @Override
     public String toString() {
         return "Link{" +
-                "mTitle='" + mTitle + '\'' +
-                ", mHref='" + mHref + '\'' +
+                "title='" + title + '\'' +
+                ", href='" + href + '\'' +
                 '}';
     }
 }

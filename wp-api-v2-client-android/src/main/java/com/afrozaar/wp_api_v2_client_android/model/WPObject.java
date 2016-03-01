@@ -1,7 +1,6 @@
 package com.afrozaar.wp_api_v2_client_android.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.afrozaar.wp_api_v2_client_android.util.Validate;
 import com.google.gson.annotations.JsonAdapter;
@@ -14,7 +13,7 @@ import java.util.Map;
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
  */
-public abstract class WPObject<T extends WPObject> implements Parcelable {
+public abstract class WPObject<T extends WPObject> extends BaseModel {
 
     public static final String JSON_FIELD_ID = "id";
     public static final String JSON_FIELD_DATE = "date";
@@ -35,14 +34,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * Unique identifier for the object
      */
     @SerializedName("id")
-    private long mId;
+    private long id;
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public abstract T withId(long id);
@@ -51,14 +50,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The date the object was published.
      */
     @SerializedName("date")
-    private String mDate;
+    private String date;
 
     public void setDate(String date) {
-        mDate = date;
+        this.date = date;
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
     public abstract T withDate(String date);
@@ -67,14 +66,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The date the object was published, as GMT.
      */
     @SerializedName("date_gmt")
-    private String mDateGMT;
+    private String dateGMT;
 
     public void setDateGMT(String dateGMT) {
-        mDateGMT = dateGMT;
+        this.dateGMT = dateGMT;
     }
 
     public String getDateGMT() {
-        return mDateGMT;
+        return dateGMT;
     }
 
     public abstract T withDateGMT(String dateGMT);
@@ -83,14 +82,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The globally unique identifier for the object.
      */
     @SerializedName("guid")
-    private WPGeneric mGuid;
+    private WPGeneric guid;
 
     public void setGuid(WPGeneric guid) {
-        mGuid = guid;
+        this.guid = guid;
     }
 
     public WPGeneric getGuid() {
-        return mGuid;
+        return guid;
     }
 
     public abstract T withGuid(WPGeneric guid);
@@ -99,14 +98,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The date the object was last modified.
      */
     @SerializedName("modified")
-    private String mModified;
+    private String modified;
 
     public void setModified(String modified) {
-        mModified = modified;
+        this.modified = modified;
     }
 
     public String getModified() {
-        return mModified;
+        return modified;
     }
 
     public abstract T withModified(String modified);
@@ -115,14 +114,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The date the object was last modified, as GMT.
      */
     @SerializedName("modified_gmt")
-    private String mModifiedGMT;
+    private String modifiedGMT;
 
     public void setModifiedGMT(String modifiedGMT) {
-        mModifiedGMT = modifiedGMT;
+        this.modifiedGMT = modifiedGMT;
     }
 
     public String getModifiedGMT() {
-        return mModifiedGMT;
+        return modifiedGMT;
     }
 
     public abstract T withModifiedGMT(String modifiedGMT);
@@ -131,14 +130,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * An alphanumeric identifier for the object unique to its type.
      */
     @SerializedName("slug")
-    private String mSlug;
+    private String slug;
 
     public void setSlug(String slug) {
-        mSlug = slug;
+        this.slug = slug;
     }
 
     public String getSlug() {
-        return mSlug;
+        return slug;
     }
 
     public abstract T withSlug(String slug);
@@ -147,14 +146,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * Type of Post for the object.
      */
     @SerializedName("type")
-    private String mType;
+    private String type;
 
     public void setType(String type) {
-        mType = type;
+        this.type = type;
     }
 
     public String getType() {
-        return mType;
+        return type;
     }
 
     public abstract T withType(String type);
@@ -163,14 +162,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * URL to the object.
      */
     @SerializedName("link")
-    private String mLink;
+    private String link;
 
     public void setLink(String link) {
-        mLink = link;
+        this.link = link;
     }
 
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     public abstract T withLink(String link);
@@ -179,14 +178,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The title for the object.
      */
     @SerializedName("title")
-    private WPGeneric mTitle;
+    private WPGeneric title;
 
     public void setTitle(WPGeneric title) {
-        mTitle = title;
+        this.title = title;
     }
 
     public WPGeneric getTitle() {
-        return mTitle;
+        return title;
     }
 
     public abstract T withTitle(String title);
@@ -195,14 +194,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      * The ID for the author of the object.
      */
     @SerializedName("author")
-    private int mAuthor;
+    private int author;
 
     public void setAuthor(int author) {
-        mAuthor = author;
+        this.author = author;
     }
 
     public int getAuthor() {
-        return mAuthor;
+        return author;
     }
 
     public abstract T withAuthor(int author);
@@ -212,14 +211,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      */
     @JsonAdapter(StatusDeserializer.class)
     @SerializedName("comment_status")
-    private WPStatus mCommentStatus;
+    private WPStatus commentStatus;
 
     public void setCommentStatus(WPStatus commentStatus) {
-        mCommentStatus = commentStatus;
+        this.commentStatus = commentStatus;
     }
 
     public WPStatus getCommentStatus() {
-        return mCommentStatus;
+        return commentStatus;
     }
 
     public abstract T withCommentStatus(WPStatus commentStatus);
@@ -229,14 +228,14 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      */
     @JsonAdapter(StatusDeserializer.class)
     @SerializedName("ping_status")
-    private WPStatus mPingStatus;
+    private WPStatus pingStatus;
 
     public void setPingStatus(WPStatus pingStatus) {
-        mPingStatus = pingStatus;
+        this.pingStatus = pingStatus;
     }
 
     public WPStatus getPingStatus() {
-        return mPingStatus;
+        return pingStatus;
     }
 
     public abstract T withPingStatus(WPStatus pingStatus);
@@ -246,21 +245,21 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
      */
     @JsonAdapter(LinksDeserializer.class)
     @SerializedName("_links")
-    private ArrayList<Link> mLinks;
+    private ArrayList<Link> links;
 
     public void setLinks(ArrayList<Link> links) {
-        mLinks = links;
+        this.links = links;
     }
 
     public void addLink(Link link) {
-        if (mLinks == null) {
-            mLinks = new ArrayList<>();
+        if (links == null) {
+            links = new ArrayList<>();
         }
-        mLinks.add(link);
+        links.add(link);
     }
 
     public ArrayList<Link> getLinks() {
-        return mLinks;
+        return links;
     }
 
     public abstract T withLinks(ArrayList<Link> links);
@@ -271,38 +270,40 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
     }
 
     public WPObject(Parcel in) {
-        mId = in.readLong();
-        mDate = in.readString();
-        mDateGMT = in.readString();
-        mGuid = in.readParcelable(WPGeneric.class.getClassLoader());
-        mModified = in.readString();
-        mModifiedGMT = in.readString();
-        mSlug = in.readString();
-        mType = in.readString();
-        mLink = in.readString();
-        mTitle = in.readParcelable(WPGeneric.class.getClassLoader());
-        mAuthor = in.readInt();
-        mCommentStatus = in.readParcelable(WPStatus.class.getClassLoader());
-        mPingStatus = in.readParcelable(WPStatus.class.getClassLoader());
-        in.readTypedList(mLinks, Link.CREATOR);
+        super(in);
+        id = in.readLong();
+        date = in.readString();
+        dateGMT = in.readString();
+        guid = in.readParcelable(WPGeneric.class.getClassLoader());
+        modified = in.readString();
+        modifiedGMT = in.readString();
+        slug = in.readString();
+        type = in.readString();
+        link = in.readString();
+        title = in.readParcelable(WPGeneric.class.getClassLoader());
+        author = in.readInt();
+        commentStatus = in.readParcelable(WPStatus.class.getClassLoader());
+        pingStatus = in.readParcelable(WPStatus.class.getClassLoader());
+        in.readTypedList(links, Link.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mId);
-        dest.writeString(mDate);
-        dest.writeString(mDateGMT);
-        dest.writeParcelable(mGuid, flags);
-        dest.writeString(mModified);
-        dest.writeString(mModifiedGMT);
-        dest.writeString(mSlug);
-        dest.writeString(mType);
-        dest.writeString(mLink);
-        dest.writeParcelable(mTitle, flags);
-        dest.writeInt(mAuthor);
-        dest.writeParcelable(mCommentStatus, flags);
-        dest.writeParcelable(mPingStatus, flags);
-        dest.writeTypedList(mLinks);
+        super.writeToParcel(dest, flags);
+        dest.writeLong(id);
+        dest.writeString(date);
+        dest.writeString(dateGMT);
+        dest.writeParcelable(guid, flags);
+        dest.writeString(modified);
+        dest.writeString(modifiedGMT);
+        dest.writeString(slug);
+        dest.writeString(type);
+        dest.writeString(link);
+        dest.writeParcelable(title, flags);
+        dest.writeInt(author);
+        dest.writeParcelable(commentStatus, flags);
+        dest.writeParcelable(pingStatus, flags);
+        dest.writeTypedList(links);
     }
 
     public static <T extends WPObject> Map<String, Object> mapFromFields(WPObject<T> wpObject, Map<String, Object> builder) {
@@ -339,20 +340,20 @@ public abstract class WPObject<T extends WPObject> implements Parcelable {
     @Override
     public String toString() {
         return "WPObject{" +
-                "mId=" + mId +
-                "mDate='" + mDate + '\'' +
-                ", mDateGMT='" + mDateGMT + '\'' +
-                ", mGuid=" + mGuid +
-                ", mModified='" + mModified + '\'' +
-                ", mModifiedGMT='" + mModifiedGMT + '\'' +
-                ", mSlug='" + mSlug + '\'' +
-                ", mType='" + mType + '\'' +
-                ", mLink='" + mLink + '\'' +
-                ", mTitle=" + mTitle +
-                ", mAuthor=" + mAuthor +
-                ", mCommentStatus=" + mCommentStatus +
-                ", mPingStatus=" + mPingStatus +
-                ", mLinks=" + mLinks +
+                "id=" + id +
+                "date='" + date + '\'' +
+                ", dateGMT='" + dateGMT + '\'' +
+                ", guid=" + guid +
+                ", modified='" + modified + '\'' +
+                ", modifiedGMT='" + modifiedGMT + '\'' +
+                ", slug='" + slug + '\'' +
+                ", type='" + type + '\'' +
+                ", link='" + link + '\'' +
+                ", title=" + title +
+                ", author=" + author +
+                ", commentStatus=" + commentStatus +
+                ", pingStatus=" + pingStatus +
+                ", links=" + links +
                 '}';
     }
 }

@@ -12,20 +12,20 @@ import java.util.Map;
  * @author Jan-Louis Crafford
  *         Created on 2016/01/14.
  */
-public class Comment implements Parcelable {
+public class Comment extends BaseModel {
 
     /**
      * Unique identifier for the object.
      */
     @SerializedName("id")
-    private long mId;
+    private long id;
 
     public void setId(long id) {
-        mId = id;
+        this.id = id;
     }
 
     public long getId() {
-        return mId;
+        return id;
     }
 
     public Comment withId(long id) {
@@ -37,14 +37,14 @@ public class Comment implements Parcelable {
      * The id of the user object, if author was a user.
      */
     @SerializedName("author")
-    private int mAuthor;
+    private int author;
 
     public void setAuthor(int author) {
-        mAuthor = author;
+        this.author = author;
     }
 
     public int getAuthor() {
-        return mAuthor;
+        return author;
     }
 
     public Comment withAuthor(int author) {
@@ -56,22 +56,22 @@ public class Comment implements Parcelable {
      * Avatar URLs for the object author.
      */
     @SerializedName("author_avatar_urls")
-    private Map<String, String> mAuthorAvatarUrls = new HashMap<>();
+    private Map<String, String> authorAvatarUrls = new HashMap<>();
 
     public void setAuthorAvatarUrls(Map<String, String> map) {
-        mAuthorAvatarUrls = map;
+        authorAvatarUrls = map;
     }
 
     public void addAuthorAvatarUrl(String key, String value) {
-        mAuthorAvatarUrls.put(key, value);
+        authorAvatarUrls.put(key, value);
     }
 
     public Map<String, String> getAuthorAvatarUrls() {
-        return mAuthorAvatarUrls;
+        return authorAvatarUrls;
     }
 
     public String getAuthorAvatarUrl(String key) {
-        return mAuthorAvatarUrls.get(key);
+        return authorAvatarUrls.get(key);
     }
 
     public Comment withAuthorAvatarUrls(Map<String, String> map) {
@@ -88,14 +88,14 @@ public class Comment implements Parcelable {
      * Email address for the object author.
      */
     @SerializedName("author_email")
-    private String mAuthorEmail;
+    private String authorEmail;
 
     public void setAuthorEmail(String email) {
-        mAuthorEmail = email;
+        authorEmail = email;
     }
 
     public String getAuthorEmail() {
-        return mAuthorEmail;
+        return authorEmail;
     }
 
     public Comment withAuthorEmail(String email) {
@@ -107,14 +107,14 @@ public class Comment implements Parcelable {
      * IP address for the object author.
      */
     @SerializedName("author_ip")
-    private String mAuthorIp;
+    private String authorIp;
 
     public void setAuthorIp(String authorIp) {
-        mAuthorIp = authorIp;
+        this.authorIp = authorIp;
     }
 
     public String getAuthorIp() {
-        return mAuthorIp;
+        return authorIp;
     }
 
     public Comment withAuthorIp(String authorIp) {
@@ -126,14 +126,14 @@ public class Comment implements Parcelable {
      * Display name for the object author.
      */
     @SerializedName("author_name")
-    private String mAuthorName;
+    private String authorName;
 
     public void setAuthorName(String authorName) {
-        mAuthorName = authorName;
+        this.authorName = authorName;
     }
 
     public String getAuthorName() {
-        return mAuthorName;
+        return authorName;
     }
 
     public Comment withAuthorName(String authorName) {
@@ -145,14 +145,14 @@ public class Comment implements Parcelable {
      * URL for the object author.
      */
     @SerializedName("author_url")
-    private String mAuthorUrl;
+    private String authorUrl;
 
     public void setAuthorUrl(String authorUrl) {
-        mAuthorUrl = authorUrl;
+        this.authorUrl = authorUrl;
     }
 
     public String getAuthorUrl() {
-        return mAuthorUrl;
+        return authorUrl;
     }
 
     public Comment withAuthorUrl(String authorUrl) {
@@ -164,14 +164,14 @@ public class Comment implements Parcelable {
      * User agent for the object author.
      */
     @SerializedName("author_user_agent")
-    private String mAuthorUserAgent;
+    private String authorUserAgent;
 
     public void setAuthorUserAgent(String authorUserAgent) {
-        mAuthorUserAgent = authorUserAgent;
+        this.authorUserAgent = authorUserAgent;
     }
 
     public String getAuthorUserAgent() {
-        return mAuthorUserAgent;
+        return authorUserAgent;
     }
 
     public Comment withAuthorUserAgent(String authorUserAgent) {
@@ -183,14 +183,14 @@ public class Comment implements Parcelable {
      * The content for the object.
      */
     @SerializedName("content")
-    private WPGeneric mContent;
+    private WPGeneric content;
 
     public void setContent(WPGeneric content) {
-        mContent = content;
+        this.content = content;
     }
 
     public WPGeneric getContent() {
-        return mContent;
+        return content;
     }
 
     public Comment withContent(WPGeneric content) {
@@ -202,14 +202,14 @@ public class Comment implements Parcelable {
      * The date the object was published.
      */
     @SerializedName("date")
-    private String mDate;
+    private String date;
 
     public void setDate(String date) {
-        mDate = date;
+        this.date = date;
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
     public Comment withDate(String date) {
@@ -221,14 +221,14 @@ public class Comment implements Parcelable {
      * The date the object was published, as GMT.
      */
     @SerializedName("date_gmt")
-    private String mDateGMT;
+    private String dateGMT;
 
     public void setDateGMT(String dateGMT) {
-        mDateGMT = dateGMT;
+        this.dateGMT = dateGMT;
     }
 
     public String getDateGMT() {
-        return mDateGMT;
+        return dateGMT;
     }
 
     public Comment withDateGMT(String dateGMT) {
@@ -240,14 +240,14 @@ public class Comment implements Parcelable {
      * Karma for the object.
      */
     @SerializedName("karma")
-    private int mKarma;
+    private int karma;
 
     public void setKarma(int karma) {
-        mKarma = karma;
+        this.karma = karma;
     }
 
     public int getKarma() {
-        return mKarma;
+        return karma;
     }
 
     public Comment withKarma(int karma) {
@@ -259,14 +259,14 @@ public class Comment implements Parcelable {
      * URL to the object.
      */
     @SerializedName("link")
-    private String mLink;
+    private String link;
 
     public void setLink(String link) {
-        mLink = link;
+        this.link = link;
     }
 
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     public Comment withLink(String link) {
@@ -278,14 +278,14 @@ public class Comment implements Parcelable {
      * The id for the parent of the object.
      */
     @SerializedName("parent")
-    private int mParent;
+    private int parent;
 
     public void setParent(int parent) {
-        mParent = parent;
+        this.parent = parent;
     }
 
     public int getParent() {
-        return mParent;
+        return parent;
     }
 
     public Comment withParent(int parent) {
@@ -297,14 +297,14 @@ public class Comment implements Parcelable {
      * The id of the associated post object.
      */
     @SerializedName("post")
-    private long mPost;
+    private long post;
 
     public void setPost(long post) {
-        mPost = post;
+        this.post = post;
     }
 
     public long getPost() {
-        return mPost;
+        return post;
     }
 
     public Comment withPost(long post) {
@@ -316,14 +316,14 @@ public class Comment implements Parcelable {
      * State of the object.
      */
     @SerializedName("status")
-    private String mStatus;
+    private String status;
 
     public void setStatus(String status) {
-        mStatus = status;
+        this.status = status;
     }
 
     public String getStatus() {
-        return mStatus;
+        return status;
     }
 
     public Comment withStatus(String status) {
@@ -335,14 +335,14 @@ public class Comment implements Parcelable {
      * Type of Comment for the object.
      */
     @SerializedName("type")
-    private String mType;
+    private String type;
 
     public void setType(String type) {
-        mType = type;
+        this.type = type;
     }
 
     public String getType() {
-        return mType;
+        return type;
     }
 
     public Comment withType(String type) {
@@ -354,44 +354,46 @@ public class Comment implements Parcelable {
     }
 
     public Comment(Parcel in) {
-        mId = in.readLong();
-        mAuthor = in.readInt();
-        in.readMap(mAuthorAvatarUrls, String.class.getClassLoader());
-        mAuthorEmail = in.readString();
-        mAuthorIp = in.readString();
-        mAuthorName = in.readString();
-        mAuthorUrl = in.readString();
-        mAuthorUserAgent = in.readString();
-        mContent = in.readParcelable(WPGeneric.class.getClassLoader());
-        mDate = in.readString();
-        mDateGMT = in.readString();
-        mKarma = in.readInt();
-        mLink = in.readString();
-        mParent = in.readInt();
-        mPost = in.readInt();
-        mStatus = in.readString();
-        mType = in.readString();
+        super(in);
+        id = in.readLong();
+        author = in.readInt();
+        in.readMap(authorAvatarUrls, String.class.getClassLoader());
+        authorEmail = in.readString();
+        authorIp = in.readString();
+        authorName = in.readString();
+        authorUrl = in.readString();
+        authorUserAgent = in.readString();
+        content = in.readParcelable(WPGeneric.class.getClassLoader());
+        date = in.readString();
+        dateGMT = in.readString();
+        karma = in.readInt();
+        link = in.readString();
+        parent = in.readInt();
+        post = in.readInt();
+        status = in.readString();
+        type = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mId);
-        dest.writeInt(mAuthor);
-        dest.writeMap(mAuthorAvatarUrls);
-        dest.writeString(mAuthorEmail);
-        dest.writeString(mAuthorIp);
-        dest.writeString(mAuthorName);
-        dest.writeString(mAuthorUrl);
-        dest.writeString(mAuthorUserAgent);
-        dest.writeParcelable(mContent, flags);
-        dest.writeString(mDate);
-        dest.writeString(mDateGMT);
-        dest.writeInt(mKarma);
-        dest.writeString(mLink);
-        dest.writeInt(mParent);
-        dest.writeLong(mPost);
-        dest.writeString(mStatus);
-        dest.writeString(mType);
+        super.writeToParcel(dest, flags);
+        dest.writeLong(id);
+        dest.writeInt(author);
+        dest.writeMap(authorAvatarUrls);
+        dest.writeString(authorEmail);
+        dest.writeString(authorIp);
+        dest.writeString(authorName);
+        dest.writeString(authorUrl);
+        dest.writeString(authorUserAgent);
+        dest.writeParcelable(content, flags);
+        dest.writeString(date);
+        dest.writeString(dateGMT);
+        dest.writeInt(karma);
+        dest.writeString(link);
+        dest.writeInt(parent);
+        dest.writeLong(post);
+        dest.writeString(status);
+        dest.writeString(type);
     }
 
     @Override
@@ -414,23 +416,23 @@ public class Comment implements Parcelable {
     @Override
     public String toString() {
         return "Comment{" +
-                "mId=" + mId +
-                ", mAuthor=" + mAuthor +
-                ", mAuthorAvatarUrls=" + mAuthorAvatarUrls +
-                ", mAuthorEmail='" + mAuthorEmail + '\'' +
-                ", mAuthorIp='" + mAuthorIp + '\'' +
-                ", mAuthorName='" + mAuthorName + '\'' +
-                ", mAuthorUrl='" + mAuthorUrl + '\'' +
-                ", mAuthorUserAgent='" + mAuthorUserAgent + '\'' +
-                ", mContent=" + mContent +
-                ", mDate='" + mDate + '\'' +
-                ", mDateGMT='" + mDateGMT + '\'' +
-                ", mKarma=" + mKarma +
-                ", mLink='" + mLink + '\'' +
-                ", mParent=" + mParent +
-                ", mPost=" + mPost +
-                ", mStatus='" + mStatus + '\'' +
-                ", mType='" + mType + '\'' +
+                "id=" + id +
+                ", author=" + author +
+                ", authorAvatarUrls=" + authorAvatarUrls +
+                ", authorEmail='" + authorEmail + '\'' +
+                ", authorIp='" + authorIp + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", authorUrl='" + authorUrl + '\'' +
+                ", authorUserAgent='" + authorUserAgent + '\'' +
+                ", content=" + content +
+                ", date='" + date + '\'' +
+                ", dateGMT='" + dateGMT + '\'' +
+                ", karma=" + karma +
+                ", link='" + link + '\'' +
+                ", parent=" + parent +
+                ", post=" + post +
+                ", status='" + status + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

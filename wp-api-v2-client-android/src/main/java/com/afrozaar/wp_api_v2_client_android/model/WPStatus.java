@@ -7,30 +7,32 @@ import android.os.Parcelable;
  * @author Jan-Louis Crafford
  *         Created on 2015/12/03.
  */
-public class WPStatus implements Parcelable {
+public class WPStatus extends BaseModel {
 
     public static final int CLOSED = 0;
     public static final int OPEN = 1;
 
-    private int mStatus;
+    private int status;
 
     public WPStatus() {
     }
 
     public WPStatus(Parcel in) {
-        mStatus = in.readInt();
+        super(in);
+
+        status = in.readInt();
     }
 
     public void setStatus(int status) {
-        mStatus = status;
+        this.status = status;
     }
 
     public boolean isClosed() {
-        return mStatus == CLOSED;
+        return status == CLOSED;
     }
 
     public boolean isOpen() {
-        return mStatus == OPEN;
+        return status == OPEN;
     }
 
     public String getStatus() {
@@ -44,7 +46,9 @@ public class WPStatus implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mStatus);
+        super.writeToParcel(dest, flags);
+
+        dest.writeInt(status);
     }
 
     public static Parcelable.Creator<WPStatus> CREATOR = new Creator<WPStatus>() {
@@ -62,7 +66,7 @@ public class WPStatus implements Parcelable {
     @Override
     public String toString() {
         return "WPStatus{" +
-                "mStatus=" + (mStatus == CLOSED ? "closed" : "open") +
+                "status=" + (status == CLOSED ? "closed" : "open") +
                 '}';
     }
 }
