@@ -265,6 +265,6 @@ public class WpClientRetrofit {
         map.put("key", meta.getKey());
         map.put("value", meta.getValue());
 
-        return mRestInterface.updatePostMeta(postId, meta.getId(), meta);
+        return mRestInterface.updatePostMeta(postId, meta.getId(), map);
     }
 }

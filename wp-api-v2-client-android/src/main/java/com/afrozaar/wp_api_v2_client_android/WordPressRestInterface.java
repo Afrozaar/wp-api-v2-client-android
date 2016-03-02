@@ -110,7 +110,7 @@ public interface WordPressRestInterface {
     Call<Meta> getPostMeta(@Path("postId") long postId, @Path("metaId") long metaId);
 
     @POST("posts/{postId}/meta/{metaId}")
-    Call<Meta> updatePostMeta(@Path("postId") long postId, @Path("metaId") long metaId, Meta meta);
+    Call<Meta> updatePostMeta(@Path("postId") long postId, @Path("metaId") long metaId, @Body Map<String, Object> fields);
 
     @DELETE("posts/{postId}/meta/{metaId}")
     Call<Meta> deletePostMeta(@Path("postId") long postId, @Path("metaId") long metaId);

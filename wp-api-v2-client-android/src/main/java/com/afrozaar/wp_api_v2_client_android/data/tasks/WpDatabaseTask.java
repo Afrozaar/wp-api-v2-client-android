@@ -40,7 +40,11 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
         super.onPostExecute(result);
 
         if (callback != null) {
-            callback.onTaskSuccess(result);
+            if (result != null) {
+                callback.onTaskSuccess(result);
+            } else {
+                callback.onTaskResultNull();
+            }
         }
     }
 
@@ -52,11 +56,5 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
 
     protected SQLiteDatabase getWritableDatabase() {
         return database.getWritableDatabase();
-    }
-
-    public interface DatabaseTaskCallback<Result> {
-        void onTaskSuccess(Result result);
-
-        void onTaskFailure(String error);
     }
 }
