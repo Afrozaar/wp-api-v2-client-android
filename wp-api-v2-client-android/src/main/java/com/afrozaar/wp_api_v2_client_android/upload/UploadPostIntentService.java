@@ -150,7 +150,7 @@ public class UploadPostIntentService extends IntentService {
         } else {
             int firstImage = mediaIds.get(0).intValue();
             post.withFormat("gallery")
-                    .withFeaturedImage(firstImage);
+                    .withFeaturedMedia(firstImage);
         }
 
         long postId = -1;

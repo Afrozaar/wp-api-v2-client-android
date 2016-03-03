@@ -127,8 +127,12 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getPost(postId, map), callback);
     }
 
+    public Call<List<Post>> getPostsForAuthor(long authorId, String status) {
+        return mRestInterface.getPostsForAuthor(authorId, status, "edit");
+    }
+
     public void getPostsForAuthor(long authorId, String status, WordPressRestResponse<List<Post>> callback) {
-        doRetrofitCall(mRestInterface.getPostsForAuthor(authorId, status, "edit"), callback);
+        doRetrofitCall(getPostsForAuthor(authorId, status), callback);
     }
 
     public void getPostsForTag(String tag, WordPressRestResponse<List<Post>> callback) {
@@ -266,5 +270,9 @@ public class WpClientRetrofit {
         map.put("value", meta.getValue());
 
         return mRestInterface.updatePostMeta(postId, meta.getId(), map);
+    }
+
+    public Call<List<Meta>> getPostMetas(long postId) {
+        return mRestInterface.getPostMeta(postId);
     }
 }

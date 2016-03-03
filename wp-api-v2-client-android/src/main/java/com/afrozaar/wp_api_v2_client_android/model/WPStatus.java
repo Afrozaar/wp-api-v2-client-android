@@ -35,8 +35,12 @@ public class WPStatus extends BaseModel {
         return status == OPEN;
     }
 
-    public String getStatus() {
+    public String getStatusString() {
         return isOpen() ? "open" : "closed";
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     @Override

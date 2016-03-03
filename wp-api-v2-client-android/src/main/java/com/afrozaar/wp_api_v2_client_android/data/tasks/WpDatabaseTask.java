@@ -17,7 +17,7 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     private DatabaseTaskCallback<Result> callback;
 
     protected WpDatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
-        database = new WordPressDatabase(context);
+        database = WordPressDatabase.getInstance(context);
 
         this.callback = callback;
     }

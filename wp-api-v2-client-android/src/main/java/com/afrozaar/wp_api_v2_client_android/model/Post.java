@@ -23,6 +23,7 @@ public class Post extends WPObject<Post> {
     public static final String POST_STATUS_PENDING = "pending";
     public static final String POST_STATUS_PRIVATE = "private";
     public static final String POST_STATUS_TRASH = "trash";
+    public static final String POST_STATUS_AUTO_DRAFT = "auto-draft";
 
     public static final String JSON_FIELD_CONTENT = "content";
     public static final String JSON_FIELD_EXCERPT = "excerpt";
@@ -32,6 +33,25 @@ public class Post extends WPObject<Post> {
     public static final String JSON_FIELD_STATUS = "status";
     public static final String JSON_FIELD_CATEGORIES = "categories";
 
+
+    /**
+     * A password to protect access to the post.
+     */
+    @SerializedName("password")
+    private String password;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Post withPassword(String password) {
+        setPassword(password);
+        return this;
+    }
 
     /**
      * The content for the object.
@@ -77,18 +97,18 @@ public class Post extends WPObject<Post> {
      * ID of the featured image for the object.
      */
     @SerializedName("featured_media")
-    private int featuredImage;
+    private int featuredMedia;
 
-    public void setFeaturedImage(int featuredImage) {
-        this.featuredImage = featuredImage;
+    public void setFeaturedMedia(int featuredMedia) {
+        this.featuredMedia = featuredMedia;
     }
 
-    public int getFeaturedImage() {
-        return featuredImage;
+    public int getFeaturedMedia() {
+        return featuredMedia;
     }
 
-    public Post withFeaturedImage(int featuredImage) {
-        setFeaturedImage(featuredImage);
+    public Post withFeaturedMedia(int featuredMedia) {
+        setFeaturedMedia(featuredMedia);
         return this;
     }
 
@@ -177,6 +197,35 @@ public class Post extends WPObject<Post> {
 
     public Post withCategory(long catId) {
         addCategory(catId);
+        return this;
+    }
+
+
+    @SerializedName("tags")
+    private List<Long> tags;
+
+    public void setTags(List<Long> tags) {
+        this.tags = tags;
+    }
+
+    public List<Long> getTags() {
+        return tags;
+    }
+
+    public void addTag(long tagId) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+        tags.add(tagId);
+    }
+
+    public Post withTags(List<Long> tags) {
+        setTags(tags);
+        return this;
+    }
+
+    public Post withTag(long tagId) {
+        addTag(tagId);
         return this;
     }
 
@@ -278,22 +327,32 @@ public class Post extends WPObject<Post> {
     public Post(Parcel in) {
         super(in);
 
+        password = in.readString();
         content = in.readParcelable(WPGeneric.class.getClassLoader());
         excerpt = in.readParcelable(WPGeneric.class.getClassLoader());
-        featuredImage = in.readInt();
+        featuredMedia = in.readInt();
         sticky = in.readByte() == 1;
         format = in.readString();
+        status = in.readString();
+        categories = new ArrayList<>();
+        in.readList(categories, Long.class.getClassLoader());
+        tags = new ArrayList<>();
+        in.readList(tags, Long.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        dest.writeString(password);
         dest.writeParcelable(content, flags);
         dest.writeParcelable(excerpt, flags);
-        dest.writeInt(featuredImage);
+        dest.writeInt(featuredMedia);
         dest.writeByte((byte) (sticky ? 1 : 0));
         dest.writeString(format);
+        dest.writeString(status);
+        dest.writeList(categories);
+        dest.writeList(tags);
     }
 
     public static Map<String, Object> mapFromFields(Post post) {
@@ -305,7 +364,7 @@ public class Post extends WPObject<Post> {
             Validate.validateMapEntry(JSON_FIELD_CONTENT, post.getContent().getRaw(), builder);
         }
         Validate.validateMapEntry(JSON_FIELD_EXCERPT, post.getExcerpt(), builder);
-        Validate.validateMapEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedImage(), builder);
+        Validate.validateMapEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedMedia(), builder);
         Validate.validateMapEntry(JSON_FIELD_STICKY, post.getSticky(), builder);
         Validate.validateMapEntry(JSON_FIELD_FORMAT, post.getFormat(), builder);
         Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);
@@ -332,7 +391,7 @@ public class Post extends WPObject<Post> {
         return super.toString() + "--> Post{" +
                 ", content=" + content +
                 ", excerpt=" + excerpt +
-                ", featuredImage=" + featuredImage +
+                ", featuredMedia=" + featuredMedia +
                 ", sticky=" + sticky +
                 ", format='" + format + '\'' +
                 '}';

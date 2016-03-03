@@ -16,10 +16,19 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     private static final int VERSION_CURRENT = VERSION_INITIAL;
 
-    public WordPressDatabase(Context context) {
-        super(context, DATABASE_NAME, null, VERSION_CURRENT);
+    private static WordPressDatabase sInstance = null;
+
+    public static WordPressDatabase getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new WordPressDatabase(context);
+        }
+
+        return sInstance;
     }
 
+    private WordPressDatabase(Context context) {
+        super(context, DATABASE_NAME, null, VERSION_CURRENT);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
