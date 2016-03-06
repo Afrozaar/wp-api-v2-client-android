@@ -151,7 +151,11 @@ public class WpClientRetrofit {
     public void deletePost(long postId, boolean force, WordPressRestResponse<Post> callback) {
         // 200 on success
         // 410 GONE on failure
-        doRetrofitCall(mRestInterface.deletePost(postId, force), callback);
+        doRetrofitCall(mRestInterface.deletePost(postId, force, "edit"), callback);
+    }
+
+    public Call<Post> deletePost(long postId, boolean force) {
+        return mRestInterface.deletePost(postId, force, "edit");
     }
 
     /* MEDIA */
@@ -239,11 +243,21 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getCategories(), callback);
     }
 
+    public Call<List<Taxonomy>> getCategories() {
+        return mRestInterface.getCategories();
+    }
+
     public void getCategoriesForParent(long parentId, WordPressRestResponse<List<Taxonomy>> callback) {
         Map<String, Object> map = new HashMap<>();
         map.put("parent", parentId);
 
         doRetrofitCall(mRestInterface.getCategories(map), callback);
+    }
+
+    public Call<List<Taxonomy>> getCategoriesForParent(long parentId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("parent", parentId);
+        return mRestInterface.getCategories(map);
     }
 
     /* META */

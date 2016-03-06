@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.afrozaar.wp_api_v2_client_android.data.WordPressContract;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.DatabaseTaskCallback;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.WpQueryCursorTask;
+import com.afrozaar.wp_api_v2_client_android.model.Post;
 
 /**
  * @author Jan-Louis Crafford
@@ -21,6 +22,12 @@ public class QueryPostsTask extends WpQueryCursorTask {
             selection = WordPressContract.Posts.STATUS + "=?";
             selectionArgs = new String[1];
             selectionArgs[0] = status;
+        } else {
+            selection = WordPressContract.Posts.STATUS + "=? OR "
+                    + WordPressContract.Posts.STATUS + " =?";
+            selectionArgs = new String[2];
+            selectionArgs[0] = Post.POST_STATUS_DRAFT;
+            selectionArgs[1] = Post.POST_STATUS_PUBLISH;
         }
 
         return new QueryPostsTask(context, WordPressContract.Posts.TABLE_NAME, null, selection, selectionArgs, callback);

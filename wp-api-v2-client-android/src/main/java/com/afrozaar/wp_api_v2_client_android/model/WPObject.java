@@ -34,7 +34,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      * Unique identifier for the object
      */
     @SerializedName("id")
-    private long id;
+    private long id = -1;
 
     public void setId(long id) {
         this.id = id;
@@ -194,7 +194,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      * The ID for the author of the object.
      */
     @SerializedName("author")
-    private int author;
+    private int author = -1;
 
     public void setAuthor(int author) {
         this.author = author;
@@ -307,7 +307,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
     }
 
     public static <T extends WPObject> Map<String, Object> mapFromFields(WPObject<T> wpObject, Map<String, Object> builder) {
-        Validate.validateMapEntry(JSON_FIELD_ID, wpObject.getId(), builder);
+        Validate.validateMapLongEntry(JSON_FIELD_ID, wpObject.getId(), builder);
         Validate.validateMapEntry(JSON_FIELD_DATE, wpObject.getDate(), builder);
         Validate.validateMapEntry(JSON_FIELD_DATE_GMT, wpObject.getDateGMT(), builder);
         if (wpObject.getGuid() != null) {
@@ -321,7 +321,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
         if (wpObject.getTitle() != null) {
             Validate.validateMapEntry(JSON_FIELD_TITLE, wpObject.getTitle().getRendered(), builder);
         }
-        Validate.validateMapEntry(JSON_FIELD_AUTHOR, wpObject.getAuthor(), builder);
+        Validate.validateMapLongEntry(JSON_FIELD_AUTHOR, wpObject.getAuthor(), builder);
         if (wpObject.getCommentStatus() != null) {
             Validate.validateMapEntry(JSON_FIELD_COMMENT_STATUS, wpObject.getCommentStatus().getStatus(), builder);
         }

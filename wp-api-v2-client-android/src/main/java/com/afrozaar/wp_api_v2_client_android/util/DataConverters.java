@@ -4,14 +4,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/03/03.
  */
 public class DataConverters {
+
+    private static SimpleDateFormat sPostDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss", Locale.US);
 
     public static final String JSON_ARRAY_CATEGORY_IDS = "categoryIds";
     public static final String JSON_ARRAY_TAG_IDS = "tagIds";
@@ -62,5 +67,17 @@ public class DataConverters {
         }
 
         return null;
+    }
+
+    public static long convertWpDateToLong(String dateInput) {
+        try {
+            if (dateInput != null) {
+                return sPostDateFormat.parse(dateInput).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 }

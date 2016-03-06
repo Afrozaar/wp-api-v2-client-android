@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Jan-Louis Crafford
@@ -23,6 +24,12 @@ public class Validate {
 
     public static void validateMapStringEntry(String key, String value, Map<String, String> map) {
         if (!TextUtils.isEmpty(value)) {
+            map.put(key, value);
+        }
+    }
+
+    public static void validateMapLongEntry(String key, long value, Map<String, Object> map) {
+        if (value != -1) {
             map.put(key, value);
         }
     }

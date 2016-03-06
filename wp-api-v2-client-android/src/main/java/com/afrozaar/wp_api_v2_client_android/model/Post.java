@@ -70,6 +70,7 @@ public class Post extends WPObject<Post> {
     public Post withContent(String content) {
         WPGeneric generic = new WPGeneric();
         generic.setRaw(content);
+        generic.setRendered(content);
         setContent(generic);
         return this;
     }
@@ -97,7 +98,7 @@ public class Post extends WPObject<Post> {
      * ID of the featured image for the object.
      */
     @SerializedName("featured_media")
-    private int featuredMedia;
+    private int featuredMedia = -1;
 
     public void setFeaturedMedia(int featuredMedia) {
         this.featuredMedia = featuredMedia;
@@ -364,7 +365,7 @@ public class Post extends WPObject<Post> {
             Validate.validateMapEntry(JSON_FIELD_CONTENT, post.getContent().getRaw(), builder);
         }
         Validate.validateMapEntry(JSON_FIELD_EXCERPT, post.getExcerpt(), builder);
-        Validate.validateMapEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedMedia(), builder);
+        Validate.validateMapLongEntry(JSON_FIELD_FEATURED_IMAGE, post.getFeaturedMedia(), builder);
         Validate.validateMapEntry(JSON_FIELD_STICKY, post.getSticky(), builder);
         Validate.validateMapEntry(JSON_FIELD_FORMAT, post.getFormat(), builder);
         Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);

@@ -35,6 +35,24 @@ public class Meta extends BaseModel {
     }
 
     /**
+     * Id of item this object is linked to.
+     */
+    private long postId;
+
+    public void setPostId(long postId) {
+        this.postId = postId;
+    }
+
+    public long getPostId() {
+        return postId;
+    }
+
+    public Meta withPostId(long postId) {
+        setPostId(postId);
+        return this;
+    }
+
+    /**
      * The key for the custom field.
      */
     private String key;

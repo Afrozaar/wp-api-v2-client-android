@@ -91,7 +91,7 @@ public interface WordPressRestInterface {
      * @return Post object that was deleted
      */
     @DELETE("posts/{id}")
-    Call<Post> deletePost(@Path("id") long postId, @Query("force") boolean force);
+    Call<Post> deletePost(@Path("id") long postId, @Query("force") boolean force, @Query("context") String context);
 
     /**
      * Creates new Meta objects for a Post

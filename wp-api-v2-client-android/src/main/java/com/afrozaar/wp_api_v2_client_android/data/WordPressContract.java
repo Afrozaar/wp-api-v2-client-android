@@ -6,6 +6,8 @@ import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
+import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
+import com.afrozaar.wp_api_v2_client_android.model.WPStatus;
 import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
 
 /**
@@ -36,6 +38,12 @@ public class WordPressContract {
          * <P>Type: INTEGER (long)</P>
          */
         String WP_POST_ID = "wp_post_id";
+
+        /**
+         * Flag to set if content has been updated locally
+         * <P>Type: INTEGER (short)</P>
+         */
+        String UPDATED = "updated";
     }
 
     /**
@@ -472,6 +480,7 @@ public class WordPressContract {
         public static final int IDX_FORMAT = 21;
         public static final int IDX_CATEGORIES = 22;
         public static final int IDX_TAGS = 23;
+        public static final int IDX_UPDATED = 24;
 
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
@@ -498,7 +507,8 @@ public class WordPressContract {
                 + STICKY + " INTEGER,"
                 + FORMAT + " TEXT,"
                 + CATEGORIES + " TEXT,"
-                + TAGS + " TEXT)";
+                + TAGS + " TEXT,"
+                + UPDATED + " INTEGER)";
 
         private static ContentValues makeContentValues(boolean update, long blogId, long authorId, long postId,
                                                        String date, String dateGmt, String guid, String modified,
@@ -618,11 +628,13 @@ public class WordPressContract {
         }
 
         public static ContentValues insert(long blogId, long authorId, Post post) {
-            return insert(blogId, authorId, post.getId(), post.getDate(), post.getDateGMT(), post.getGuid().getRaw(),
+            return insert(blogId, authorId, post.getId(), post.getDate(), post.getDateGMT(), post.getGuid() != null ? post.getGuid().getRaw() : null,
                     post.getModified(), post.getModifiedGMT(), post.getPassword(), post.getSlug(), post.getStatus(),
-                    post.getType(), post.getLink(), post.getTitle().getRaw(), post.getContent().getRaw(),
-                    post.getExcerpt().getRaw(), post.getFeaturedMedia(), post.getCommentStatus().getStatus(),
-                    post.getPingStatus().getStatus(), post.getSticky(), post.getFormat(), DataConverters.makeCategoryString(post.getCategories()),
+                    post.getType(), post.getLink(), post.getTitle().getRaw(), post.getContent() != null ? post.getContent().getRaw() : null,
+                    post.getExcerpt() != null ? post.getExcerpt().getRaw() : null, post.getFeaturedMedia(),
+                    post.getCommentStatus() != null ? post.getCommentStatus().getStatus() : WPStatus.OPEN,
+                    post.getPingStatus() != null ? post.getPingStatus().getStatus() : WPStatus.OPEN,
+                    post.getSticky(), post.getFormat(), DataConverters.makeCategoryString(post.getCategories()),
                     DataConverters.makeTagString(post.getTags()));
         }
 
@@ -639,11 +651,13 @@ public class WordPressContract {
         }
 
         public static ContentValues update(long blogId, long authorId, Post post) {
-            return update(blogId, authorId, post.getId(), post.getDate(), post.getDateGMT(), post.getGuid().getRaw(),
+            return update(blogId, authorId, post.getId(), post.getDate(), post.getDateGMT(), post.getGuid() != null ? post.getGuid().getRaw() : null,
                     post.getModified(), post.getModifiedGMT(), post.getPassword(), post.getSlug(), post.getStatus(),
-                    post.getType(), post.getLink(), post.getTitle().getRaw(), post.getContent().getRaw(),
-                    post.getExcerpt().getRaw(), post.getFeaturedMedia(), post.getCommentStatus().getStatus(),
-                    post.getPingStatus().getStatus(), post.getSticky(), post.getFormat(), DataConverters.makeCategoryString(post.getCategories()),
+                    post.getType(), post.getLink(), post.getTitle().getRaw(), post.getContent() != null ? post.getContent().getRaw() : null,
+                    post.getExcerpt() != null ? post.getExcerpt().getRaw() : null, post.getFeaturedMedia(),
+                    post.getCommentStatus() != null ? post.getCommentStatus().getStatus() : WPStatus.OPEN,
+                    post.getPingStatus() != null ? post.getPingStatus().getStatus() : WPStatus.OPEN,
+                    post.getSticky(), post.getFormat(), DataConverters.makeCategoryString(post.getCategories()),
                     DataConverters.makeTagString(post.getTags()));
         }
     }
@@ -716,6 +730,11 @@ public class WordPressContract {
         public static ContentValues insert(long blogId, long taxId, long parentId, String type, String name,
                                            String description, int count, String link) {
             return makeContentValues(false, blogId, taxId, parentId, type, name, description, count, link);
+        }
+
+        public static ContentValues insert(long blogId, String type, Taxonomy taxonomy) {
+            return insert(blogId, taxonomy.getId(), taxonomy.getParent(), type, taxonomy.getName(),
+                    taxonomy.getDescription(), taxonomy.getCount(), taxonomy.getLink());
         }
 
         public static ContentValues update(long blogId, long taxId, long parentId, String type, String name,
