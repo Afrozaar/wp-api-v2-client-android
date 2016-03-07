@@ -204,6 +204,10 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
     }
 
+    public Call<Media> deleteMedia(long mediaId) {
+        return mRestInterface.deleteMedia(mediaId);
+    }
+
     /* TAXONOMIES */
 
     public void setTagForPost(long postId, long tagId, WordPressRestResponse<Taxonomy> callback) {
@@ -288,5 +292,9 @@ public class WpClientRetrofit {
 
     public Call<List<Meta>> getPostMetas(long postId) {
         return mRestInterface.getPostMeta(postId);
+    }
+
+    public Call<Meta> deletePostMeta(long postId, long metaId) {
+        return mRestInterface.deletePostMeta(postId, metaId);
     }
 }

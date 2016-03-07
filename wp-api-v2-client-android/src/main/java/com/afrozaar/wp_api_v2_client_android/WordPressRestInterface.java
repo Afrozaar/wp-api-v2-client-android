@@ -112,7 +112,7 @@ public interface WordPressRestInterface {
     @POST("posts/{postId}/meta/{metaId}")
     Call<Meta> updatePostMeta(@Path("postId") long postId, @Path("metaId") long metaId, @Body Map<String, Object> fields);
 
-    @DELETE("posts/{postId}/meta/{metaId}")
+    @DELETE("posts/{postId}/meta/{metaId}?force=true")
     Call<Meta> deletePostMeta(@Path("postId") long postId, @Path("metaId") long metaId);
 
 
@@ -257,7 +257,7 @@ public interface WordPressRestInterface {
      * @param mediaId Id of the Media item
      * @return The deleted Media object
      */
-    @DELETE("media/{id}")
+    @DELETE("media/{id}?force=true")
     Call<Media> deleteMedia(@Path("id") long mediaId);
 
 

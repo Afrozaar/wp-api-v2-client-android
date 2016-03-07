@@ -287,6 +287,12 @@ public class WordPressContract {
     interface MetaColumns {
 
         /**
+         * Row ID of Post item for use when Post hasn't been uploaded yet.
+         * <P>Type: INTEGER (long)</P>
+         */
+        String POST_ROW_ID = "post_row_id";
+
+        /**
          * ID of object on WP
          * <P>Type: INTEGER (long)</P>
          */
@@ -309,6 +315,7 @@ public class WordPressContract {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
         String AUTHOR_ID = "REFERENCES " + Authors.TABLE_NAME + "(" + Authors.WP_AUTHOR_ID + ")";
         String POST_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts.WP_POST_ID + ")";
+        String POST_ROW_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts._ID + ")";
     }
 
     public static class BaseWpTable implements BaseColumns, BaseWPColumns {
@@ -748,24 +755,27 @@ public class WordPressContract {
 
         public static final int IDX_BLOG_ID = 1;
         public static final int IDX_WP_POST_ID = 2;
-        public static final int IDX_WP_META_ID = 3;
-        public static final int IDX_KEY = 4;
-        public static final int IDX_VALUE = 5;
+        public static final int IDX_POST_ROW_ID = 3;
+        public static final int IDX_WP_META_ID = 4;
+        public static final int IDX_KEY = 5;
+        public static final int IDX_VALUE = 6;
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
                 + WP_POST_ID + " INTEGER " + References.POST_ID + ","
+                + POST_ROW_ID + " INTEGER " + References.POST_ROW_ID + ","
                 + WP_META_ID + " INTEGER,"
                 + KEY + " TEXT NOT NULL,"
                 + VALUE + " TEXT NOT NULL)";
 
-        private static ContentValues makeContentValues(boolean update, long blogId, long postId, long metaId,
+        private static ContentValues makeContentValues(boolean update, long blogId, long postId, long postRowId, long metaId,
                                                        String key, String value) {
             ContentValues values = new ContentValues();
             if (!update) {
                 values.put(BLOG_ID, blogId);
                 values.put(WP_POST_ID, postId);
+                values.put(POST_ROW_ID, postRowId);
                 values.put(WP_META_ID, metaId);
                 values.put(KEY, key);
                 values.put(VALUE, value);
@@ -775,6 +785,9 @@ public class WordPressContract {
                 }
                 if (postId != -1) {
                     values.put(WP_POST_ID, postId);
+                }
+                if (postRowId != -1) {
+                    values.put(POST_ROW_ID, postRowId);
                 }
                 if (metaId != -1) {
                     values.put(WP_META_ID, metaId);
@@ -789,22 +802,22 @@ public class WordPressContract {
             return values;
         }
 
-        public static ContentValues insert(long blogId, long postId, long metaId,
+        public static ContentValues insert(long blogId, long postId, long postRowId, long metaId,
                                            String key, String value) {
-            return makeContentValues(false, blogId, postId, metaId, key, value);
+            return makeContentValues(false, blogId, postId, postRowId, metaId, key, value);
         }
 
-        public static ContentValues insert(long blogId, long postId, Meta meta) {
-            return insert(blogId, postId, meta.getId(), meta.getKey(), meta.getValue());
+        public static ContentValues insert(long blogId, long postId, long postRowId, Meta meta) {
+            return insert(blogId, postId, postRowId, meta.getId(), meta.getKey(), meta.getValue());
         }
 
-        public static ContentValues update(long blogId, long postId, long metaId,
+        public static ContentValues update(long blogId, long postId, long postRowId, long metaId,
                                            String key, String value) {
-            return makeContentValues(true, blogId, postId, metaId, key, value);
+            return makeContentValues(true, blogId, postId, postRowId, metaId, key, value);
         }
 
-        public static ContentValues update(long blogId, long postId, Meta meta) {
-            return update(blogId, postId, meta.getId(), meta.getKey(), meta.getValue());
+        public static ContentValues update(long blogId, long postId, long postRowId, Meta meta) {
+            return update(blogId, postId, postRowId, meta.getId(), meta.getKey(), meta.getValue());
         }
     }
 }

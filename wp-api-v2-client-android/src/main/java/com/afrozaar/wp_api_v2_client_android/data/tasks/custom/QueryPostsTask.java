@@ -27,7 +27,7 @@ public class QueryPostsTask extends WpQueryCursorTask {
                     + WordPressContract.Posts.STATUS + " =?";
             selectionArgs = new String[2];
             selectionArgs[0] = Post.POST_STATUS_DRAFT;
-            selectionArgs[1] = Post.POST_STATUS_PUBLISH;
+            selectionArgs[1] = Post.POST_STATUS_PUBLISHED_PRIVATE;
         }
 
         return new QueryPostsTask(context, WordPressContract.Posts.TABLE_NAME, null, selection, selectionArgs, callback);

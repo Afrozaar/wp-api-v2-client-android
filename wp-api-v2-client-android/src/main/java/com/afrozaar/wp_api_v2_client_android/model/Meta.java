@@ -19,7 +19,7 @@ public class Meta extends BaseModel {
     /**
      * Unique identifier for the object.
      */
-    private long id;
+    private long id = -1;
 
     public void setId(long id) {
         this.id = id;

@@ -1,5 +1,7 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
+import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +54,10 @@ public class DataConverters {
     }
 
     private static List<Long> makeTaxonomyIdList(String categoryString, String jsonName) {
+        if (TextUtils.isEmpty(categoryString)) {
+            return new ArrayList<>();
+        }
+
         try {
             JSONObject object = new JSONObject(categoryString);
 
