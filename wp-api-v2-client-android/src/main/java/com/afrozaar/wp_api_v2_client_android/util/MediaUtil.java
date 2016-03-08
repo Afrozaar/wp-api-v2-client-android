@@ -153,12 +153,18 @@ public class MediaUtil {
         return result;
     }
 
-    public static File getImageFilename() throws IOException {
+    public static File getImageFilename(Context context, boolean isPublic) throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "IMG_" + timeStamp + ".jpg";
 
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        File storageDir = null;
+        if (isPublic) {
+            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        } else {
+            storageDir = new File(context.getExternalFilesDir(null), "images");
+        }
+
         if (!storageDir.exists()) {
             boolean makeDir = storageDir.mkdirs();
             if (!makeDir) {

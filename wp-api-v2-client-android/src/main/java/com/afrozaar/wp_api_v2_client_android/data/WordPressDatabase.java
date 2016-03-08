@@ -41,6 +41,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
 
+    public void deleteDatabase(Context context) {
+        context.deleteDatabase(DATABASE_NAME);
     }
 }
