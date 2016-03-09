@@ -200,6 +200,10 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getMedia(), callback);
     }
 
+    public Call<Media> getMedia(long mediaId) {
+        return mRestInterface.getMedia(mediaId);
+    }
+
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
     }
