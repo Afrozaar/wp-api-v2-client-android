@@ -216,15 +216,23 @@ public class MediaUtil {
     }
 
     public static void deleteFile(File file) {
-        if (file.delete()) {
-            LogUtils.d("File (" + file.getPath() + ") was deleted successfully.");
-        } else {
-            LogUtils.d("Couldn't delete file : " + file.getPath());
+        try {
+            if (file.delete()) {
+                LogUtils.d("File (" + file.getPath() + ") was deleted successfully.");
+            } else {
+                LogUtils.d("Couldn't delete file : " + file.getPath());
+            }
+        } catch (Exception e) {
+            LogUtils.i("Exception while trying to delete file", e);
         }
     }
 
     public static void deleteFile(String filePath) {
-        deleteFile(new File(filePath));
+        try {
+            deleteFile(new File(filePath));
+        } catch (Exception e) {
+            LogUtils.i("Exception while trying to delete file", e);
+        }
     }
 
     public static String getMediaFilePath(Context context, String mediaKey, String type) {

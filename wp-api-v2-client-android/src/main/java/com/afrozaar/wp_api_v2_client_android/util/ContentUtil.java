@@ -5,12 +5,13 @@ import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.R;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * @author Jan-Louis Crafford
@@ -84,6 +85,10 @@ public class ContentUtil {
 
     public static String getContentLocationShortcode(Context context, String address) {
         return context.getString(R.string.content_location, address);
+    }
+
+    public static String getContentAudioShortcode(Context context, String audioUrl) {
+        return context.getString(R.string.content_audio_uri, audioUrl);
     }
 
     /**
