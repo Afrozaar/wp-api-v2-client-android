@@ -26,7 +26,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    private WordPressDatabase(Context context) {
+    public WordPressDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION_CURRENT);
     }
 

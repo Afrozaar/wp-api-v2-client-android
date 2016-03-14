@@ -37,7 +37,7 @@ public class Meta extends BaseModel {
     /**
      * Id of item this object is linked to.
      */
-    private long postId;
+    private long postId = -1;
 
     public void setPostId(long postId) {
         this.postId = postId;
@@ -135,6 +135,7 @@ public class Meta extends BaseModel {
     public String toString() {
         return "Meta{" +
                 "id=" + id +
+                ", postId=" + postId +
                 ", key='" + key + '\'' +
                 ", value='" + value + '\'' +
                 '}';

@@ -186,7 +186,7 @@ public class MediaUtil {
 
     public static File getAudioFilename(Context context) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String audioFileName = "AUD_" + timeStamp + ".mp4";
+        String audioFileName = "AUD_" + timeStamp + ".m4a";
 
         File storageDir = new File(context.getExternalFilesDir(null), "audio");
         if (!storageDir.exists()) {

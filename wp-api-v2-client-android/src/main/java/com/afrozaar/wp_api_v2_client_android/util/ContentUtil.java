@@ -77,10 +77,11 @@ public class ContentUtil {
      *
      * @param context  Application contenxt
      * @param videoUrl Absolute path to video file
+     * @param index    Required for the div id name to allow multiple videos; has to be unique for each video link
      * @return Formatted HTML video link
      */
-    public static String getContentVideoLinkUri(Context context, String videoUrl) {
-        return context.getString(R.string.content_video_uri, videoUrl);
+    public static String getContentVideoLinkUri(Context context, String videoUrl, int index) {
+        return context.getString(R.string.content_video_uri, videoUrl, index);
     }
 
     public static String getContentLocationShortcode(Context context, String address) {

@@ -47,9 +47,9 @@ public class WpClientRetrofit {
         //builder.authenticator(new OkHttpAuthenticator(username, password));
         builder.addInterceptor(new OkHttpBasicAuthInterceptor(username, password));
 
-        if (debugEnabled) {
+       /* if (debugEnabled) {
             builder.addInterceptor(new OkHttpDebugInterceptor());
-        }
+        }*/
 
         // setup retrofit with custom OkHttp client and Gson parser
         Retrofit retrofit = new Retrofit.Builder()

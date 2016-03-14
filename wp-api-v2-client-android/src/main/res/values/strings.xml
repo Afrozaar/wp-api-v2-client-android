@@ -7,11 +7,11 @@
     <string name="post_type">gallery</string>
     <string name="content_image_uri"><![CDATA[<a href="%1$s"><img src="%1$s" alt="%2$s" /></a>]]></string>
     <string name="content_video_uri">
-        <![CDATA[<div id="thePlayer"></div><script type="text/javascript">jwplayer(\"thePlayer\").setup({
-            flashplayer: \"http://static.videoninja101.com/jwplayer/player.swf\", file: \"%s\"});</script>
+        <![CDATA[<div id="thePlayer%2$s"></div><script type="text/javascript">jwplayer(\"thePlayer%2$s\").setup({
+            flashplayer: \"http://static.videoninja101.com/jwplayer/player.swf\", file: \"%1$s\"});</script>
         ]]>
     </string>
-    <string name="content_audio_uri">[audio mp3="%s"][/audio]</string>
+    <string name="content_audio_uri">[audio m4a="%s"][/audio]</string>
 
     <string name="content_location">[wp_gmaps address=\""%s\"" zoom="13" marker="1"]</string>
 
