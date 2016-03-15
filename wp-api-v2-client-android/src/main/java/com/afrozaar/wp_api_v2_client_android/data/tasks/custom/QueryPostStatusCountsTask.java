@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.afrozaar.wp_api_v2_client_android.data.WordPressContract;
-import com.afrozaar.wp_api_v2_client_android.data.tasks.DatabaseTaskCallback;
+import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.DatabaseTaskCallback;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.WpDatabaseTask;
 
 import java.util.HashMap;

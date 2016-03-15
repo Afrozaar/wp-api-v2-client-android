@@ -1,9 +1,12 @@
-package com.afrozaar.wp_api_v2_client_android.data.tasks;
+package com.afrozaar.wp_api_v2_client_android.data.tasks.callback;
+
+import com.afrozaar.wp_api_v2_client_android.data.tasks.WpDatabaseTask;
 
 /**
  * Created by jlo on 2016/02/28.
  */
 public interface DatabaseTaskCallback<Result> {
+
     /**
      * Called when task has finished successfully
      *
@@ -16,11 +19,18 @@ public interface DatabaseTaskCallback<Result> {
      */
     void onTaskResultNull();
 
+
+    /**
+     * Called when task was cancelled
+     */
+    void onTaskCancelled();
+
     /**
      * Called on task failure
      *
+     * @param task  The failed task, for retrying if required.
      * @param error Error message returned from task
      */
-    void onTaskFailure(String error);
+    void onTaskFailure(WpDatabaseTask task, String error);
 }
 

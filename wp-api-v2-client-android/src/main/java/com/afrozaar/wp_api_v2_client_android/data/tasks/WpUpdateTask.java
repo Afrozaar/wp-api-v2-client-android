@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.DatabaseTaskCallback;
+
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.

@@ -5,12 +5,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
+import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.DatabaseTaskCallback;
+
+import java.util.ArrayDeque;
+import java.util.concurrent.Executor;
 
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
 public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
+
+    private static final Executor ASYNC_TASK_POOL_EXECUTOR = new DatabaseTaskExecutorService();
+
+    public static final Executor DATABASE_TASK_SERIAL_EXECUTOR = new DatabaseTaskSerialExecutor();
 
     private WordPressDatabase database;
 
@@ -22,6 +30,10 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
         this.callback = callback;
     }
 
+    public void run(Params... params) {
+        executeOnExecutor(DATABASE_TASK_SERIAL_EXECUTOR, params);
+    }
+
     @Override
     protected Result doInBackground(Params... params) {
         try {
@@ -29,7 +41,7 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
         } catch (Exception e) {
             cancel(true);
             if (callback != null) {
-                callback.onTaskFailure(e.getMessage());
+                callback.onTaskFailure(this, e.getMessage());
             }
         }
         return null;
@@ -57,4 +69,34 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     protected SQLiteDatabase getWritableDatabase() {
         return database.getWritableDatabase();
     }
+
+    private static class DatabaseTaskSerialExecutor implements Executor {
+
+        final ArrayDeque<Runnable> tasks = new ArrayDeque<>();
+        Runnable active;
+
+        @Override
+        public synchronized void execute(final Runnable command) {
+            tasks.offer(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        command.run();
+                    } finally {
+                        scheduleNext();
+                    }
+                }
+            });
+            if (active == null) {
+                scheduleNext();
+            }
+        }
+
+        protected synchronized void scheduleNext() {
+            if ((active = tasks.poll()) != null) {
+                ASYNC_TASK_POOL_EXECUTOR.execute(active);
+            }
+        }
+    }
+
 }
