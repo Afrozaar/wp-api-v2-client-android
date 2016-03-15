@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 public class DataConverters {
 
-    private static SimpleDateFormat sPostDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss", Locale.US);
+    private static SimpleDateFormat sPostDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss zz", Locale.US);
 
     public static final String JSON_ARRAY_CATEGORY_IDS = "categoryIds";
     public static final String JSON_ARRAY_TAG_IDS = "tagIds";
@@ -78,7 +78,7 @@ public class DataConverters {
     public static long convertWpDateToLong(String dateInput) {
         try {
             if (dateInput != null) {
-                return sPostDateFormat.parse(dateInput).getTime();
+                return sPostDateFormat.parse(dateInput + " UTC").getTime();
             }
         } catch (ParseException e) {
             e.printStackTrace();
