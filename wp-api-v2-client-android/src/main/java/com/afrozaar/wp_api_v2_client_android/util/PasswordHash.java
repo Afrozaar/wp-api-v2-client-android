@@ -3,12 +3,17 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.util.Base64;
 
 import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Random;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
@@ -208,20 +213,36 @@ public class PasswordHash {
         return null;
     }
 
-    public static String decrypt(String encrypted) throws Exception {
-        String cI = "AES/CBC/PKCS5Padding";
-        String alg = "AES";
+    public static String decrypt(String encrypted){
+        try {
+            String cI = "AES/CBC/PKCS5Padding";
+            String alg = "AES";
 
-        String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
-        String iv = "1234567890123456";
+            String key = "bbC2H19lkVbQDfakxcrtNMQdd0FloLyw";
+            String iv = "1234567890123456";
 
-        Cipher cipher = Cipher.getInstance(cI);
-        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
-        byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivParameterSpec);
-        byte[] decrypted = cipher.doFinal(enc);
-        return new String(decrypted);
+            Cipher cipher = null;
+            cipher = Cipher.getInstance(cI);
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), alg);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+            byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivParameterSpec);
+            byte[] decrypted = cipher.doFinal(enc);
+            return new String(decrypted);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
