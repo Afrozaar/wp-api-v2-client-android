@@ -37,6 +37,17 @@ public class User extends BaseModel {
     public static final String JSON_FIELD_LINKS = "_links";
 
     /**
+     * Helper variable to quickly check if user is an admin when using the custom
+     * getUserFromLogin or getUserFromEmail calls.
+     */
+    @SerializedName("admin")
+    private boolean isAdmin;
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    /**
      * Avatar URLs for the object.
      */
     @JsonAdapter(AvatarUrlsDeserializer.class)

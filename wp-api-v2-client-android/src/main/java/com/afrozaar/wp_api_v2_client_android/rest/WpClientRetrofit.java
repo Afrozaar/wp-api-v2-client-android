@@ -39,17 +39,16 @@ public class WpClientRetrofit {
     public WpClientRetrofit(String baseUrl, final String username, final String password, boolean debugEnabled) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-        //builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.connectTimeout(30, TimeUnit.SECONDS);
         builder.readTimeout(30, TimeUnit.SECONDS);
-        // builder.writeTimeout(30, TimeUnit.SECONDS);
+        builder.writeTimeout(30, TimeUnit.SECONDS);
 
         // add the Basic Auth header
-        //builder.authenticator(new OkHttpAuthenticator(username, password));
         builder.addInterceptor(new OkHttpBasicAuthInterceptor(username, password));
 
-       /* if (debugEnabled) {
+        if (debugEnabled) {
             builder.addInterceptor(new OkHttpDebugInterceptor());
-        }*/
+        }
 
         // setup retrofit with custom OkHttp client and Gson parser
         Retrofit retrofit = new Retrofit.Builder()
@@ -60,10 +59,6 @@ public class WpClientRetrofit {
 
         // create instance of REST interface
         mRestInterface = retrofit.create(WordPressRestInterface.class);
-    }
-
-    public WordPressRestInterface getRestInterface() {
-        return mRestInterface;
     }
 
     private <T> void doRetrofitCall(Call<T> call, final WordPressRestResponse<T> callback) {
@@ -93,6 +88,10 @@ public class WpClientRetrofit {
 
     public void getUserFromLogin(String login, WordPressRestResponse<User> callback) {
         doRetrofitCall(mRestInterface.getUserFromLogin(login), callback);
+    }
+
+    public void getUserFromEmail(String email, WordPressRestResponse<User> callback) {
+        doRetrofitCall(mRestInterface.getUserFromEmail(email), callback);
     }
 
     public void getUserMe(WordPressRestResponse<User> callback) {
@@ -161,29 +160,6 @@ public class WpClientRetrofit {
     /* MEDIA */
 
     public void createMedia(Media media, File file, WordPressRestResponse<Media> callback) {
-        /*
-        try {
-            InputStream in = new FileInputStream(file);
-            byte[] buf;
-            buf = new byte[in.available()];
-            while (in.read(buf) != -1) ;
-
-            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), buf);
-            String header = "filename=" + file.getName();
-
-            Call<Media> call = mRestInterface.createMedia(media.getTitle().getRendered(), media.getPostId(),
-                    media.getAltText(), media.getCaption(), media.getDescription(), requestBody);
-
-            //Call<Media> call = mRestInterface.createMediaTest(header, requestBody);
-            call.enqueue(callback);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
         Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
         String header = "filename=" + file.getName();
 

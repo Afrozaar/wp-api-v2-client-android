@@ -356,6 +356,9 @@ public interface WordPressRestInterface {
     @GET("users/login/{username}")
     Call<User> getUserFromLogin(@Path("username") String username);
 
+    @GET("users/email/{email}")
+    Call<User> getUserFromEmail(@Path("email") String email);
+
     @GET("users/me")
     Call<User> getUserMe();
 
