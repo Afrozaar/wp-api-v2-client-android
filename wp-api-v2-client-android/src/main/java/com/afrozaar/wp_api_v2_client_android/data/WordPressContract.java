@@ -44,6 +44,12 @@ public class WordPressContract {
          * <P>Type: INTEGER (short)</P>
          */
         String UPDATED = "updated";
+
+        /**
+         * Time local content was updated
+         * <P>Type: INTEGER (long)</P>
+         */
+        String UPDATED_TIME = "updated_time";
     }
 
     /**
@@ -488,6 +494,7 @@ public class WordPressContract {
         public static final int IDX_CATEGORIES = 22;
         public static final int IDX_TAGS = 23;
         public static final int IDX_UPDATED = 24;
+        public static final int IDX_UPDATED_TIME = 25;
 
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
@@ -515,7 +522,8 @@ public class WordPressContract {
                 + FORMAT + " TEXT,"
                 + CATEGORIES + " TEXT,"
                 + TAGS + " TEXT,"
-                + UPDATED + " INTEGER)";
+                + UPDATED + " INTEGER,"
+                + UPDATED_TIME + " INTEGER)";
 
         private static ContentValues makeContentValues(boolean update, long blogId, long authorId, long postId,
                                                        String date, String dateGmt, String guid, String modified,

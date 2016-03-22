@@ -13,8 +13,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "wordpress.db";
 
     private static final int VERSION_INITIAL = 100;
+    private static final int VERSION_COL_UPDATE_TIME = 101;
 
-    private static final int VERSION_CURRENT = VERSION_INITIAL;
+    private static final int VERSION_CURRENT = VERSION_COL_UPDATE_TIME;
 
     private static WordPressDatabase sInstance = null;
 
@@ -41,6 +42,19 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        switch (oldVersion) {
+            case VERSION_INITIAL:
+                upgradeV100To101(db);
+                break;
+        }
+    }
+
+    /**
+     * Adds the update time column to POSTS table
+     */
+    private void upgradeV100To101(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
+        + WordPressContract.Posts.UPDATED_TIME + " INTEGER");
     }
 
     public void deleteDatabase(Context context) {
