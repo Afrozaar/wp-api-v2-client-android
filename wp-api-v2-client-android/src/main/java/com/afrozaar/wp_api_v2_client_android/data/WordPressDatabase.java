@@ -14,8 +14,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     private static final int VERSION_INITIAL = 100;
     private static final int VERSION_COL_UPDATE_TIME = 101;
+    private static final int VERSION_MEDIA_TABLE = 102;
 
-    private static final int VERSION_CURRENT = VERSION_COL_UPDATE_TIME;
+    private static final int VERSION_CURRENT = VERSION_MEDIA_TABLE;
 
     private static WordPressDatabase sInstance = null;
 
@@ -38,6 +39,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         db.execSQL(WordPressContract.Posts.SCHEMA);
         db.execSQL(WordPressContract.Taxonomies.SCHEMA);
         db.execSQL(WordPressContract.Metas.SCHEMA);
+        db.execSQL(WordPressContract.Medias.SCHEMA);
     }
 
     @Override
@@ -45,6 +47,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         switch (oldVersion) {
             case VERSION_INITIAL:
                 upgradeV100To101(db);
+                break;
+            case VERSION_COL_UPDATE_TIME:
+                upgradeV101To102(db);
                 break;
         }
     }
@@ -54,7 +59,11 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      */
     private void upgradeV100To101(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
-        + WordPressContract.Posts.UPDATED_TIME + " INTEGER");
+                + WordPressContract.Posts.UPDATED_TIME + " INTEGER");
+    }
+
+    private void upgradeV101To102(SQLiteDatabase db) {
+        db.execSQL(WordPressContract.Medias.SCHEMA);
     }
 
     public void deleteDatabase(Context context) {
