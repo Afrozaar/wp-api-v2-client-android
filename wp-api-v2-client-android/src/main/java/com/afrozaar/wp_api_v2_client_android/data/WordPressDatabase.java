@@ -1,8 +1,12 @@
 package com.afrozaar.wp_api_v2_client_android.data;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.afrozaar.wp_api_v2_client_android.data.legacy.DatabaseMigrator;
 
 /**
  * @author Jan-Louis Crafford
@@ -28,8 +32,12 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         return sInstance;
     }
 
+    private Context context;
+
     public WordPressDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION_CURRENT);
+
+        this.context = context;
     }
 
     @Override
@@ -47,10 +55,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         switch (oldVersion) {
             case VERSION_INITIAL:
                 upgradeV100To101(db);
-                break;
             case VERSION_COL_UPDATE_TIME:
                 upgradeV101To102(db);
-                break;
         }
     }
 
@@ -64,6 +70,35 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     private void upgradeV101To102(SQLiteDatabase db) {
         db.execSQL(WordPressContract.Medias.SCHEMA);
+
+        DatabaseMigrator migrator = new DatabaseMigrator(context);
+
+        Cursor cursor = migrator.getMediasCursor();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                long postRowId = cursor.getLong(1);
+                String type = cursor.getString(2);
+                String uri = cursor.getString(3);
+                String caption = cursor.getString(4);
+                long extId = cursor.getLong(5);
+                String extUrl = cursor.getString(6);
+
+                ContentValues values = new ContentValues();
+                values.put(WordPressContract.Medias.BLOG_ID, -1);
+                values.put(WordPressContract.Medias.WP_POST_ID, -1);
+                values.put(WordPressContract.Medias.POST_ROW_ID, postRowId);
+                values.put(WordPressContract.Medias.TYPE, type);
+                values.put(WordPressContract.Medias.URI, uri);
+                values.put(WordPressContract.Medias.CAPTION, caption != null ? caption : "");
+                values.put(WordPressContract.Medias.WP_MEDIA_ID, extId);
+                values.put(WordPressContract.Medias.EXTERNAL_URL, extUrl != null ? extUrl : "");
+
+                db.insert(WordPressContract.Medias.TABLE_NAME, null, values);
+            }
+            cursor.close();
+        }
+
+        migrator.deleteDatabase(context);
     }
 
     public void deleteDatabase(Context context) {
