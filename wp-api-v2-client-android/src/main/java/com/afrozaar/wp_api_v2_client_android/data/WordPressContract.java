@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 
+import com.afrozaar.wp_api_v2_client_android.model.MediaItem;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
@@ -315,6 +316,45 @@ public class WordPressContract {
          * <P>Type: TEXT</P>
          */
         String VALUE = "meta_value";
+    }
+
+    interface MediaColumns {
+
+        /**
+         * Row ID of Post item for use when Post hasn't been uploaded yet.
+         * <P>Type: INTEGER (long)</P>
+         */
+        String POST_ROW_ID = "post_row_id";
+
+        /**
+         * Id of the object on WP
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_MEDIA_ID = "wp_media_id";
+
+        /**
+         * Mime type of the media item
+         * <P>Type: TEXT</P>
+         */
+        String TYPE = "type";
+
+        /**
+         * Uri pointing to media object
+         * <P>Type: TEXT</P>
+         */
+        String URI = "uri";
+
+        /**
+         * Optional caption on media
+         * <P>Type: TEXT</P>
+         */
+        String CAPTION = "caption";
+
+        /**
+         * External URL for the object
+         * <P>Type: TEXT</P>
+         */
+        String EXTERNAL_URL = "external_url";
     }
 
     interface References {
@@ -826,6 +866,92 @@ public class WordPressContract {
 
         public static ContentValues update(long blogId, long postId, long postRowId, Meta meta) {
             return update(blogId, postId, postRowId, meta.getId(), meta.getKey(), meta.getValue());
+        }
+    }
+
+    public static class Medias extends BaseWpTable implements MediaColumns {
+        public static final String TABLE_NAME = "medias";
+
+        public static final int IDX_BLOG_ID = 1;
+        public static final int IDX_WP_POST_ID = 2;
+        public static final int IDX_POST_ROW_ID = 3;
+        public static final int IDX_WP_MEDIA_ID = 4;
+        public static final int IDX_TYPE = 5;
+        public static final int IDX_URI = 6;
+        public static final int IDX_CAPTION = 7;
+        public static final int IDX_EXTERNAL_URL = 8;
+
+        public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + "("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
+                + WP_POST_ID + " INTEGER " + References.POST_ID + ","
+                + POST_ROW_ID + " INTEGER " + References.POST_ROW_ID + ","
+                + WP_MEDIA_ID + " INTEGER,"
+                + TYPE + " TEXT NOT NULL,"
+                + URI + " TEXT NOT NULL,"
+                + CAPTION + " TEXT,"
+                + EXTERNAL_URL + " TEXT)";
+
+        private static ContentValues makeContentValues(boolean update, long blogId, long postId,
+                                                       long postRowId, long mediaId, String type,
+                                                       String uri, String caption, String externalUrl) {
+            ContentValues values = new ContentValues();
+            if (!update) {
+                values.put(BLOG_ID, blogId);
+                values.put(WP_POST_ID, postId);
+                values.put(POST_ROW_ID, postRowId);
+                values.put(WP_MEDIA_ID, mediaId);
+                values.put(TYPE, type);
+                values.put(URI, uri);
+                values.put(CAPTION, caption);
+                values.put(EXTERNAL_URL, externalUrl);
+            } else {
+                if (blogId != -1) {
+                    values.put(BLOG_ID, blogId);
+                }
+                if (postId != -1) {
+                    values.put(WP_POST_ID, postId);
+                }
+                if (postRowId != -1) {
+                    values.put(POST_ROW_ID, postRowId);
+                }
+                if (mediaId != -1) {
+                    values.put(WP_MEDIA_ID, mediaId);
+                }
+                if (!TextUtils.isEmpty(type)) {
+                    values.put(TYPE, type);
+                }
+                if (!TextUtils.isEmpty(uri)) {
+                    values.put(URI, uri);
+                }
+                if (!TextUtils.isEmpty(caption)) {
+                    values.put(CAPTION, caption);
+                }
+                if (!TextUtils.isEmpty(externalUrl)) {
+                    values.put(EXTERNAL_URL, externalUrl);
+                }
+            }
+            return values;
+        }
+
+        public static ContentValues insert(long blogId, long postId, long postRowId, long mediaId,
+                                           String type, String uri, String caption, String externalUrl) {
+            return makeContentValues(false, blogId, postId, postRowId, mediaId, type, uri, caption, externalUrl);
+        }
+
+        public static ContentValues insert(long blogId, long postId, long postRowId, MediaItem mediaItem) {
+            return insert(blogId, postId, postRowId, mediaItem.mediaId, mediaItem.type, mediaItem.uri, mediaItem.caption,
+                    mediaItem.externalUrl);
+        }
+
+        public static ContentValues update(long blogId, long postId, long postRowId, long mediaId,
+                                           String type, String uri, String caption, String externalUrl) {
+            return makeContentValues(true, blogId, postId, postRowId, mediaId, type, uri, caption, externalUrl);
+        }
+
+        public static ContentValues update(long blogId, long postId, long postRowId, MediaItem mediaItem) {
+            return update(blogId, postId, postRowId, mediaItem.mediaId, mediaItem.type, mediaItem.uri, mediaItem.caption,
+                    mediaItem.externalUrl);
         }
     }
 }

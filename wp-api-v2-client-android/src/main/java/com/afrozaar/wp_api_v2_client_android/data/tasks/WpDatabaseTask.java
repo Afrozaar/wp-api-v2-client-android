@@ -18,13 +18,17 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
 
     private static final Executor ASYNC_TASK_POOL_EXECUTOR = new DatabaseTaskExecutorService();
 
-    public static final Executor DATABASE_TASK_SERIAL_EXECUTOR = new DatabaseTaskSerialExecutor();
+    protected static final Executor DATABASE_TASK_SERIAL_EXECUTOR = new DatabaseTaskSerialExecutor();
+
+    protected Context context;
 
     private WordPressDatabase database;
+    private SQLiteDatabase openDatabase;
 
     private DatabaseTaskCallback<Result> callback;
 
     protected WpDatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
+        this.context = context;
         database = WordPressDatabase.getInstance(context);
 
         this.callback = callback;
@@ -48,6 +52,15 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     }
 
     @Override
+    protected void onCancelled() {
+        super.onCancelled();
+
+        if (callback != null) {
+            callback.onTaskCancelled();
+        }
+    }
+
+    @Override
     protected void onPostExecute(Result result) {
         super.onPostExecute(result);
 
@@ -63,11 +76,19 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     protected abstract Result exec() throws Exception;
 
     protected SQLiteDatabase getReadableDatabase() {
-        return database.getReadableDatabase();
+        if (openDatabase == null) {
+            openDatabase = database.getReadableDatabase();
+        }
+
+        return openDatabase;
     }
 
     protected SQLiteDatabase getWritableDatabase() {
-        return database.getWritableDatabase();
+        if (openDatabase == null || openDatabase.isReadOnly()) {
+            openDatabase = database.getWritableDatabase();
+        }
+
+        return openDatabase;
     }
 
     private static class DatabaseTaskSerialExecutor implements Executor {
