@@ -32,12 +32,4 @@ dependencies {
 
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-
-    // SQLite wrapper with password support
-    //compile 'net.zetetic:android-database-sqlcipher:3.3.1-2'
-
-    //AWS Libs
-    //compile 'com.amazonaws:aws-android-sdk-core:2.2.10'
-    //compile 'com.amazonaws:aws-android-sdk-cognito:2.2.10'
-    //compile 'com.amazonaws:aws-android-sdk-s3:2.2.10'
 }
