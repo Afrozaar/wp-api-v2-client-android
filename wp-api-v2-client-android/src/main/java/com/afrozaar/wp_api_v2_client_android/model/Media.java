@@ -104,7 +104,7 @@ public class Media extends WPObject<Media> {
      * The ID for the associated post of the attachment.
      */
     @SerializedName("post")
-    private long postId;
+    private long postId = -1;
 
     public void setPost(long postId) {
         this.postId = postId;

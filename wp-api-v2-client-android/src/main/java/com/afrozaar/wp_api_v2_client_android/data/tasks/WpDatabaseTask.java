@@ -35,7 +35,7 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     }
 
     public void run(Params... params) {
-        executeOnExecutor(DATABASE_TASK_SERIAL_EXECUTOR, params);
+        executeOnExecutor(ASYNC_TASK_POOL_EXECUTOR, params);
     }
 
     @Override

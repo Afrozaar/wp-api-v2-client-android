@@ -181,6 +181,9 @@ public class ContentUtil {
         if (Validate.notNull(media.getDescription())) {
             map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
         }
+        if (media.getPostId() != -1) {
+            map.put(Media.JSON_FIELD_POST, toRequestBody(media.getPostId() + ""));
+        }
 
         String ext = ContentUtil.getImageMimeType(file.getName());
         RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);
