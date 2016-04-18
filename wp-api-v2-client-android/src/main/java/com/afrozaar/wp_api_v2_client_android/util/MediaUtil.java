@@ -184,6 +184,10 @@ public class MediaUtil {
         return image;
     }
 
+    public static String getImageFilenamePath(Context context, boolean isPublic) throws IOException {
+        return getImageFilename(context, isPublic).toString();
+    }
+
     public static File getAudioFilename(Context context) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String audioFileName = "AUD_" + timeStamp + ".m4a";

@@ -74,7 +74,8 @@ public class WpClientRetrofit {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-
+                t.printStackTrace();
+                callback.onFailure(HttpServerErrorResponse.from(t));
             }
         };
         call.enqueue(retroCallback);
@@ -182,6 +183,10 @@ public class WpClientRetrofit {
 
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
         doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
+    }
+
+    public Call<Media> updateMedia(Media media, long mediaId) {
+        return mRestInterface.updateMedia(mediaId, Media.mapFromFields(media));
     }
 
     public Call<Media> deleteMedia(long mediaId) {

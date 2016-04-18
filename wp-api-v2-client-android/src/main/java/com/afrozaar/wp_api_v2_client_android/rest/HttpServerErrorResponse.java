@@ -41,6 +41,12 @@ public class HttpServerErrorResponse {
         return response;
     }
 
+    public static HttpServerErrorResponse from(Throwable throwable) {
+        HttpServerErrorResponse response = new HttpServerErrorResponse();
+        response.mMessage = throwable.getMessage();
+        return response;
+    }
+
     public HttpServerErrorResponse() {
     }
 

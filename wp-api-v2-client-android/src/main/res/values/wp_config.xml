@@ -20,6 +20,7 @@
 
     <string name="wp_post_publish">Publish</string>
     <string name="wp_media_delete">Delete</string>
+    <string name="wp_media_edit">Edit</string>
 
     <dimen name="media_thumb_size">100dp</dimen>
 
