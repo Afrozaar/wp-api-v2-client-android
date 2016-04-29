@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
-import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.DatabaseTaskCallback;
+import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.WpTaskCallback;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Executor;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
-public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
+public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 
     private static final Executor ASYNC_TASK_POOL_EXECUTOR = new DatabaseTaskExecutorService();
 
@@ -25,9 +25,9 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
     private WordPressDatabase database;
     private SQLiteDatabase openDatabase;
 
-    private DatabaseTaskCallback<Result> callback;
+    private WpTaskCallback<Result> callback;
 
-    protected WpDatabaseTask(Context context, DatabaseTaskCallback<Result> callback) {
+    protected WpAsyncTask(Context context, WpTaskCallback<Result> callback) {
         this.context = context;
         database = WordPressDatabase.getInstance(context);
 
@@ -43,7 +43,8 @@ public abstract class WpDatabaseTask<Params, Progress, Result> extends AsyncTask
         try {
             return exec();
         } catch (Exception e) {
-            cancel(true);
+            //cancel(true);
+            e.printStackTrace();
             if (callback != null) {
                 callback.onTaskFailure(this, e.getMessage());
             }

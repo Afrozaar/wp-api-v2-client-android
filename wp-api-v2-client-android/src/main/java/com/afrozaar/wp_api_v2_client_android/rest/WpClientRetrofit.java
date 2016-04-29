@@ -6,6 +6,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
+import com.afrozaar.wp_api_v2_client_android.model.dto.PostCount;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
@@ -87,6 +88,10 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.createUser(User.mapFromFields(user)), callback);
     }
 
+    public Call<User> getUser(long userId) {
+        return mRestInterface.getUser(userId);
+    }
+
     public void getUserFromLogin(String login, WordPressRestResponse<User> callback) {
         doRetrofitCall(mRestInterface.getUserFromLogin(login), callback);
     }
@@ -117,14 +122,42 @@ public class WpClientRetrofit {
 
     public void getPost(long postId, WordPressRestResponse<Post> callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("context", "view");
+        map.put("context", "edit");
         doRetrofitCall(mRestInterface.getPost(postId, map), callback);
+    }
+
+    public Call<Post> getPost(long postId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("context", "edit");
+        return mRestInterface.getPost(postId, map);
     }
 
     public void getPostForEdit(long postId, WordPressRestResponse<Post> callback) {
         Map<String, String> map = new HashMap<>();
         map.put("context", "edit");
         doRetrofitCall(mRestInterface.getPost(postId, map), callback);
+    }
+
+    public void getPosts(WordPressRestResponse<List<Post>> callback) {
+        doRetrofitCall(mRestInterface.getPosts(), callback);
+    }
+
+    public Call<List<Post>> getPosts() {
+        return mRestInterface.getPosts();
+    }
+
+    public Call<List<Post>> getPostsForPage(int startPage) {
+        Map<String, String> map = new HashMap<>();
+        map.put("page", startPage + "");
+        map.put("context", "edit");
+        return mRestInterface.getPosts(map);
+    }
+
+    public Call<List<Post>> getPostsAfterDate(String date) {
+        Map<String, String> map = new HashMap<>();
+        map.put("after", date);
+        map.put("context", "edit");
+        return mRestInterface.getPosts(map);
     }
 
     public Call<List<Post>> getPostsForAuthor(long authorId, String status) {
@@ -179,6 +212,14 @@ public class WpClientRetrofit {
 
     public Call<Media> getMedia(long mediaId) {
         return mRestInterface.getMedia(mediaId);
+    }
+
+    public void getMediaForPost(long postId, String mimeType, WordPressRestResponse<List<Media>> callback) {
+        doRetrofitCall(mRestInterface.getMediaForPost(postId, mimeType), callback);
+    }
+
+    public Call<List<Media>> getMediaForPost(long postId, String mimeType) {
+        return mRestInterface.getMediaForPost(postId, mimeType);
     }
 
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
@@ -281,5 +322,15 @@ public class WpClientRetrofit {
 
     public Call<Meta> deletePostMeta(long postId, long metaId) {
         return mRestInterface.deletePostMeta(postId, metaId);
+    }
+
+    /* OTHER */
+
+    public void getPostCounts(WordPressRestResponse<PostCount> callback) {
+        doRetrofitCall(mRestInterface.getPostCounts(), callback);
+    }
+
+    public Call<PostCount> getPostCounts() {
+        return mRestInterface.getPostCounts();
     }
 }

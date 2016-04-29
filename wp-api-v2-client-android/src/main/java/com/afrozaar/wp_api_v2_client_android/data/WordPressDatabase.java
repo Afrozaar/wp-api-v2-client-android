@@ -19,8 +19,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private static final int VERSION_INITIAL = 100;
     private static final int VERSION_COL_UPDATE_TIME = 101;
     private static final int VERSION_MEDIA_TABLE = 102;
+    private static final int VERSION_USERS_TABLE_UPDATE = 103;
 
-    private static final int VERSION_CURRENT = VERSION_MEDIA_TABLE;
+    private static final int VERSION_CURRENT = VERSION_USERS_TABLE_UPDATE;
 
     private static WordPressDatabase sInstance = null;
 
@@ -43,7 +44,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(WordPressContract.Blogs.SCHEMA);
-        db.execSQL(WordPressContract.Authors.SCHEMA);
+        db.execSQL(WordPressContract.Users.SCHEMA);
         db.execSQL(WordPressContract.Posts.SCHEMA);
         db.execSQL(WordPressContract.Taxonomies.SCHEMA);
         db.execSQL(WordPressContract.Metas.SCHEMA);
@@ -57,6 +58,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 upgradeV100To101(db);
             case VERSION_COL_UPDATE_TIME:
                 upgradeV101To102(db);
+            case VERSION_MEDIA_TABLE:
+                upgradeV102To103(db);
         }
     }
 
@@ -99,6 +102,16 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         }
 
         migrator.deleteDatabase(context);
+    }
+
+    /**
+     * Changes the 'authors' table to 'user' and adds more columns
+     * @param db
+     */
+    private void upgradeV102To103(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS authors");
+
+        db.execSQL(WordPressContract.Users.SCHEMA);
     }
 
     public void deleteDatabase(Context context) {

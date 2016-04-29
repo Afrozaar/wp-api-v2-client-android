@@ -3,13 +3,13 @@ package com.afrozaar.wp_api_v2_client_android.data.tasks;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.DatabaseTaskCallback;
+import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.WpTaskCallback;
 
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/02/11.
  */
-public class WpQueryCursorTask extends WpDatabaseTask<Void, Void, Cursor> {
+public class WpQueryCursorTask extends WpAsyncTask<Void, Void, Cursor> {
 
     private boolean distinct;
     private String table;
@@ -21,12 +21,12 @@ public class WpQueryCursorTask extends WpDatabaseTask<Void, Void, Cursor> {
     private String orderBy;
     private String limit;
 
-    public WpQueryCursorTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, DatabaseTaskCallback<Cursor> callback) {
+    public WpQueryCursorTask(Context context, String table, String[] projection, String selection, String[] selectionArgs, WpTaskCallback<Cursor> callback) {
         this(context, false, table, projection, selection, selectionArgs, null, null, null, null, callback);
     }
 
     public WpQueryCursorTask(Context context, boolean distinct, String table, String[] projection, String selection,
-                             String[] selectionArgs, String groupBy, String having, String orderBy, String limit, DatabaseTaskCallback<Cursor> callback) {
+                             String[] selectionArgs, String groupBy, String having, String orderBy, String limit, WpTaskCallback<Cursor> callback) {
         super(context, callback);
 
         this.distinct = distinct;

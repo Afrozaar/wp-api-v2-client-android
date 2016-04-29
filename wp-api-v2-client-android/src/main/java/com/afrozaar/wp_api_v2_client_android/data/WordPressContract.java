@@ -87,7 +87,7 @@ public class WordPressContract {
     /**
      * WP author details
      */
-    interface AuthorColumns {
+    interface UsersColumns {
 
         /**
          * Username on WP blog
@@ -106,6 +106,59 @@ public class WordPressContract {
          * <P>Type: TEXT</P>
          */
         String FULL_NAME = "full_name";
+
+        /**
+         * First name of the user
+         * <P>Type: TEXT</P>
+         */
+        String FIRST_NAME = "first_name";
+
+        /**
+         * Last name of the user
+         * <P>Type: TEXT</P>
+         */
+        String LAST_NAME = "last_name";
+
+        /**
+         * Email of the user
+         * <P>Type: TEXT</P>
+         */
+        String EMAIL = "email";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String URL = "url";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String DESCRIPTION = "description";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String LINK = "link";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String NICKNAME = "nickname";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String SLUG = "slug";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String REGISTERED_DATE = "registered_date";
+
+        /**
+         * <P>Type: TEXT</P>
+         */
+        String ROLES = "roles";
 
         /**
          * User icon
@@ -359,7 +412,7 @@ public class WordPressContract {
 
     interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
-        String AUTHOR_ID = "REFERENCES " + Authors.TABLE_NAME + "(" + Authors.WP_AUTHOR_ID + ")";
+        String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
         String POST_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts.WP_POST_ID + ")";
         String POST_ROW_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts._ID + ")";
     }
@@ -442,42 +495,74 @@ public class WordPressContract {
         }
     }
 
-    public static class Authors extends BaseWpTable implements AuthorColumns {
-        public static final String TABLE_NAME = "authors";
+    public static class Users extends BaseWpTable implements UsersColumns {
+        public static final String TABLE_NAME = "users";
 
         public static final int IDX_BLOG_ID = 1;
         public static final int IDX_WP_AUTHOR_ID = 2;
         public static final int IDX_USERNAME = 3;
         public static final int IDX_PASSWORD = 4;
         public static final int IDX_FULL_NAME = 5;
-        public static final int IDX_AVATAR_URL = 6;
+        public static final int IDX_FIRST_NAME = 6;
+        public static final int IDX_LAST_NAME = 7;
+        public static final int IDX_EMAIL = 8;
+        public static final int IDX_DESCRIPTION = 9;
+        public static final int IDX_LINK = 10;
+        public static final int IDX_NICKNAME = 11;
+        public static final int IDX_SLUG = 12;
+        public static final int IDX_REGISTERED_DATE = 13;
+        public static final int IDX_ROLES = 14;
+        public static final int IDX_AVATAR_URL = 15;
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + BLOG_ID + " INTEGER " + References.BLOG_ID + ","
                 + WP_AUTHOR_ID + " INTEGER,"
-                + USERNAME + " TEXT NOT NULL,"
-                + PASS + " TEXT NOT NULL,"
+                + USERNAME + " TEXT,"
+                + PASS + " TEXT,"
                 + FULL_NAME + " TEXT,"
+                + FIRST_NAME + " TEXT,"
+                + LAST_NAME + " TEXT,"
+                + EMAIL + " TEXT,"
+                + URL + " TEXT,"
+                + DESCRIPTION + " TEXT,"
+                + LINK + " TEXT,"
+                + NICKNAME + " TEXT,"
+                + SLUG + " TEXT,"
+                + REGISTERED_DATE + " TEXT,"
+                + ROLES + " TEXT,"
                 + AVATAR_URL + " TEXT)";
 
-        private static ContentValues makeContentValues(boolean update, long blogId, long authorId,
+        private static ContentValues makeContentValues(boolean update, long blogId, long userId,
                                                        String username, String password, String fullName,
-                                                       String avatarUrl) {
+                                                       String firstName, String lastName, String email,
+                                                       String url, String description, String link,
+                                                       String nickname, String slug, String registeredDate,
+                                                       String roles, String avatarUrl) {
             ContentValues values = new ContentValues();
             if (!update) {
                 values.put(BLOG_ID, blogId);
-                values.put(WP_AUTHOR_ID, authorId);
+                values.put(WP_AUTHOR_ID, userId);
                 values.put(USERNAME, username);
                 values.put(PASS, password);
                 values.put(FULL_NAME, fullName);
+                values.put(FIRST_NAME, firstName);
+                values.put(LAST_NAME, lastName);
+                values.put(EMAIL, email);
+                values.put(URL, url);
+                values.put(DESCRIPTION, description);
+                values.put(LINK, link);
+                values.put(NICKNAME, nickname);
+                values.put(SLUG, slug);
+                values.put(REGISTERED_DATE, registeredDate);
+                values.put(ROLES, roles);
                 values.put(AVATAR_URL, avatarUrl);
             } else {
                 if (blogId != -1) {
                     values.put(BLOG_ID, blogId);
                 }
-                if (authorId != -1) {
-                    values.put(WP_AUTHOR_ID, authorId);
+                if (userId != -1) {
+                    values.put(WP_AUTHOR_ID, userId);
                 }
                 if (!TextUtils.isEmpty(username)) {
                     values.put(USERNAME, username);
@@ -488,6 +573,36 @@ public class WordPressContract {
                 if (!TextUtils.isEmpty(fullName)) {
                     values.put(FULL_NAME, fullName);
                 }
+                if (!TextUtils.isEmpty(firstName)) {
+                    values.put(FIRST_NAME, firstName);
+                }
+                if (!TextUtils.isEmpty(lastName)) {
+                    values.put(LAST_NAME, lastName);
+                }
+                if (!TextUtils.isEmpty(email)) {
+                    values.put(EMAIL, email);
+                }
+                if (!TextUtils.isEmpty(url)) {
+                    values.put(URL, url);
+                }
+                if (!TextUtils.isEmpty(description)) {
+                    values.put(DESCRIPTION, description);
+                }
+                if (!TextUtils.isEmpty(link)) {
+                    values.put(LINK, link);
+                }
+                if (!TextUtils.isEmpty(nickname)) {
+                    values.put(NICKNAME, nickname);
+                }
+                if (!TextUtils.isEmpty(slug)) {
+                    values.put(SLUG, slug);
+                }
+                if (!TextUtils.isEmpty(registeredDate)) {
+                    values.put(REGISTERED_DATE, registeredDate);
+                }
+                if (!TextUtils.isEmpty(roles)) {
+                    values.put(ROLES, roles);
+                }
                 if (!TextUtils.isEmpty(avatarUrl)) {
                     values.put(AVATAR_URL, avatarUrl);
                 }
@@ -496,19 +611,33 @@ public class WordPressContract {
             return values;
         }
 
-        public static ContentValues insert(long blogId, long authorId, String username, String password,
-                                           String fullName, String avatarUrl) {
-            return makeContentValues(false, blogId, authorId, username, password, fullName, avatarUrl);
+        public static ContentValues insert(long blogId, long userId,
+                                           String username, String password, String fullName,
+                                           String firstName, String lastName, String email,
+                                           String url, String description, String link,
+                                           String nickname, String slug, String registeredDate,
+                                           String roles, String avatarUrl) {
+            return makeContentValues(false, blogId, userId, username, password, fullName,
+                    firstName, lastName, email, url, description, link, nickname, slug, registeredDate,
+                    roles, avatarUrl);
         }
 
-        public static ContentValues update(long blogId, long authorId, String username, String password,
-                                           String fullName, String avatarUrl) {
-            return makeContentValues(true, blogId, authorId, username, password, fullName, avatarUrl);
+        public static ContentValues update(long blogId, long userId,
+                                           String username, String password, String fullName,
+                                           String firstName, String lastName, String email,
+                                           String url, String description, String link,
+                                           String nickname, String slug, String registeredDate,
+                                           String roles, String avatarUrl) {
+            return makeContentValues(true, blogId, userId, username, password, fullName,
+                    firstName, lastName, email, url, description, link, nickname, slug, registeredDate,
+                    roles, avatarUrl);
         }
     }
 
     public static class Posts extends BaseWpTable implements PostColumns {
         public static final String TABLE_NAME = "posts";
+
+        public static final String QUALIFIED_ID = TABLE_NAME + "." + _ID;
 
         public static final int IDX_BLOG_ID = 1;
         public static final int IDX_WP_AUTHOR_ID = 2;
@@ -640,7 +769,7 @@ public class WordPressContract {
                 if (!TextUtils.isEmpty(title)) {
                     values.put(TITLE, title);
                 }
-                if (!TextUtils.isEmpty(content)) {
+                if (content != null) {
                     values.put(CONTENT, content);
                 }
                 if (!TextUtils.isEmpty(excerpt)) {

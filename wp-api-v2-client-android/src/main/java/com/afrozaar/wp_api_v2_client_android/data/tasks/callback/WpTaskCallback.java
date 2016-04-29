@@ -1,11 +1,11 @@
 package com.afrozaar.wp_api_v2_client_android.data.tasks.callback;
 
-import com.afrozaar.wp_api_v2_client_android.data.tasks.WpDatabaseTask;
+import com.afrozaar.wp_api_v2_client_android.data.tasks.WpAsyncTask;
 
 /**
  * Created by jlo on 2016/02/28.
  */
-public interface DatabaseTaskCallback<Result> {
+public interface WpTaskCallback<Result> {
 
     /**
      * Called when task has finished successfully
@@ -31,6 +31,6 @@ public interface DatabaseTaskCallback<Result> {
      * @param task  The failed task, for retrying if required.
      * @param error Error message returned from task
      */
-    void onTaskFailure(WpDatabaseTask task, String error);
+    void onTaskFailure(WpAsyncTask task, String error);
 }
 
