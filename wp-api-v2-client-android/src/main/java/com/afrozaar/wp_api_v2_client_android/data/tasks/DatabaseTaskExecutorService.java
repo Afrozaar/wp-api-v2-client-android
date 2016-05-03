@@ -1,7 +1,5 @@
 package com.afrozaar.wp_api_v2_client_android.data.tasks;
 
-import android.support.annotation.NonNull;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -25,7 +23,7 @@ public class DatabaseTaskExecutorService extends ThreadPoolExecutor {
     static class HermesThreadFactory implements ThreadFactory {
         private final AtomicInteger count = new AtomicInteger(1);
 
-        public Thread newThread(@NonNull Runnable runnable) {
+        public Thread newThread(Runnable runnable) {
             return new BackgroundThread(runnable, "AsyncTask Thread #" + count.getAndIncrement());
         }
     }

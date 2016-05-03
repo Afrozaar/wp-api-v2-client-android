@@ -66,7 +66,7 @@ public class WpClientRetrofit {
         Callback<T> retroCallback = new Callback<T>() {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
-                if (response.isSuccess()) {
+                if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                 } else {
                     callback.onFailure(HttpServerErrorResponse.from(response.errorBody()));
