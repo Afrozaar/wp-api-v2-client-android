@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.data.tasks;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.WpTaskCallback;
 
 /**
@@ -28,6 +29,8 @@ public abstract class WpQueryCustomTask<Result> extends WpAsyncTask<Void, Void, 
     public WpQueryCustomTask(Context context, boolean distinct, String table, String[] projection, String selection, String[] selectionArgs,
                              String groupBy, String having, String orderBy, String limit, WpTaskCallback<Result> callback) {
         super(context, callback);
+
+        database = WordPressDatabase.getInstance(context);
 
         this.distinct = distinct;
         this.table = table;

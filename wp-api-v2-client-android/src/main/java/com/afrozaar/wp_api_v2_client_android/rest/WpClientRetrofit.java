@@ -256,6 +256,11 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getTagsOrdered(map), callback);
     }
 
+    public Call<List<Taxonomy>> getTagForSlug(String slug) {
+        Map<String, String> map = new HashMap<>();
+        map.put("search", slug);
+        return mRestInterface.getTagForSlug(map);
+    }
 
     public void setCategoryForPost(long postId, long catId, WordPressRestResponse<Taxonomy> callback) {
         doRetrofitCall(mRestInterface.setPostCategory(postId, catId), callback);

@@ -324,6 +324,9 @@ public interface WordPressRestInterface {
     @GET("tags")
     Call<List<Taxonomy>> getTagsOrdered(@QueryMap Map<String, String> map);
 
+    @GET("tags")
+    Call<List<Taxonomy>> getTagForSlug(@QueryMap Map<String, String> map);
+
     @GET("tags/{id}")
     Call<Taxonomy> getTag(@Path("id") long id);
 
