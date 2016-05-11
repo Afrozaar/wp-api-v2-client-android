@@ -188,6 +188,37 @@ public class MediaUtil {
         return getImageFilename(context, isPublic).toString();
     }
 
+    public static File getVideoFilename(Context context, boolean isPublic) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String videoFileName = "VID_" + timeStamp + ".mp4";
+
+        File storageDir = null;
+        if (isPublic) {
+            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        } else {
+            storageDir = new File(context.getExternalFilesDir(null), "videos");
+        }
+
+        if (!storageDir.exists()) {
+            boolean makeDir = storageDir.mkdirs();
+            if (!makeDir) {
+                throw new IOException("Unable to create parent dirs for video file.");
+            } else {
+                LogUtils.d("Created parent dir structure for file.");
+            }
+        }
+        File video = new File(storageDir, videoFileName);
+
+        if (video.createNewFile()) {
+            LogUtils.d("Created new video file : " + video.getAbsolutePath());
+        } else {
+            LogUtils.d("New file not created; already exists?");
+        }
+
+        return video;
+    }
+
     public static File getAudioFilename(Context context) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String audioFileName = "AUD_" + timeStamp + ".m4a";

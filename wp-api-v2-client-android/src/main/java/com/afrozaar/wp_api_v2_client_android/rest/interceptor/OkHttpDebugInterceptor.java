@@ -30,40 +30,37 @@ public class OkHttpDebugInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        LogUtils.d(DEBUG_TAG, "******** [REQUEST START] ********");
-        LogUtils.d(DEBUG_TAG, "** URL : " + request.url().toString());
-        LogUtils.d(DEBUG_TAG, "** HTTP Method : " + request.method());
-       /* for (String head : request.headers().names()) {
-            LogUtils.d(DEBUG_TAG, "** HEADER : " + head + " = " + request.header(head));
-        }*/
+        StringBuilder sb = new StringBuilder();
 
-        /*if (request.body() != null) {
-            Buffer buffer = new Buffer();
-            request.body().writeTo(buffer);
-            String bodyStr = buffer.readUtf8();
-            LogUtils.d(DEBUG_TAG, "** BODY : " + bodyStr);
-        }*/
-
-        LogUtils.d(DEBUG_TAG, "******** [REQUEST END] ********");
+        sb.append("******** [REQUEST START] ********\n")
+                .append("** URL : ")
+                .append(request.url().toString())
+                .append("\n")
+                .append("** HTTP Method : ")
+                .append(request.method())
+                .append("\n");
 
         Response response = chain.proceed(request);
 
-        LogUtils.d(DEBUG_TAG, "******** [RESPONSE START] ********");
-        LogUtils.d(DEBUG_TAG, "** (" + response.code() + ") " + response.message());
-       /* for (String head : response.headers().names()) {
-            LogUtils.d(DEBUG_TAG, "** HEADER : " + head + " = " + response.header(head));
-        }*/
+        sb.append("** RESPONSE : (")
+                .append(response.code())
+                .append(") ")
+                .append(response.message())
+                .append("\n");
 
         // Enabling this stops the callbacks from being able to read the response body because the inputstream gets closed.
         // only really useful to check what responses are to create proper handlers
         if (mShowResponse) {
             if (response.body() != null) {
-                LogUtils.d(DEBUG_TAG, "** BODY : " + response.body().string());
+                sb.append("** BODY : ")
+                        .append(response.body().string());
             }
         }
 
-        LogUtils.d(DEBUG_TAG, "******** [RESPONSE END ********");
-        LogUtils.d(DEBUG_TAG, "");
+        sb.append("******** [RESPONSE END] ********\n")
+                .append("\n");
+
+        LogUtils.d(DEBUG_TAG, sb.toString());
 
         return response;
     }

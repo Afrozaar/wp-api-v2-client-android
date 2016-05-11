@@ -2,9 +2,9 @@ package com.afrozaar.wp_api_v2_client_android.data.tasks;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 
-import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.WpTaskCallback;
 
 import java.util.ArrayDeque;
@@ -22,15 +22,16 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
 
     protected Context context;
 
-    private WordPressDatabase database;
+    protected SQLiteOpenHelper database;
     private SQLiteDatabase openDatabase;
 
     private WpTaskCallback<Result> callback;
 
+    private boolean taskFailed = false;
+    private Exception taskException;
+
     protected WpAsyncTask(Context context, WpTaskCallback<Result> callback) {
         this.context = context;
-        database = WordPressDatabase.getInstance(context);
-
         this.callback = callback;
     }
 
@@ -45,9 +46,8 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
         } catch (Exception e) {
             //cancel(true);
             e.printStackTrace();
-            if (callback != null) {
-                callback.onTaskFailure(this, e.getMessage());
-            }
+            taskFailed = true;
+            taskException = e;
         }
         return null;
     }
@@ -66,10 +66,14 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
         super.onPostExecute(result);
 
         if (callback != null) {
-            if (result != null) {
-                callback.onTaskSuccess(result);
+            if (taskFailed) {
+                callback.onTaskFailure(this, taskException.getMessage());
             } else {
-                callback.onTaskResultNull();
+                if (result != null) {
+                    callback.onTaskSuccess(result);
+                } else {
+                    callback.onTaskResultNull();
+                }
             }
         }
     }
@@ -77,6 +81,10 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
     protected abstract Result exec() throws Exception;
 
     protected SQLiteDatabase getReadableDatabase() {
+        if (database == null) {
+            throw new IllegalStateException("Database has not been set");
+        }
+
         if (openDatabase == null) {
             openDatabase = database.getReadableDatabase();
         }
@@ -85,6 +93,10 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
     }
 
     protected SQLiteDatabase getWritableDatabase() {
+        if (database == null) {
+            throw new IllegalStateException("Database has not been set");
+        }
+
         if (openDatabase == null || openDatabase.isReadOnly()) {
             openDatabase = database.getWritableDatabase();
         }
