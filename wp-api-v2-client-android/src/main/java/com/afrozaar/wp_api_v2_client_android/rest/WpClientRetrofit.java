@@ -153,6 +153,14 @@ public class WpClientRetrofit {
         return mRestInterface.getPosts(map);
     }
 
+    public Call<List<Post>> getPostsForPage(int startPage, int pageSize) {
+        Map<String, String> map = new HashMap<>();
+        map.put("page", startPage + "");
+        map.put("per_page", pageSize + "");
+        map.put("context", "edit");
+        return mRestInterface.getPosts(map);
+    }
+
     public Call<List<Post>> getPostsAfterDate(String date) {
         Map<String, String> map = new HashMap<>();
         map.put("after", date);

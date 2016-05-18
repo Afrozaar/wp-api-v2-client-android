@@ -34,6 +34,7 @@ public class MediaUtil {
     private static final String HOST_EXTERNAL_STORAGE = "com.android.externalstorage.documents";
 
     public static String getRealPathFromURI(Context context, Uri uri) {
+        String path = null;
         try {
             String rawString = uri.toString();
             System.out.println("======= getting path for uri : " + rawString);
@@ -52,9 +53,15 @@ public class MediaUtil {
             LogUtils.w("Error while trying to get real path from uri", e);
         } catch (Exception e) {
             LogUtils.w("Something went wrong while reading Uri path", e);
+        } finally {
+            if (uri != null) {
+                path = uri.toString();
+            } else {
+                path = "";
+            }
         }
 
-        return uri.toString();
+        return path;
     }
 
     @SuppressLint("NewApi")
