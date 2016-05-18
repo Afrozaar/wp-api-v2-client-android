@@ -39,6 +39,10 @@ public abstract class WpAsyncTask<Params, Progress, Result> extends AsyncTask<Pa
         executeOnExecutor(ASYNC_TASK_POOL_EXECUTOR, params);
     }
 
+    public void runSerial(Params... paramses) {
+        executeOnExecutor(DATABASE_TASK_SERIAL_EXECUTOR, paramses);
+    }
+
     @Override
     protected Result doInBackground(Params... params) {
         try {
