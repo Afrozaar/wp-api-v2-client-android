@@ -32,6 +32,7 @@ public class Post extends WPObject<Post> {
     public static final String JSON_FIELD_FORMAT = "format";
     public static final String JSON_FIELD_STATUS = "status";
     public static final String JSON_FIELD_CATEGORIES = "categories";
+    public static final String JSON_FIELD_TAGS = "tags";
 
 
     /**
@@ -371,6 +372,7 @@ public class Post extends WPObject<Post> {
         Validate.validateMapEntry(JSON_FIELD_LINKS, post.getLinks(), builder);
         Validate.validateMapEntry(JSON_FIELD_STATUS, post.getStatus(), builder);
         Validate.validateMapEntry(JSON_FIELD_CATEGORIES, post.getCategories(), builder);
+        Validate.validateMapEntry(JSON_FIELD_TAGS, post.getTags(), builder);
 
         return builder;
     }

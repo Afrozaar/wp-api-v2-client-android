@@ -286,6 +286,12 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getCategories(), callback);
     }
 
+    public Call<List<Taxonomy>> getCategoryForSlug(String slug) {
+        Map<String, String> map = new HashMap<>();
+        map.put("search", slug);
+        return mRestInterface.getCategoryForSlug(map);
+    }
+
     public Call<List<Taxonomy>> getCategories() {
         return mRestInterface.getCategories();
     }

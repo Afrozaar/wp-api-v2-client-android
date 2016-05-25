@@ -304,6 +304,9 @@ public interface WordPressRestInterface {
     Call<Taxonomy> getCategory(@Path("id") long id);
 
     @GET("categories")
+    Call<List<Taxonomy>> getCategoryForSlug(@QueryMap Map<String, String> map);
+
+    @GET("categories")
     Call<List<Taxonomy>> getCategories(@QueryMap Map<String, Object> map);
 
     @POST("categories/{id}")
