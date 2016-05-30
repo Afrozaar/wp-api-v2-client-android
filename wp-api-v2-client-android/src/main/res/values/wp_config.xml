@@ -5,6 +5,11 @@
     <!--<string name="wp_base_url">http://192.168.0.63/wordpress/wp-json/wp/v2/</string>-->
     <string name="wp_base_url">http://demo.mojoreporter.com/wp-json/wp/v2/</string>
 
+    <!-- AWS Stuffs -->
+    <string name="s3_bucket">mojo-transcode-input-eu-west-1</string>
+    <string name="s3_bucket_folder">dev</string>
+
+
     <integer name="wp_parent_category">12</integer>
     <!--<integer name="wp_parent_category">13</integer>-->
 

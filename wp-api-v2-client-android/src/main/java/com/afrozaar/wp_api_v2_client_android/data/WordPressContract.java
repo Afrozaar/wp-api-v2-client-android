@@ -297,6 +297,12 @@ public class WordPressContract {
          * <P>Type: TEXT (array)</P>
          */
         String TAGS = "tags";
+
+        /**
+         * Flag to specify if Post is being uploaded
+         * <P>Type: INTEGER (short)</P>
+         */
+        String UPLOADING = "uploading";
     }
 
     interface TaxonomyColumns {
@@ -664,6 +670,7 @@ public class WordPressContract {
         public static final int IDX_TAGS = 23;
         public static final int IDX_UPDATED = 24;
         public static final int IDX_UPDATED_TIME = 25;
+        public static final int IDX_UPLOADING = 26;
 
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
@@ -692,7 +699,8 @@ public class WordPressContract {
                 + CATEGORIES + " TEXT,"
                 + TAGS + " TEXT,"
                 + UPDATED + " INTEGER,"
-                + UPDATED_TIME + " INTEGER)";
+                + UPDATED_TIME + " INTEGER,"
+                + UPLOADING + " INTEGER DEFAULT 0)";
 
         private static ContentValues makeContentValues(boolean update, long blogId, long authorId, long postId,
                                                        String date, String dateGmt, String guid, String modified,

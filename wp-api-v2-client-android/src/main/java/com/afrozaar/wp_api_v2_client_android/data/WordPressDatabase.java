@@ -20,8 +20,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private static final int VERSION_COL_UPDATE_TIME = 101;
     private static final int VERSION_MEDIA_TABLE = 102;
     private static final int VERSION_USERS_TABLE_UPDATE = 103;
+    private static final int VERSION_POST_UPLOADING_FLAG = 104;
 
-    private static final int VERSION_CURRENT = VERSION_USERS_TABLE_UPDATE;
+    private static final int VERSION_CURRENT = VERSION_POST_UPLOADING_FLAG;
 
     private static WordPressDatabase sInstance = null;
 
@@ -60,6 +61,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 upgradeV101To102(db);
             case VERSION_MEDIA_TABLE:
                 upgradeV102To103(db);
+            case VERSION_USERS_TABLE_UPDATE:
+                upgradeV103To104(db);
         }
     }
 
@@ -106,12 +109,19 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Changes the 'authors' table to 'user' and adds more columns
-     * @param db
      */
     private void upgradeV102To103(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS authors");
 
         db.execSQL(WordPressContract.Users.SCHEMA);
+    }
+
+    /**
+     * Add UPLOADING flag column to Post
+     */
+    private void upgradeV103To104(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
+                + WordPressContract.Posts.UPLOADING + " INTEGER DEFAULT 0");
     }
 
     public void deleteDatabase(Context context) {
