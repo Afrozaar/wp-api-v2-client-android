@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -228,6 +229,12 @@ public class WpClientRetrofit {
 
     public Call<List<Media>> getMediaForPost(long postId, String mimeType) {
         return mRestInterface.getMediaForPost(postId, mimeType);
+    }
+
+    public Call<List<Media>> getMediaForSlug(String slug) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("slug", slug);
+        return mRestInterface.getMediaForSlug(map);
     }
 
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {

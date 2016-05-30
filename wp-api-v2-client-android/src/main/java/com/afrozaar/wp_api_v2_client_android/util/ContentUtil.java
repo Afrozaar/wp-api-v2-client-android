@@ -100,6 +100,14 @@ public class ContentUtil {
         return context.getString(R.string.content_audio_uri, audioUrl);
     }
 
+    public static String getContentAudioLink(Context context, String fileName) {
+        int extStart = fileName.lastIndexOf(".");
+        String subFolder = context.getString(R.string.s3_bucket_folder);
+        String name = subFolder + "/" + fileName.substring(0, extStart);
+
+        return context.getString(R.string.content_audio_uri, name);
+    }
+
     /**
      * Returns the MIME type for an image file based on it's extension.
      *

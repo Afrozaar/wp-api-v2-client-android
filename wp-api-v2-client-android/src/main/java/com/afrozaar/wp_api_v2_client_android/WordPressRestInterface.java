@@ -251,6 +251,11 @@ public interface WordPressRestInterface {
     @GET("posts/{id}/media/{type}")
     Call<List<Media>> getMediaForPost(@Path("id") long postId, @Path("type") String type);
 
+
+    @GET("media")
+    Call<List<Media>> getMediaForSlug(@QueryMap Map<String, Object> map);
+
+
     /**
      * Updates a Media item.
      *

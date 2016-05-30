@@ -57,13 +57,23 @@
         </div>]]>
     </string>
 
-    <!--,
-                advertising: {
-                    client: \'vast\',
-                    tag: \'https://pubads.g.doubleclick.net/gampad/ads?sz=400x300|640x480&iu=/175217832/IOL/Video&ciu_szs=300x250,300x600,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=http://afrozaar.com&description_url=http://afrozaar.com&correlator=4345645667\'
-                }-->
+    <!--,advertising: {
+         client: \'vast\',
+         tag: \'https://pubads.g.doubleclick.net/gampad/ads?sz=400x300|640x480&iu=/175217832/IOL/Video&ciu_szs=300x250,300x600,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=http://afrozaar.com&description_url=http://afrozaar.com&correlator=4345645667\'
+         }-->
 
-    <string name="content_audio_uri">[audio m4a="%s"][/audio]</string>
+    <!--<string name="content_audio_uri">[audio m4a="%s"][/audio]</string>-->
+
+    <string name="content_audio_uri">
+        <![CDATA[
+            <div class="player-wrapper">
+                [audio m4a=https://cdn.mojoreporter.com/%1$s.m4a][/audio]
+                <div id="downloads">
+                    <a href="https://cdn.mojoreporter.com/%1$s.m4a" download=""><img src="http://cdn.mojoreporter.com/conf/downloadAudio.png" alt="Download the audio"/></a>
+                </div>
+            </div>
+        ]]>
+    </string>
 
     <string name="content_location">[wp_gmaps address=\""%s\"" zoom="13" marker="1"]</string>
 
