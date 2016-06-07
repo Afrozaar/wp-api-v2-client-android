@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--<string name="wp_base_url">http://ec2-54-229-137-73.eu-west-1.compute.amazonaws.com:8080/wp-json/wp/v2/</string>-->
-    <!--<string name="wp_base_url">http://192.168.0.63/wordpress/wp-json/wp/v2/</string>-->
     <string name="wp_base_url">http://demo.mojoreporter.com/wp-json/wp/v2/</string>
 
     <!-- AWS Stuffs -->
@@ -11,7 +9,6 @@
 
 
     <integer name="wp_parent_category">12</integer>
-    <!--<integer name="wp_parent_category">13</integer>-->
 
     <string name="wp_create_post_header1">USER GENERATED CONTENT</string>
     <string name="wp_create_post_header2">Capture your world by uploading a mini article that can include photos and your current location.</string>

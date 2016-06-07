@@ -92,6 +92,14 @@ public class ContentUtil {
         return context.getString(R.string.content_video_uri_transcode, name, index);
     }
 
+    public static String getContentVideoShortcode(Context context, String videoFilename) {
+        int extStart = videoFilename.lastIndexOf(".");
+        String subFolder = context.getString(R.string.s3_bucket_folder);
+        String name = subFolder + "/" + videoFilename.substring(0, extStart);
+
+        return context.getString(R.string.content_video_shortcode, name);
+    }
+
     public static String getContentLocationShortcode(Context context, String address) {
         return context.getString(R.string.content_location, address);
     }

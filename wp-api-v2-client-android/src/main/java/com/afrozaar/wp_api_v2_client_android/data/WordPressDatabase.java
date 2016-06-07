@@ -21,8 +21,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private static final int VERSION_MEDIA_TABLE = 102;
     private static final int VERSION_USERS_TABLE_UPDATE = 103;
     private static final int VERSION_POST_UPLOADING_FLAG = 104;
+    private static final int VERSION_MEDIA_UPLOAD_STATE = 105;
 
-    private static final int VERSION_CURRENT = VERSION_POST_UPLOADING_FLAG;
+    private static final int VERSION_CURRENT = VERSION_MEDIA_UPLOAD_STATE;
 
     private static WordPressDatabase sInstance = null;
 
@@ -63,6 +64,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 upgradeV102To103(db);
             case VERSION_USERS_TABLE_UPDATE:
                 upgradeV103To104(db);
+            case VERSION_POST_UPLOADING_FLAG:
+                upgradeV104To105(db);
         }
     }
 
@@ -122,6 +125,11 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private void upgradeV103To104(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
                 + WordPressContract.Posts.UPLOADING + " INTEGER DEFAULT 0");
+    }
+
+    private void upgradeV104To105(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + WordPressContract.Medias.TABLE_NAME + " ADD COLUMN "
+                + WordPressContract.Medias.UPLOAD_STATE + " INTEGER DEFAULT 0");
     }
 
     public void deleteDatabase(Context context) {

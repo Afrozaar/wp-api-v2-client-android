@@ -24,6 +24,10 @@ public class Media extends WPObject<Media> {
     public static final String JSON_FIELD_SOURCE_URL = "source_url";
     public static final String JSON_FIELD_MEDIA_DETAILS = "media_details";
 
+    public static final int UPLOAD_STATE_NONE = 0;  // not uploaded yet
+    public static final int UPLOAD_STATE_UPLOADED = 1;  // uploaded
+    public static final int UPLOAD_STATE_ERROR = 2;     // error on upload
+
     /**
      * Alternative text to display when attachment is not displayed.
      */

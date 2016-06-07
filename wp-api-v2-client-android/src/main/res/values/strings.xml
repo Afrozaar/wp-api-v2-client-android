@@ -57,6 +57,10 @@
         </div>]]>
     </string>
 
+    <string name="content_video_shortcode">
+        [baobab_video url=http://cdn.mojoreporter.com/%1$s.mp4]
+    </string>
+
     <!--,advertising: {
          client: \'vast\',
          tag: \'https://pubads.g.doubleclick.net/gampad/ads?sz=400x300|640x480&iu=/175217832/IOL/Video&ciu_szs=300x250,300x600,728x90&impl=s&gdfp_req=1&env=vp&output=xml_vast2&unviewed_position_start=1&url=http://afrozaar.com&description_url=http://afrozaar.com&correlator=4345645667\'

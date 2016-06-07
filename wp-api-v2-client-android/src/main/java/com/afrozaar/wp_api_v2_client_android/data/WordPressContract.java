@@ -414,6 +414,12 @@ public class WordPressContract {
          * <P>Type: TEXT</P>
          */
         String EXTERNAL_URL = "external_url";
+
+        /**
+         * Flag to show upload state of object
+         * <P>Type: INTEGER</P>
+         */
+        String UPLOAD_STATE = "upload_state";
     }
 
     interface References {
@@ -1017,6 +1023,7 @@ public class WordPressContract {
         public static final int IDX_URI = 6;
         public static final int IDX_CAPTION = 7;
         public static final int IDX_EXTERNAL_URL = 8;
+        public static final int IDX_UPLOAD_STATE = 9;
 
         public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + "("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -1027,7 +1034,8 @@ public class WordPressContract {
                 + TYPE + " TEXT NOT NULL,"
                 + URI + " TEXT NOT NULL,"
                 + CAPTION + " TEXT,"
-                + EXTERNAL_URL + " TEXT)";
+                + EXTERNAL_URL + " TEXT,"
+                + UPLOAD_STATE + " INTEGER)";
 
         private static ContentValues makeContentValues(boolean update, long blogId, long postId,
                                                        long postRowId, long mediaId, String type,

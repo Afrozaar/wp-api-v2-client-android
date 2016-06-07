@@ -40,6 +40,7 @@ public class MediaItem extends BaseModel {
     public String uri;
     public String caption;
     public String externalUrl;
+    public int uploadState;
 
     public MediaItem() {
     }
@@ -55,6 +56,7 @@ public class MediaItem extends BaseModel {
         uri = in.readString();
         caption = in.readString();
         externalUrl = in.readString();
+        uploadState = in.readInt();
     }
 
     @Override
@@ -69,6 +71,7 @@ public class MediaItem extends BaseModel {
         dest.writeString(uri);
         dest.writeString(caption);
         dest.writeString(externalUrl);
+        dest.writeInt(uploadState);
     }
 
     public String getMimeType() {
