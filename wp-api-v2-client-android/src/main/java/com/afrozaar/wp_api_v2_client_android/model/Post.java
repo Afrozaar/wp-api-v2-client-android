@@ -25,6 +25,7 @@ public class Post extends WPObject<Post> {
     public static final String POST_STATUS_TRASH = "trash";
     public static final String POST_STATUS_AUTO_DRAFT = "auto-draft";
     public static final String POST_STATUS_UPLOADING = "uploading";
+    public static final String POST_STATUS_UPLOADED_WITH_ERROR = "upload_with_error";
 
     public static final String JSON_FIELD_CONTENT = "content";
     public static final String JSON_FIELD_EXCERPT = "excerpt";

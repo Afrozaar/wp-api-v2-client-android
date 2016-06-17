@@ -300,7 +300,9 @@ public class WpClientRetrofit {
     }
 
     public Call<List<Taxonomy>> getCategories() {
-        return mRestInterface.getCategories();
+        Map<String, Object> map = new HashMap<>();
+        map.put("per_page", 100);
+        return mRestInterface.getCategories(map);
     }
 
     public void getCategoriesForParent(long parentId, WordPressRestResponse<List<Taxonomy>> callback) {

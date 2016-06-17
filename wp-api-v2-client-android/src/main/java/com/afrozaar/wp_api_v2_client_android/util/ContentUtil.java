@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.afrozaar.wp_api_v2_client_android.BuildConfig;
 import com.afrozaar.wp_api_v2_client_android.R;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 
@@ -94,8 +95,13 @@ public class ContentUtil {
 
     public static String getContentVideoShortcode(Context context, String videoFilename) {
         int extStart = videoFilename.lastIndexOf(".");
-        String subFolder = context.getString(R.string.s3_bucket_folder);
-        String name = subFolder + "/" + videoFilename.substring(0, extStart);
+        String folderName;
+        if (BuildConfig.DEBUG) {
+            folderName = "dev";
+        } else {
+            folderName = context.getString(R.string.s3_bucket_folder);
+        }
+        String name = folderName + "/" + videoFilename.substring(0, extStart);
 
         return context.getString(R.string.content_video_shortcode, name);
     }
