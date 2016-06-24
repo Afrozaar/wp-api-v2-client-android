@@ -3,7 +3,6 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.afrozaar.wp_api_v2_client_android.BuildConfig;
 import com.afrozaar.wp_api_v2_client_android.R;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 
@@ -93,15 +92,17 @@ public class ContentUtil {
         return context.getString(R.string.content_video_uri_transcode, name, index);
     }
 
-    public static String getContentVideoShortcode(Context context, String videoFilename) {
+    public static String getContentVideoShortcode(Context context, String videoFilename, boolean debug) {
         int extStart = videoFilename.lastIndexOf(".");
         String folderName;
-        if (BuildConfig.DEBUG) {
+        if (debug) {
             folderName = "dev";
         } else {
             folderName = context.getString(R.string.s3_bucket_folder);
         }
-        String name = folderName + "/" + videoFilename.substring(0, extStart);
+
+        String newFileName = videoFilename.replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
+        String name = folderName + "/" + newFileName.substring(0, extStart);
 
         return context.getString(R.string.content_video_shortcode, name);
     }
@@ -114,10 +115,17 @@ public class ContentUtil {
         return context.getString(R.string.content_audio_uri, audioUrl);
     }
 
-    public static String getContentAudioLink(Context context, String fileName) {
+    public static String getContentAudioLink(Context context, String fileName, boolean debug) {
         int extStart = fileName.lastIndexOf(".");
-        String subFolder = context.getString(R.string.s3_bucket_folder);
-        String name = subFolder + "/" + fileName.substring(0, extStart);
+        String folderName;
+        if (debug) {
+            folderName = "dev";
+        } else {
+            folderName = context.getString(R.string.s3_bucket_folder);
+        }
+
+        String newFileName = fileName.replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
+        String name = folderName + "/" + newFileName.substring(0, extStart);
 
         return context.getString(R.string.content_audio_uri, name);
     }
