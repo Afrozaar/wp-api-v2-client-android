@@ -71,13 +71,15 @@
     <string name="content_audio_uri">
         <![CDATA[
             <div class="player-wrapper">
-                [audio m4a=https://cdn.mojoreporter.com/%1$s.m4a][/audio]
+                [audio m4a=%1$s/%2$s.m4a][/audio]
                 <div id="downloads">
-                    <a href="https://cdn.mojoreporter.com/%1$s.m4a" download=""><img src="http://cdn.mojoreporter.com/conf/downloadAudio.png" alt="Download the audio"/></a>
+                    <a href="%1$s/%2$s.m4a" download=""><img src="http://cdn.mojoreporter.com/conf/downloadAudio.png" alt="Download the audio"/></a>
                 </div>
             </div>
         ]]>
     </string>
+
+    <string name="content_audio_base_url">http://cdn.mojoreporter.com</string>
 
     <string name="content_location">[wp_gmaps address=\""%s\"" zoom="13" marker="1"]</string>
 

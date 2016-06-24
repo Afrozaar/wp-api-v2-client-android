@@ -111,11 +111,11 @@ public class ContentUtil {
         return context.getString(R.string.content_location, address);
     }
 
-    public static String getContentAudioShortcode(Context context, String audioUrl) {
-        return context.getString(R.string.content_audio_uri, audioUrl);
+    public static String getContentAudioShortcode(Context context, String baseUrl, String audioUrl) {
+        return context.getString(R.string.content_audio_uri, baseUrl, audioUrl);
     }
 
-    public static String getContentAudioLink(Context context, String fileName, boolean debug) {
+    public static String getContentAudioLink(Context context, String baseUrl, String fileName, boolean debug) {
         int extStart = fileName.lastIndexOf(".");
         String folderName;
         if (debug) {
@@ -127,7 +127,7 @@ public class ContentUtil {
         String newFileName = fileName.replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
         String name = folderName + "/" + newFileName.substring(0, extStart);
 
-        return context.getString(R.string.content_audio_uri, name);
+        return context.getString(R.string.content_audio_uri, baseUrl, name);
     }
 
     /**
