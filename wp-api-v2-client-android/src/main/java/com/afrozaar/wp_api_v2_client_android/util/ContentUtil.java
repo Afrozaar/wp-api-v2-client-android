@@ -57,6 +57,12 @@ public class ContentUtil {
     private static final String IMAGE_TYPE_TIF = "tif";
     private static final String IMAGE_TYPE_ICO = "ico";
 
+    private static final String AUDIO_TYPE_MPEG = "audio/mpeg";
+    private static final String AUDIO_TYPE_MP4 = "audio/mp4";
+    private static final String AUDIO_TYPE_OGG = "audio/ogg";
+    private static final String AUDIO_TYPE_WAV = "audio/vnd.wav";
+    private static final String AUDIO_TYPE_MID = "audio/mid";
+
 
     /**
      * +
@@ -197,6 +203,17 @@ public class ContentUtil {
         return type.equals(MIME_IMAGE_BMP) || type.equals(MIME_IMAGE_GIF) || type.equals(MIME_IMAGE_ICO)
                 || type.equals(MIME_IMAGE_JPG) || type.equals(MIME_IMAGE_PNG) || type.equals(MIME_IMAGE_TIFF)
                 || type.equals(MIME_IMAGE_JPEG);
+    }
+
+    /**
+     * Checks if the given MIME type is a valid audio type.
+     *
+     * @param type MIME type
+     * @return True if type id valid audio.
+     */
+    public static boolean isAudioMedia(String type) {
+        return type.equals(AUDIO_TYPE_MPEG) || type.equals(AUDIO_TYPE_MP4) || type.equals(AUDIO_TYPE_MID)
+                || type.equals(AUDIO_TYPE_OGG) || type.equals(AUDIO_TYPE_WAV);
     }
 
 
