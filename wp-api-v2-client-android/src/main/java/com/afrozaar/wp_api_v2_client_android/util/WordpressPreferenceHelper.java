@@ -33,7 +33,7 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
         if (context == null) {
             throw new IllegalStateException("Context can not be null!");
         }
-        mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -57,13 +57,13 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     }
 
     public WordpressPreferenceHelper setWordPressUserId(long id) {
-        String pref = mContext.getString(PREF_USER_WP_ID);
+        String pref = context.getString(PREF_USER_WP_ID);
         putLongPref(pref, id);
         return this;
     }
 
     public long getWordPressUserId() {
-        String pref = mContext.getString(PREF_USER_WP_ID);
+        String pref = context.getString(PREF_USER_WP_ID);
         return getLongPref(pref);
     }
 
@@ -72,24 +72,24 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     }
 
     public WordpressPreferenceHelper setWordPressUsername(String username) {
-        String pref = mContext.getString(PREF_USER_WP_USERNAME);
+        String pref = context.getString(PREF_USER_WP_USERNAME);
         putStringPref(pref, username);
         return this;
     }
 
     public String getWordPressUsername() {
-        String pref = mContext.getString(PREF_USER_WP_USERNAME);
+        String pref = context.getString(PREF_USER_WP_USERNAME);
         return getStringPref(pref);
     }
 
     public WordpressPreferenceHelper setWordPressUserPassword(String password) {
-        String pref = mContext.getString(PREF_USER_WP_PASSWORD);
+        String pref = context.getString(PREF_USER_WP_PASSWORD);
         putStringPref(pref, password);
         return this;
     }
 
     public String getWordPressUserPassword() {
-        String pref = mContext.getString(PREF_USER_WP_PASSWORD);
+        String pref = context.getString(PREF_USER_WP_PASSWORD);
         return getStringPref(pref);
     }
 }

@@ -15,12 +15,12 @@ public abstract class BasePreferenceHelper {
     private static final float DEFAULT_FLOAT = -1F;
     private static final boolean DEFAULT_BOOLEAN = false;
 
-    protected Context mContext;
+    protected Context context;
 
     /* APP SPECIFIC METHODS */
 
     public SharedPreferences getPreferences() {
-        return mContext.getSharedPreferences(getAppPreferenceName(), Context.MODE_PRIVATE);
+        return context.getSharedPreferences(getAppPreferenceName(), Context.MODE_PRIVATE);
     }
 
     protected abstract String getAppPreferenceName();
