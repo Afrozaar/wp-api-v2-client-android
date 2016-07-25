@@ -101,6 +101,10 @@ public class WpClientRetrofit {
         doRetrofitCall(mRestInterface.getUserFromEmail(email), callback);
     }
 
+    public Call<User> getUserFromEmail(String email) {
+        return mRestInterface.getUserFromEmail(email);
+    }
+
     public void getUserMe(WordPressRestResponse<User> callback) {
         doRetrofitCall(mRestInterface.getUserMe(), callback);
     }
