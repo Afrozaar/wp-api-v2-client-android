@@ -94,14 +94,22 @@ public interface WordPressRestInterface {
     Call<Post> updatePost(@Path("id") long postId, @Body Map<String, Object> postFields);
 
     /**
-     * Deletes a Post.
+     * Marks a Post as Trash.
      *
      * @param postId Id of the Post
-     * @param force  Whether to bypass trash and force deletion.
      * @return Post object that was deleted
      */
     @DELETE("posts/{id}")
-    Call<Post> deletePost(@Path("id") long postId, @Query("force") boolean force, @Query("context") String context);
+    Call<Post> deletePost(@Path("id") long postId);
+
+    /**
+     * Deletes a Post.
+     *
+     * @param postId Id of the Post
+     * @return Post object that was deleted
+     */
+    @DELETE("posts/{id}?force")
+    Call<Post> deletePostForce(@Path("id") long postId);
 
     /**
      * Creates new Meta objects for a Post

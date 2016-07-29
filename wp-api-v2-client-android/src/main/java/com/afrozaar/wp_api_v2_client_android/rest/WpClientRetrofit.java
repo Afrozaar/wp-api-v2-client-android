@@ -197,11 +197,19 @@ public class WpClientRetrofit {
     public void deletePost(long postId, boolean force, WordPressRestResponse<Post> callback) {
         // 200 on success
         // 410 GONE on failure
-        doRetrofitCall(mRestInterface.deletePost(postId, force, "edit"), callback);
+        if (force) {
+            doRetrofitCall(mRestInterface.deletePostForce(postId), callback);
+        } else {
+            doRetrofitCall(mRestInterface.deletePost(postId), callback);
+        }
     }
 
     public Call<Post> deletePost(long postId, boolean force) {
-        return mRestInterface.deletePost(postId, force, "edit");
+        if (force) {
+            return mRestInterface.deletePostForce(postId);
+        } else {
+            return mRestInterface.deletePost(postId);
+        }
     }
 
     /* MEDIA */
