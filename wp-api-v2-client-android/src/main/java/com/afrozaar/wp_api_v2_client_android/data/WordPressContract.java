@@ -422,6 +422,93 @@ public class WordPressContract {
         String UPLOAD_STATE = "upload_state";
     }
 
+    interface StreamPostColumns {
+
+        /**
+         * ID of the Post object
+         * <P>Type: INTEGER (long)</P>
+         */
+        String POST_ID = "post_id";
+
+        /**
+         * ID of the author
+         * <P>Type: INTEGER</P>
+         */
+        String AUTHOR_ID = "author_id";
+
+        /**
+         * Title of the post
+         * <P>Type: TEXT</P>
+         */
+        String TITLE = "title";
+
+        /**
+         * Date the post was created
+         * <P>Type: TEXT</P>
+         */
+        String DATE = "date";
+
+        /**
+         * Date post was last modified
+         * <P>Type: TEXT</P>
+         */
+        String MODIFIED = "modified";
+
+        /**
+         * ID of the featured media object
+         * <P>Type: INTEGER</P>
+         */
+        String FEATURED_MEDIA = "featured_media";
+
+        /**
+         * Flag to set if post has been downloaded
+         * <P>Type: INTEGER (short)</P>
+         */
+        String DOWNLOADED = "downloaded";
+
+        /**
+         * Name of the author
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_NAME = "author_name";
+
+        /**
+         * Avatar image for the author
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_IMAGE = "author_image";
+
+        /**
+         * Media url for the featured media
+         * <P>Type: TEXT</P>
+         */
+        String MEDIA_URL = "media_url";
+
+        /**
+         * Image count for post
+         * <P>Type: INTEGER</P>
+         */
+        String META_IMAGE_COUNT = "meta_image_count";
+
+        /**
+         * Video count for post
+         * <P>Type: INTEGER</P>
+         */
+        String META_VIDEO_COUNT = "meta_video_count";
+
+        /**
+         * Audio count for post
+         * <P>Type: INTEGER</P>
+         */
+        String META_AUDIO_COUNT = "meta_audio_count";
+
+        /**
+         * Location for count for post
+         * <P>Type: INTEGER</P>
+         */
+        String META_LOCATION_COUNT = "meta_location_count";
+    }
+
     interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
         String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
@@ -450,7 +537,7 @@ public class WordPressContract {
 
         /**
          * Creates a {@link ContentValues} object for insert or updating a Blog entry.
-         * <p/>
+         * <p>
          * For <i>INSERT</i>, all values will be committed as is.
          * <br/>
          * For <i>UPDATE</i>, only values that are <B>NOT NULL</B> will be updated
@@ -1097,6 +1184,90 @@ public class WordPressContract {
         public static ContentValues update(long blogId, long postId, long postRowId, MediaItem mediaItem) {
             return update(blogId, postId, postRowId, mediaItem.mediaId, mediaItem.type, mediaItem.uri, mediaItem.caption,
                     mediaItem.externalUrl);
+        }
+    }
+
+    public static class StreamPost extends BaseWpTable implements StreamPostColumns {
+        public static final String TABLE_NAME = "stream_post";
+
+        public static final int IDX_POST_ID = 1;
+        public static final int IDX_AUTHOR_ID = 2;
+        public static final int IDX_TITLE = 3;
+        public static final int IDX_DATE = 4;
+        public static final int IDX_DATE_MODIFIED = 5;
+        public static final int IDX_FEATURED_MEDIA = 6;
+        public static final int IDX_DOWNLOADED = 7;
+        public static final int IDX_AUTHOR_NAME = 8;
+        public static final int IDX_AUTHOR_IMAGE = 9;
+        public static final int IDX_MEDIA_URL = 10;
+        public static final int IDX_META_IMAGE_COUNT = 11;
+        public static final int IDX_META_VIDEO_COUNT = 12;
+        public static final int IDX_META_AUDIO_COUNT = 13;
+        public static final int IDX_META_LOCATION_COUNT = 14;
+
+        public static final String SCHEMA = "CREATE TABLE " + TABLE_NAME + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + POST_ID + " INTEGER,"
+                + AUTHOR_ID + " INTEGER,"
+                + TITLE + " TEXT,"
+                + DATE + " TEXT,"
+                + MODIFIED + " TEXT,"
+                + FEATURED_MEDIA + " INTEGER,"
+                + DOWNLOADED + " INTEGER DEFAULT 0,"
+                + AUTHOR_NAME + " TEXT,"
+                + AUTHOR_IMAGE + " TEXT,"
+                + MEDIA_URL + " TEXT,"
+                + META_IMAGE_COUNT + " INTEGER,"
+                + META_VIDEO_COUNT + " INTEGER,"
+                + META_AUDIO_COUNT + " INTEGER,"
+                + META_LOCATION_COUNT + " INTEGER)";
+
+        private static ContentValues makeContentValues(boolean update, long postId, long authorId,
+                                                       String title, String date, String modified,
+                                                       int featuredMedia, boolean downloaded) {
+            ContentValues values = new ContentValues();
+            if (!update) {
+                values.put(WP_POST_ID, postId);
+                values.put(WP_AUTHOR_ID, authorId);
+                values.put(TITLE, title);
+                values.put(DATE, date);
+                values.put(MODIFIED, modified);
+                values.put(FEATURED_MEDIA, featuredMedia);
+                values.put(DOWNLOADED, downloaded);
+            } else {
+                if (postId != -1) {
+                    values.put(WP_POST_ID, postId);
+                }
+                if (authorId != -1) {
+                    values.put(WP_AUTHOR_ID, authorId);
+                }
+                if (!TextUtils.isEmpty(title)) {
+                    values.put(TITLE, title);
+                }
+                if (!TextUtils.isEmpty(date)) {
+                    values.put(DATE, date);
+                }
+                if (!TextUtils.isEmpty(modified)) {
+                    values.put(MODIFIED, modified);
+                }
+                if (featuredMedia != -1) {
+                    values.put(FEATURED_MEDIA, featuredMedia);
+                }
+                values.put(DOWNLOADED, downloaded);
+            }
+            return values;
+        }
+
+        public static ContentValues insert(long postId, long authorId,
+                                           String title, String date, String modified,
+                                           int featuredMedia, boolean downloaded) {
+            return makeContentValues(false, postId, authorId, title, date, modified, featuredMedia, downloaded);
+        }
+
+        public static ContentValues update(long postId, long authorId,
+                                           String title, String date, String modified,
+                                           int featuredMedia, boolean downloaded) {
+            return makeContentValues(true, postId, authorId, title, date, modified, featuredMedia, downloaded);
         }
     }
 }

@@ -1,12 +1,14 @@
 package com.afrozaar.wp_api_v2_client_android.rest;
 
+import android.text.TextUtils;
+
 import com.afrozaar.wp_api_v2_client_android.WordPressRestInterface;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
-import com.afrozaar.wp_api_v2_client_android.model.dto.PostCount;
+import com.afrozaar.wp_api_v2_client_android.model.dto.PostStreamItem;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
@@ -15,7 +17,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -212,6 +213,28 @@ public class WpClientRetrofit {
         }
     }
 
+    /**
+     * Returns a list of basic Post info for use in stream
+     * Only posts with a creation date after given date value will be returned
+     *
+     * @param date Date filter in format YYYY-mm-ddThh:mm:ss
+     */
+    public void getPostStream(String date, WordPressRestResponse<List<PostStreamItem>> callback) {
+        if (TextUtils.isEmpty(date)) {
+            doRetrofitCall(mRestInterface.getPostStream(), callback);
+        } else {
+            doRetrofitCall(mRestInterface.getPostStreamAfterDate(date), callback);
+        }
+    }
+
+    public Call<List<PostStreamItem>> getPostStream(String date) {
+        if (TextUtils.isEmpty(date)) {
+            return mRestInterface.getPostStream();
+        } else {
+            return mRestInterface.getPostStreamAfterDate(date);
+        }
+    }
+
     /* MEDIA */
 
     public void createMedia(Media media, File file, WordPressRestResponse<Media> callback) {
@@ -362,15 +385,5 @@ public class WpClientRetrofit {
 
     public Call<Meta> deletePostMeta(long postId, long metaId) {
         return mRestInterface.deletePostMeta(postId, metaId);
-    }
-
-    /* OTHER */
-
-    public void getPostCounts(WordPressRestResponse<PostCount> callback) {
-        doRetrofitCall(mRestInterface.getPostCounts(), callback);
-    }
-
-    public Call<PostCount> getPostCounts() {
-        return mRestInterface.getPostCounts();
     }
 }

@@ -7,7 +7,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Page;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
-import com.afrozaar.wp_api_v2_client_android.model.dto.PostCount;
+import com.afrozaar.wp_api_v2_client_android.model.dto.PostStreamItem;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 
 import java.io.File;
@@ -415,12 +415,9 @@ public interface WordPressRestInterface {
     @GET("posts")
     Call<List<Post>> getPostsForTags(@Query("filter[tag]") String tag);
 
-    /**
-     * Returns the number of pages for each of the following post states:
-     * publish, draft, private
-     *
-     * @return Number of pages for post states
-     */
-    @GET("posts/counts")
-    Call<PostCount> getPostCounts();
+    @GET("posts/stream")
+    Call<List<PostStreamItem>> getPostStream();
+
+    @GET("posts/stream/{date}")
+    Call<List<PostStreamItem>> getPostStreamAfterDate(@Path("date") String date);
 }
