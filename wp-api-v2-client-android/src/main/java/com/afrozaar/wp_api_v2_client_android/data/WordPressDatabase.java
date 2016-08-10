@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.afrozaar.wp_api_v2_client_android.data.legacy.DatabaseMigrator;
+import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 
 /**
  * @author Jan-Louis Crafford
@@ -48,7 +49,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(WordPressContract.Blogs.SCHEMA);
         db.execSQL(WordPressContract.Users.SCHEMA);
-        db.execSQL(WordPressContract.Posts.SCHEMA);
+        db.execSQL(PostRepository.SCHEMA);
         db.execSQL(WordPressContract.Taxonomies.SCHEMA);
         db.execSQL(WordPressContract.Metas.SCHEMA);
         db.execSQL(WordPressContract.Medias.SCHEMA);
@@ -77,8 +78,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * Adds the update time column to POSTS table
      */
     private void upgradeV100To101(SQLiteDatabase db) {
-        db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
-                + WordPressContract.Posts.UPDATED_TIME + " INTEGER");
+        db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME + " ADD COLUMN "
+                + PostRepository.UPDATED_TIME + " INTEGER");
     }
 
     private void upgradeV101To102(SQLiteDatabase db) {
@@ -127,8 +128,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * Add UPLOADING flag column to Post
      */
     private void upgradeV103To104(SQLiteDatabase db) {
-        db.execSQL("ALTER TABLE " + WordPressContract.Posts.TABLE_NAME + " ADD COLUMN "
-                + WordPressContract.Posts.UPLOADING + " INTEGER DEFAULT 0");
+        db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME + " ADD COLUMN "
+                + PostRepository.UPLOADING + " INTEGER DEFAULT 0");
     }
 
     private void upgradeV104To105(SQLiteDatabase db) {

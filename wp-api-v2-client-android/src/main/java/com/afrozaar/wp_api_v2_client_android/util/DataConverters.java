@@ -35,7 +35,7 @@ public class DataConverters {
         return makeTaxonomyString(tags, JSON_ARRAY_TAG_IDS);
     }
 
-    public List<Long> makeTagIdList(String tagString) {
+    public static List<Long> makeTagIdList(String tagString) {
         return makeTaxonomyIdList(tagString, JSON_ARRAY_TAG_IDS);
     }
 

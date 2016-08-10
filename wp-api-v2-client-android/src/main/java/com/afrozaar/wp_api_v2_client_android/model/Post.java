@@ -92,8 +92,10 @@ public class Post extends WPObject<Post> {
         return excerpt;
     }
 
-    public Post withExcerpt(WPGeneric excerpt) {
-        setExcerpt(excerpt);
+    public Post withExcerpt(String excerpt) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(excerpt);
+        setExcerpt(generic);
         return this;
     }
 
@@ -252,8 +254,10 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withGuid(WPGeneric guid) {
-        setGuid(guid);
+    public Post withGuid(String guid) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(guid);
+        setGuid(generic);
         return this;
     }
 
@@ -302,14 +306,18 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withCommentStatus(WPStatus commentStatus) {
-        setCommentStatus(commentStatus);
+    public Post withCommentStatus(int commentStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(commentStatus);
+        setCommentStatus(status);
         return this;
     }
 
     @Override
-    public Post withPingStatus(WPStatus pingStatus) {
-        setPingStatus(pingStatus);
+    public Post withPingStatus(int pingStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(pingStatus);
+        setCommentStatus(status);
         return this;
     }
 

@@ -4,12 +4,10 @@ import android.content.ContentValues;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 
+import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 import com.afrozaar.wp_api_v2_client_android.model.MediaItem;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
-import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
-import com.afrozaar.wp_api_v2_client_android.model.WPStatus;
-import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
 
 /**
  * @author Jan-Louis Crafford
@@ -20,7 +18,7 @@ public class WordPressContract {
     /**
      * Shared columns for tables to link records
      */
-    interface BaseWPColumns {
+    public interface BaseWPColumns {
 
         /**
          * ID of the blog this record is linked to
@@ -51,12 +49,14 @@ public class WordPressContract {
          * <P>Type: INTEGER (long)</P>
          */
         String UPDATED_TIME = "updated_time";
+
+        int IDX_ID = 0;
     }
 
     /**
      * Table for keeping track of multiple WP sites
      */
-    interface BlogColumns {
+    public interface BlogColumns {
 
         /**
          * Title of the blog
@@ -82,12 +82,16 @@ public class WordPressContract {
          */
         String PASS = "pass";
 
+        int IDX_TITLE = 1;
+        int IDX_URL = 2;
+        int IDX_USER = 3;
+        int IDX_PASS = 4;
     }
 
     /**
      * WP author details
      */
-    interface UsersColumns {
+    public interface UsersColumns {
 
         /**
          * Username on WP blog
@@ -169,8 +173,10 @@ public class WordPressContract {
 
     /**
      * WP Post columns
+     * <p/>
+     * http://v2.wp-api.org/reference/posts/
      */
-    interface PostColumns {
+    public interface PostColumns {
 
         /**
          * Date post was made
@@ -297,15 +303,30 @@ public class WordPressContract {
          * <P>Type: TEXT (array)</P>
          */
         String TAGS = "tags";
+    }
+
+    public interface PostExtraColumns {
 
         /**
          * Flag to specify if Post is being uploaded
          * <P>Type: INTEGER (short)</P>
          */
         String UPLOADING = "uploading";
+
+        /**
+         * Flag to set if Post is from app, or was pulled from the Post Feed
+         * <P>Type: INTEGER (short)</P>
+         */
+        String IS_FEED_POST = "is_feed_post";
+
+        /**
+         * Flag to specificy if Post object has been downloaded if it is part of the Post Feed
+         * <P>Type: INTEGER (short)</P>
+         */
+        String DOWNLOADED = "downloaded";
     }
 
-    interface TaxonomyColumns {
+    public interface TaxonomyColumns {
 
         /**
          * ID of object on WP site
@@ -350,7 +371,7 @@ public class WordPressContract {
         String LINK = "link";
     }
 
-    interface MetaColumns {
+    public interface MetaColumns {
 
         /**
          * Row ID of Post item for use when Post hasn't been uploaded yet.
@@ -377,7 +398,7 @@ public class WordPressContract {
         String VALUE = "meta_value";
     }
 
-    interface MediaColumns {
+    public interface MediaColumns {
 
         /**
          * Row ID of Post item for use when Post hasn't been uploaded yet.
@@ -422,7 +443,7 @@ public class WordPressContract {
         String UPLOAD_STATE = "upload_state";
     }
 
-    interface StreamPostColumns {
+    public interface StreamPostColumns {
 
         /**
          * ID of the Post object
@@ -509,11 +530,11 @@ public class WordPressContract {
         String META_LOCATION_COUNT = "meta_location_count";
     }
 
-    interface References {
+    public interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
         String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
-        String POST_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts.WP_POST_ID + ")";
-        String POST_ROW_ID = "REFERENCES " + Posts.TABLE_NAME + "(" + Posts._ID + ")";
+        String POST_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + BaseWPColumns.WP_POST_ID + ")";
+        String POST_ROW_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + BaseColumns._ID + ")";
     }
 
     public static class BaseWpTable implements BaseColumns, BaseWPColumns {
@@ -537,7 +558,7 @@ public class WordPressContract {
 
         /**
          * Creates a {@link ContentValues} object for insert or updating a Blog entry.
-         * <p>
+         * <p/>
          * For <i>INSERT</i>, all values will be committed as is.
          * <br/>
          * For <i>UPDATE</i>, only values that are <B>NOT NULL</B> will be updated
@@ -733,7 +754,7 @@ public class WordPressContract {
         }
     }
 
-    public static class Posts extends BaseWpTable implements PostColumns {
+    /*public static class Posts extends BaseWpTable implements PostColumns {
         public static final String TABLE_NAME = "posts";
 
         public static final String QUALIFIED_ID = TABLE_NAME + "." + _ID;
@@ -945,7 +966,7 @@ public class WordPressContract {
                     post.getSticky(), post.getFormat(), DataConverters.makeCategoryString(post.getCategories()),
                     DataConverters.makeTagString(post.getTags()));
         }
-    }
+    }*/
 
     public static class Taxonomies extends BaseWpTable implements TaxonomyColumns {
         public static final String TABLE_NAME = "taxonomies";

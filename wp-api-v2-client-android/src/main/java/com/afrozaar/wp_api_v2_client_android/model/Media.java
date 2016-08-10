@@ -180,8 +180,10 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withGuid(WPGeneric guid) {
-        setGuid(guid);
+    public Media withGuid(String guid) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(guid);
+        setGuid(generic);
         return this;
     }
 
@@ -230,14 +232,18 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withCommentStatus(WPStatus commentStatus) {
-        setCommentStatus(commentStatus);
+    public Media withCommentStatus(int commentStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(commentStatus);
+        setCommentStatus(status);
         return this;
     }
 
     @Override
-    public Media withPingStatus(WPStatus pingStatus) {
-        setPingStatus(pingStatus);
+    public Media withPingStatus(int pingStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(pingStatus);
+        setCommentStatus(status);
         return this;
     }
 
