@@ -10,11 +10,8 @@ import com.afrozaar.wp_api_v2_client_android.data.WordPressContract;
  * @author Jan-Louis Crafford
  *         Created on 2016/06/06.
  */
-public abstract class BaseRepository<Model> implements BaseColumns, WordPressContract.BaseWPColumns {
-
-    public abstract ContentValues mapToContentValues(Model model);
-
-    public abstract Model mapFromCursor(Cursor cursor) throws Exception;
+public abstract class BaseRepository implements BaseColumns, WordPressContract.BaseWPColumns,
+        WordPressContract.BaseExtraColumns {
 
     protected static long getRowId(Cursor cursor) {
         if (cursor.getColumnIndex(_ID) != -1) {

@@ -21,6 +21,81 @@ public class WordPressContract {
     public interface BaseWPColumns {
 
         /**
+         * Date object was created
+         * <P>Type: TEXT</P>
+         */
+        String DATE = "date";
+
+        /**
+         * Date object was created, in GMT
+         * <P>Type: TEXT</P>
+         */
+        String DATE_GMT = "date_gmt";
+
+        /**
+         * Globally unique identifier for object
+         * <P>Type : TEXT</P>
+         */
+        String GUID = "guid";
+
+        /**
+         * Date object was last modified
+         * <P>Type: TEXT</P>
+         */
+        String MODIFIED = "modified";
+
+        /**
+         * Date object was last modified, in GMT
+         * <P>Type: TEXT</P>
+         */
+        String MODIFIED_GMT = "modified_gmt";
+
+        /**
+         * Alphanumeric identifier for the object unique to its type.
+         * <P>Type : TEXT</P>
+         */
+        String SLUG = "slug";
+
+        /**
+         * Type of post
+         * <P>Type : TEXT</P>
+         */
+        String TYPE = "type";
+
+        /**
+         * URL to the object
+         * <P>Type : TEXT</P>
+         */
+        String LINK = "link";
+
+        /**
+         * Title of the post
+         * <P>Type: TEXT</P>
+         */
+        String TITLE = "title";
+
+        /**
+         * Whether or not comments are open on the object
+         * <P>Type : INTEGER (short)</P>
+         *
+         * @see com.afrozaar.wp_api_v2_client_android.model.WPStatus
+         */
+        String COMMENT_STATUS = "comment_status";
+
+        /**
+         * Whether or not the object can be pinged.
+         * <P>Type : INTEGER (short)</P>
+         *
+         * @see com.afrozaar.wp_api_v2_client_android.model.WPStatus
+         */
+        String PING_STATUS = "ping_status";
+
+        int IDX_ID = 0;
+    }
+
+    public interface BaseExtraColumns {
+
+        /**
          * ID of the blog this record is linked to
          * <P>Type: INTEGER (long)</P>
          */
@@ -39,6 +114,12 @@ public class WordPressContract {
         String WP_POST_ID = "wp_post_id";
 
         /**
+         * Row ID of Post item for use when Post hasn't been uploaded yet.
+         * <P>Type: INTEGER (long)</P>
+         */
+        String POST_ROW_ID = "post_row_id";
+
+        /**
          * Flag to set if content has been updated locally
          * <P>Type: INTEGER (short)</P>
          */
@@ -49,20 +130,12 @@ public class WordPressContract {
          * <P>Type: INTEGER (long)</P>
          */
         String UPDATED_TIME = "updated_time";
-
-        int IDX_ID = 0;
     }
 
     /**
      * Table for keeping track of multiple WP sites
      */
     public interface BlogColumns {
-
-        /**
-         * Title of the blog
-         * <P>Type: TEXT</P>
-         */
-        String TITLE = "title";
 
         /**
          * Url of the blog
@@ -81,11 +154,6 @@ public class WordPressContract {
          * <P>Type: TEXT</P>
          */
         String PASS = "pass";
-
-        int IDX_TITLE = 1;
-        int IDX_URL = 2;
-        int IDX_USER = 3;
-        int IDX_PASS = 4;
     }
 
     /**
@@ -142,17 +210,7 @@ public class WordPressContract {
         /**
          * <P>Type: TEXT</P>
          */
-        String LINK = "link";
-
-        /**
-         * <P>Type: TEXT</P>
-         */
         String NICKNAME = "nickname";
-
-        /**
-         * <P>Type: TEXT</P>
-         */
-        String SLUG = "slug";
 
         /**
          * <P>Type: TEXT</P>
@@ -179,46 +237,10 @@ public class WordPressContract {
     public interface PostColumns {
 
         /**
-         * Date post was made
-         * <P>Type: TEXT</P>
-         */
-        String DATE = "date";
-
-        /**
-         * Date post was made, in GMT
-         * <P>Type: TEXT</P>
-         */
-        String DATE_GMT = "date_gmt";
-
-        /**
-         * Globally unique identifier for object
-         * <P>Type : TEXT</P>
-         */
-        String GUID = "guid";
-
-        /**
-         * Date psot was last modified
-         * <P>Type: TEXT</P>
-         */
-        String MODIFIED = "modified";
-
-        /**
-         * Date psot was last modified, in GMT
-         * <P>Type: TEXT</P>
-         */
-        String MODIFIED_GMT = "modified_gmt";
-
-        /**
          * Password to protect access to post
          * <P>Type : TEXT</P>
          */
         String PASSWORD = "password";
-
-        /**
-         * Alphanumeric identifier for the object unique to its type.
-         * <P>Type : TEXT</P>
-         */
-        String SLUG = "slug";
 
         /**
          * Named status for the object
@@ -226,24 +248,6 @@ public class WordPressContract {
          * <P>Valid values : publish, future, draft, pending, private</P>
          */
         String STATUS = "status";
-
-        /**
-         * Type of post
-         * <P>Type : TEXT</P>
-         */
-        String TYPE = "type";
-
-        /**
-         * URL to the object
-         * <P>Type : TEXT</P>
-         */
-        String LINK = "link";
-
-        /**
-         * Title of the post
-         * <P>Type: TEXT</P>
-         */
-        String TITLE = "title";
 
         /**
          * Body of the post
@@ -262,22 +266,6 @@ public class WordPressContract {
          * <P>Type: INTEGER (long)</P>
          */
         String FEATURED_MEDIA = "featured_media";
-
-        /**
-         * Whether or not comments are open on the object
-         * <P>Type : INTEGER (short)</P>
-         *
-         * @see com.afrozaar.wp_api_v2_client_android.model.WPStatus
-         */
-        String COMMENT_STATUS = "comment_status";
-
-        /**
-         * Whether or not the object can be pinged.
-         * <P>Type : INTEGER (short)</P>
-         *
-         * @see com.afrozaar.wp_api_v2_client_android.model.WPStatus
-         */
-        String PING_STATUS = "ping_status";
 
         /**
          * Whether or not the object should be treated as sticky
@@ -320,7 +308,7 @@ public class WordPressContract {
         String IS_FEED_POST = "is_feed_post";
 
         /**
-         * Flag to specificy if Post object has been downloaded if it is part of the Post Feed
+         * Flag to specify if Post object has been downloaded if it is part of the Post Feed
          * <P>Type: INTEGER (short)</P>
          */
         String DOWNLOADED = "downloaded";
@@ -341,12 +329,6 @@ public class WordPressContract {
         String WP_PARENT_ID = "wp_parent_id";
 
         /**
-         * Taxonomy type; category or tag
-         * <P>Type: TEXT</P>
-         */
-        String TYPE = "type";
-
-        /**
          * Object's label
          * <P>Type: TEXT</P>
          */
@@ -363,21 +345,9 @@ public class WordPressContract {
          * <P>Type: INTEGER</P>
          */
         String COUNT = "count";
-
-        /**
-         * Public link to object
-         * <P>Type: TEXT</P>
-         */
-        String LINK = "link";
     }
 
     public interface MetaColumns {
-
-        /**
-         * Row ID of Post item for use when Post hasn't been uploaded yet.
-         * <P>Type: INTEGER (long)</P>
-         */
-        String POST_ROW_ID = "post_row_id";
 
         /**
          * ID of object on WP
@@ -398,13 +368,7 @@ public class WordPressContract {
         String VALUE = "meta_value";
     }
 
-    public interface MediaColumns {
-
-        /**
-         * Row ID of Post item for use when Post hasn't been uploaded yet.
-         * <P>Type: INTEGER (long)</P>
-         */
-        String POST_ROW_ID = "post_row_id";
+    public interface AttachmentColumns {
 
         /**
          * Id of the object on WP
@@ -413,10 +377,71 @@ public class WordPressContract {
         String WP_MEDIA_ID = "wp_media_id";
 
         /**
-         * Mime type of the media item
+         * Alt text for the object
          * <P>Type: TEXT</P>
          */
-        String TYPE = "type";
+        String ALT_TEXT = "alt_text";
+
+        /**
+         * Caption for the object
+         * <P>Type: TEXT</P>
+         */
+        String CAPTION = "caption";
+
+        /**
+         * Description for the object
+         * <P>Type: TEXT</P>
+         */
+        String DESCRIPTION = "description";
+
+        /**
+         * Type of the media object
+         * <P>Type: TEXT</P>
+         */
+        String MEDIA_TYPE = "media_type";
+
+        /**
+         * MIME type of the object
+         * <P>Type: TEXT</P>
+         */
+        String MIME_TYPE = "mime_type";
+
+        /**
+         * URL to the original resource file
+         * <P>Type: TEXT</P>
+         */
+        String SOURCE_URL = "source_url";
+    }
+
+    public interface AttachmentExtraColumns {
+
+        /**
+         * ID field used to identify media object in an external data set.
+         * <P>Type: INTEGER (long)</P>
+         */
+        String ORIGIN_ID = "origin_id";
+
+        /**
+         * The URI pointing to the location of the original media item.
+         * This will usually be the location of the object on a device.
+         * <P>Type: TEXT</P>
+         */
+        String ORIGIN_URI = "origin_uri";
+
+        /**
+         * Flag to show upload state of object
+         * <P>Type: INTEGER</P>
+         */
+        String UPLOAD_STATE = "upload_state";
+    }
+
+    public interface MediaColumns {
+
+        /**
+         * Id of the object on WP
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_MEDIA_ID = "wp_media_id";
 
         /**
          * Uri pointing to media object
@@ -456,24 +481,6 @@ public class WordPressContract {
          * <P>Type: INTEGER</P>
          */
         String AUTHOR_ID = "author_id";
-
-        /**
-         * Title of the post
-         * <P>Type: TEXT</P>
-         */
-        String TITLE = "title";
-
-        /**
-         * Date the post was created
-         * <P>Type: TEXT</P>
-         */
-        String DATE = "date";
-
-        /**
-         * Date post was last modified
-         * <P>Type: TEXT</P>
-         */
-        String MODIFIED = "modified";
 
         /**
          * ID of the featured media object
@@ -533,11 +540,11 @@ public class WordPressContract {
     public interface References {
         String BLOG_ID = "REFERENCES " + Blogs.TABLE_NAME + "(" + Blogs.BLOG_ID + ")";
         String AUTHOR_ID = "REFERENCES " + Users.TABLE_NAME + "(" + Users.WP_AUTHOR_ID + ")";
-        String POST_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + BaseWPColumns.WP_POST_ID + ")";
-        String POST_ROW_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + BaseColumns._ID + ")";
+        String POST_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + PostRepository.WP_POST_ID + ")";
+        String POST_ROW_ID = "REFERENCES " + PostRepository.TABLE_NAME + "(" + PostRepository._ID + ")";
     }
 
-    public static class BaseWpTable implements BaseColumns, BaseWPColumns {
+    public static class BaseWpTable implements BaseColumns, BaseWPColumns, BaseExtraColumns {
         public static final int IDX_ID = 0;
     }
 

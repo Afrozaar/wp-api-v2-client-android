@@ -20,6 +20,7 @@ public class Media extends WPObject<Media> {
     public static final String JSON_FIELD_CAPTION = "caption";
     public static final String JSON_FIELD_DESCRIPTION = "description";
     public static final String JSON_FIELD_MEDIA_TYPE = "media_type";
+    public static final String JSON_FIELD_MIME_TYPE = "mime_type";
     public static final String JSON_FIELD_POST = "post";
     public static final String JSON_FIELD_SOURCE_URL = "source_url";
     public static final String JSON_FIELD_MEDIA_DETAILS = "media_details";
@@ -101,6 +102,25 @@ public class Media extends WPObject<Media> {
 
     public Media withMediaType(String mediaType) {
         setMediaType(mediaType);
+        return this;
+    }
+
+    /**
+     * MIME type of the attachment object
+     */
+    @SerializedName(JSON_FIELD_MIME_TYPE)
+    private String mimeType;
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public Media withMimeType(String mimeType) {
+        setMimeType(mimeType);
         return this;
     }
 
@@ -316,4 +336,17 @@ public class Media extends WPObject<Media> {
             return new Media[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Media{" +
+                "altText='" + altText + '\'' +
+                ", caption='" + caption + '\'' +
+                ", description='" + description + '\'' +
+                ", mediaType='" + mediaType + '\'' +
+                ", postId=" + postId +
+                ", sourceUrl='" + sourceUrl + '\'' +
+                ", mediaDetails=" + mediaDetails +
+                "} " + super.toString();
+    }
 }

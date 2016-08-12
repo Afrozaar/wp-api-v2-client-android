@@ -12,7 +12,7 @@ import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/08.
  */
-public class PostRepository extends BaseRepository<Post> implements WordPressContract.PostColumns,
+public class PostRepository extends BaseRepository implements WordPressContract.PostColumns,
         WordPressContract.PostExtraColumns {
 
     public static final String TABLE_NAME = "posts";
@@ -77,16 +77,24 @@ public class PostRepository extends BaseRepository<Post> implements WordPressCon
     public static final int IDX_IS_FEED_POST = 27;
     public static final int IDX_DOWNLOADED = 28;
 
-    public static PostRepository get() {
-        return new PostRepository();
+    public static ContentValues getContainsMap(long blogId, long authorId, Post post, long postRowId) {
+        ContentValues values = new ContentValues();
+
+        values.put(BLOG_ID, blogId);
+        values.put(WP_AUTHOR_ID, authorId);
+
+        if (post.getId() != -1) {
+            values.put(WP_POST_ID, post.getId());
+        } else if (postRowId != -1) {
+            values.put(_ID, postRowId);
+        } else {
+            throw new IllegalArgumentException("Both WP and row IDs are -1:\n" + post.toString());
+        }
+
+        return values;
     }
 
-    public ContentValues getContainsMap(long blogId, int authorId, Post post) {
-        return null;
-    }
-
-    @Override
-    public ContentValues mapToContentValues(Post post) {
+    public static ContentValues mapToContentValues(Post post) {
         ContentValues values = new ContentValues();
 
         addValue(values, WP_POST_ID, post.getId());
@@ -114,8 +122,7 @@ public class PostRepository extends BaseRepository<Post> implements WordPressCon
         return values;
     }
 
-    @Override
-    public Post mapFromCursor(Cursor cursor) throws Exception {
+    public static Post mapFromCursor(Cursor cursor) throws Exception {
         Post post = new Post();
 
         post.rowId = getRowId(cursor);

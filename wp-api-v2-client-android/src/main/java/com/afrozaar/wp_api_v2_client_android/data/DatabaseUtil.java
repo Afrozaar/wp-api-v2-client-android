@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.afrozaar.wp_api_v2_client_android.data.repository.BlogRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
+import com.afrozaar.wp_api_v2_client_android.model.Blog;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 
@@ -17,11 +19,32 @@ import java.util.Map;
  */
 public class DatabaseUtil {
 
+    public static void insertBlog(SQLiteDatabase database, Blog blog) {
+        ContentValues values = BlogRepository.mapToContentValues(blog);
 
-    public static void insertPost(SQLiteDatabase database, Post post) {
-        ContentValues values = PostRepository.get().mapToContentValues(post);
+        if (containsData(database, BlogRepository.TABLE_NAME, BlogRepository.getContainsMap(blog))) {
+            String where = BlogRepository.TITLE + "=?";
+            String[] whereArgs = {blog.title};
 
-        if (containsData(database, PostRepository.TABLE_NAME, ))
+            database.update(BlogRepository.TABLE_NAME, values, where, whereArgs);
+        } else {
+            database.insert(BlogRepository.TABLE_NAME, null, values);
+        }
+    }
+
+
+    public static void insertPost(SQLiteDatabase database, long blogId, Post post) {
+        ContentValues values = PostRepository.mapToContentValues(post);
+
+        if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId, post))) {
+            String where = BlogRepository.BLOG_ID + "=? AND "
+                    + PostRepository.WP_AUTHOR_ID + "=?";
+            String[] whereArgs = {blogId + "", post.getAuthor() + ""};
+
+            database.update(PostRepository.TABLE_NAME, values, where, whereArgs);
+        } else {
+            database.insert(PostRepository.TABLE_NAME, null, values);
+        }
     }
 
 

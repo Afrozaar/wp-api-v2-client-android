@@ -11,7 +11,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Blog;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/08.
  */
-public class BlogRepository extends BaseRepository<Blog> implements WordPressContract.BlogColumns{
+public class BlogRepository extends BaseRepository implements WordPressContract.BlogColumns {
 
     public static final String TABLE_NAME = "blogs";
 
@@ -22,21 +22,32 @@ public class BlogRepository extends BaseRepository<Blog> implements WordPressCon
             + USER + " TEXT NOT NULL,"
             + PASS + " TEXT NOT NULL)";
 
-    public static BlogRepository get() {
-        return new BlogRepository();
+    public static ContentValues getContainsMap(Blog blog) {
+        ContentValues values = new ContentValues();
+        values.put(URL, blog.url);
+        return values;
     }
 
-    public ContentValues getContainsMap(Blog blog) {
-        return null;
+    public static ContentValues mapToContentValues(Blog blog) {
+        ContentValues values = new ContentValues();
+
+        addValue(values, TITLE, blog.title);
+        addValue(values, URL, blog.url);
+        addValue(values, USER, blog.user);
+        addValue(values, PASS, blog.user);
+
+        return values;
     }
 
-    @Override
-    public ContentValues mapToContentValues(Blog blog) {
-        return null;
-    }
+    public static Blog mapFromCursor(Cursor cursor) throws Exception {
+        Blog blog = new Blog();
 
-    @Override
-    public Blog mapFromCursor(Cursor cursor) throws Exception {
-        return null;
+        blog.rowId = getRowId(cursor);
+        blog.title = cursor.getString(IDX_TITLE);
+        blog.url = cursor.getString(IDX_URL);
+        blog.user = cursor.getString(IDX_USER);
+        blog.pass = cursor.getString(IDX_PASS);
+
+        return blog;
     }
 }
