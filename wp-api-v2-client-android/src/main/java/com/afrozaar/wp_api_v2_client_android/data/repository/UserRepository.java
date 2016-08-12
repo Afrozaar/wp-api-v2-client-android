@@ -1,8 +1,13 @@
 package com.afrozaar.wp_api_v2_client_android.data.repository;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.data.WordPressContract;
+import com.afrozaar.wp_api_v2_client_android.model.User;
+import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
 
 /**
  * @author Jan-Louis Crafford
@@ -47,6 +52,64 @@ public class UserRepository extends BaseRepository implements WordPressContract.
     public static final int IDX_ROLES = 14;
     public static final int IDX_AVATAR_URL = 15;
 
-    
+    public static ContentValues getContainsMap(long blogId, long authorId) {
+        ContentValues contentValues = new ContentValues();
 
+        contentValues.put(BLOG_ID, blogId);
+        contentValues.put(WP_AUTHOR_ID, authorId);
+
+        return contentValues;
+    }
+
+    public static ContentValues mapToContentValues(User user) {
+        ContentValues values = new ContentValues();
+
+        addValue(values, WP_AUTHOR_ID, user.getId());
+        addValue(values, USERNAME, user.getUsername());
+        addValue(values, PASS, user.getPassword());
+        addValue(values, FULL_NAME, user.getName());
+        addValue(values, FIRST_NAME, user.getFirstName());
+        addValue(values, LAST_NAME, user.getLastName());
+        addValue(values, EMAIL, user.getLastName());
+        addValue(values, DESCRIPTION, user.getDescription());
+        addValue(values, LINK, user.getLink());
+        addValue(values, NICKNAME, user.getNickName());
+        addValue(values, SLUG, user.getSlug());
+        addValue(values, REGISTERED_DATE, user.getRegisteredDate());
+        addValue(values, ROLES, DataConverters.makeUserRoleString(user.getRoles()));
+
+        if (user.getAvatarUrls() != null) {
+            String avatarUrl = user.getAvatarUrls().get("96");
+            addValue(values, AVATAR_URL, avatarUrl);
+        }
+
+        return values;
+    }
+
+    public static User mapFromCursor(Cursor cursor) {
+        User user = new User();
+
+        user.rowId = getRowId(cursor);
+
+        user.withId(cursor.getLong(IDX_WP_AUTHOR_ID))
+                .withUsername(cursor.getString(IDX_USERNAME))
+                .withPassword(cursor.getString(IDX_PASSWORD))
+                .withName(cursor.getString(IDX_FULL_NAME))
+                .withFirstName(cursor.getString(IDX_FIRST_NAME))
+                .withLastName(cursor.getString(IDX_LAST_NAME))
+                .withEmail(cursor.getString(IDX_EMAIL))
+                .withDescription(cursor.getString(IDX_DESCRIPTION))
+                .withLink(cursor.getString(IDX_LINK))
+                .withNickName(cursor.getString(IDX_NICKNAME))
+                .withSlug(cursor.getString(IDX_SLUG))
+                .withRegisteredDate(cursor.getString(IDX_REGISTERED_DATE))
+                .withRoles(DataConverters.makeUserRoleListFromString(cursor.getString(IDX_ROLES)));
+
+        String avatarUrl = cursor.getString(IDX_AVATAR_URL);
+        if (!TextUtils.isEmpty(avatarUrl)) {
+            user.withAvatarUrl("96", avatarUrl);
+        }
+
+        return user;
+    }
 }

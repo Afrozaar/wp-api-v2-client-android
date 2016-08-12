@@ -70,11 +70,18 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
     public static final int IDX_ORIGIN_URI = 24;
     public static final int IDX_UPLOAD_STATE = 25;
 
-    public static ContentValues getContainsMap(Media media, long origId) {
+    public static ContentValues getContainsMap(long postId, long postRowId, Media media, long origId) {
         ContentValues values = new ContentValues();
 
-        values.put(WP_POST_ID, media.getPostId());
-        values.put(TYPE, media.getType());
+        if (postId != -1) {
+            values.put(WP_POST_ID, postId);
+        } else if (postRowId != -1) {
+            values.put(POST_ROW_ID, postRowId);
+        } else {
+            throw new IllegalStateException("Media item does not have valid post id!\n" + media.toString());
+        }
+
+        values.put(MIME_TYPE, media.getMimeType());
 
         if (media.getId() != -1) {
             values.put(WP_MEDIA_ID, media.getId());

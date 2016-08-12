@@ -22,6 +22,11 @@ public class BlogRepository extends BaseRepository implements WordPressContract.
             + USER + " TEXT NOT NULL,"
             + PASS + " TEXT NOT NULL)";
 
+    public static final int IDX_TITLE = 1;
+    public static final int IDX_URL = 2;
+    public static final int IDX_USER = 3;
+    public static final int IDX_PASS = 4;
+
     public static ContentValues getContainsMap(Blog blog) {
         ContentValues values = new ContentValues();
         values.put(URL, blog.url);

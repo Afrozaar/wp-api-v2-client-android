@@ -20,8 +20,10 @@ public class DataConverters {
 
     private static SimpleDateFormat sPostDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss zz", Locale.US);
 
-    public static final String JSON_ARRAY_CATEGORY_IDS = "categoryIds";
-    public static final String JSON_ARRAY_TAG_IDS = "tagIds";
+    private static final String JSON_ARRAY_CATEGORY_IDS = "categoryIds";
+    private static final String JSON_ARRAY_TAG_IDS = "tagIds";
+
+    private static final String JSON_ARRAY_USER_ROLES = "userRoles";
 
     public static String makeCategoryString(List<Long> categories) {
         return makeTaxonomyString(categories, JSON_ARRAY_CATEGORY_IDS);
@@ -68,6 +70,42 @@ public class DataConverters {
                 ids.add(array.getLong(i));
             }
             return ids;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String makeUserRoleString(List<String> roles) {
+        JSONObject object = new JSONObject();
+
+        try {
+            object.put(JSON_ARRAY_USER_ROLES, new JSONArray(roles));
+
+            return object.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<String> makeUserRoleListFromString(String userRoles) {
+        if (TextUtils.isEmpty(userRoles)) {
+            return new ArrayList<>();
+        }
+
+        try {
+            JSONObject object = new JSONObject(userRoles);
+            JSONArray array = object.getJSONArray(JSON_ARRAY_USER_ROLES);
+
+            List<String> roles = new ArrayList<>();
+            for (int i = 0 ; i < array.length() ; i++) {
+                roles.add(array.getString(i));
+            }
+
+            return roles;
         } catch (JSONException e) {
             e.printStackTrace();
         }
