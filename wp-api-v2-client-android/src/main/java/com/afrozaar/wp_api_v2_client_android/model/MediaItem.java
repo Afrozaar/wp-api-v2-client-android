@@ -14,7 +14,6 @@ public class MediaItem extends BaseModel {
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_AUDIO = "audio";
-    public static final String TYPE_EXT = "ext_media";
 
     /**
      * Id of Post on WP if uploaded
@@ -36,7 +35,7 @@ public class MediaItem extends BaseModel {
      */
     public long mediaRowId = -1;
 
-    public String type;
+    public String mimeType;
     public String uri;
     public String caption;
     public String externalUrl;
@@ -52,7 +51,6 @@ public class MediaItem extends BaseModel {
         postRowId = in.readLong();
         mediaId = in.readLong();
         mediaRowId = in.readLong();
-        type = in.readString();
         uri = in.readString();
         caption = in.readString();
         externalUrl = in.readString();
@@ -67,20 +65,19 @@ public class MediaItem extends BaseModel {
         dest.writeLong(postRowId);
         dest.writeLong(mediaId);
         dest.writeLong(mediaRowId);
-        dest.writeString(type);
         dest.writeString(uri);
         dest.writeString(caption);
         dest.writeString(externalUrl);
         dest.writeInt(uploadState);
     }
 
-    public String getMimeType() {
-        if (type.equals(TYPE_IMAGE)) {
-            return "image/jpeg";
-        } else if (type.equals(TYPE_VIDEO)) {
-            return "video/mp4";
-        } else if (type.equals(TYPE_AUDIO)) {
-            return "audio/mp3";
+    public String getType() {
+        if (mimeType.startsWith("image")) {
+            return TYPE_IMAGE;
+        } else if (mimeType.startsWith("video")) {
+            return TYPE_VIDEO;
+        } else if (mimeType.startsWith("audio")) {
+            return TYPE_AUDIO;
         }
 
         throw new IllegalStateException("No type on media item!");
@@ -92,7 +89,6 @@ public class MediaItem extends BaseModel {
                 "postId=" + postId +
                 ", postRowId=" + postRowId +
                 ", mediaId=" + mediaId +
-                ", type='" + type + '\'' +
                 ", uri='" + uri + '\'' +
                 ", caption='" + caption + '\'' +
                 ", externalUrl='" + externalUrl + '\'' +
@@ -118,14 +114,12 @@ public class MediaItem extends BaseModel {
 
         MediaItem mediaItem = (MediaItem) o;
 
-        if (!type.equals(mediaItem.type)) return false;
-        return uri.equals(mediaItem.uri);
-
+        return mimeType.equals(mediaItem.mimeType) && uri.equals(mediaItem.uri);
     }
 
     @Override
     public int hashCode() {
-        int result = type.hashCode();
+        int result = mimeType.hashCode();
         result = 31 * result + uri.hashCode();
         return result;
     }

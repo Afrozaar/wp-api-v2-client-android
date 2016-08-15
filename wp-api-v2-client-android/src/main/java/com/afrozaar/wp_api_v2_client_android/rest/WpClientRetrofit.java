@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class WpClientRetrofit {
 
-    private WordPressRestInterface mRestInterface;
+    private WordPressRestInterface restInterface;
 
     public WpClientRetrofit(String baseUrl, final String username, final String password) {
         this(baseUrl, username, password, false);
@@ -61,7 +61,7 @@ public class WpClientRetrofit {
                 .build();
 
         // create instance of REST interface
-        mRestInterface = retrofit.create(WordPressRestInterface.class);
+        restInterface = retrofit.create(WordPressRestInterface.class);
     }
 
     private <T> void doRetrofitCall(Call<T> call, final WordPressRestResponse<T> callback) {
@@ -87,76 +87,76 @@ public class WpClientRetrofit {
     // USER
 
     public void createUser(User user, WordPressRestResponse<User> callback) {
-        doRetrofitCall(mRestInterface.createUser(User.mapFromFields(user)), callback);
+        doRetrofitCall(restInterface.createUser(User.mapFromFields(user)), callback);
     }
 
     public Call<User> getUser(long userId) {
-        return mRestInterface.getUser(userId);
+        return restInterface.getUser(userId);
     }
 
     public void getUserFromLogin(String login, WordPressRestResponse<User> callback) {
-        doRetrofitCall(mRestInterface.getUserFromLogin(login), callback);
+        doRetrofitCall(restInterface.getUserFromLogin(login), callback);
     }
 
     public void getUserFromEmail(String email, WordPressRestResponse<User> callback) {
-        doRetrofitCall(mRestInterface.getUserFromEmail(email), callback);
+        doRetrofitCall(restInterface.getUserFromEmail(email), callback);
     }
 
     public Call<User> getUserFromEmail(String email) {
-        return mRestInterface.getUserFromEmail(email);
+        return restInterface.getUserFromEmail(email);
     }
 
     public void getUserMe(WordPressRestResponse<User> callback) {
-        doRetrofitCall(mRestInterface.getUserMe(), callback);
+        doRetrofitCall(restInterface.getUserMe(), callback);
     }
 
     public void updateUser(User user, WordPressRestResponse<User> callback) {
         Map<String, Object> map = User.mapFromFields(user);
-        doRetrofitCall(mRestInterface.updateUser(user.getId(), map), callback);
+        doRetrofitCall(restInterface.updateUser(user.getId(), map), callback);
     }
 
     // POSTS
 
     public void createPost(Post post, WordPressRestResponse<Post> callback) {
         // 201 CREATED on success
-        doRetrofitCall(mRestInterface.createPost(Post.mapFromFields(post)), callback);
+        doRetrofitCall(restInterface.createPost(Post.mapFromFields(post)), callback);
     }
 
     public Call<Post> createPost(Post post) {
-        return mRestInterface.createPost(Post.mapFromFields(post));
+        return restInterface.createPost(Post.mapFromFields(post));
     }
 
     public void getPost(long postId, WordPressRestResponse<Post> callback) {
         Map<String, String> map = new HashMap<>();
         map.put("context", "edit");
-        doRetrofitCall(mRestInterface.getPost(postId, map), callback);
+        doRetrofitCall(restInterface.getPost(postId, map), callback);
     }
 
     public Call<Post> getPost(long postId) {
         Map<String, String> map = new HashMap<>();
         map.put("context", "edit");
-        return mRestInterface.getPost(postId, map);
+        return restInterface.getPost(postId, map);
     }
 
     public void getPostForEdit(long postId, WordPressRestResponse<Post> callback) {
         Map<String, String> map = new HashMap<>();
         map.put("context", "edit");
-        doRetrofitCall(mRestInterface.getPost(postId, map), callback);
+        doRetrofitCall(restInterface.getPost(postId, map), callback);
     }
 
     public void getPosts(WordPressRestResponse<List<Post>> callback) {
-        doRetrofitCall(mRestInterface.getPosts(), callback);
+        doRetrofitCall(restInterface.getPosts(), callback);
     }
 
     public Call<List<Post>> getPosts() {
-        return mRestInterface.getPosts();
+        return restInterface.getPosts();
     }
 
     public Call<List<Post>> getPostsForPage(int startPage) {
         Map<String, String> map = new HashMap<>();
         map.put("page", startPage + "");
         map.put("context", "edit");
-        return mRestInterface.getPosts(map);
+        return restInterface.getPosts(map);
     }
 
     public Call<List<Post>> getPostsForPage(int startPage, int pageSize) {
@@ -164,18 +164,18 @@ public class WpClientRetrofit {
         map.put("page", startPage + "");
         map.put("per_page", pageSize + "");
         map.put("context", "edit");
-        return mRestInterface.getPosts(map);
+        return restInterface.getPosts(map);
     }
 
     public Call<List<Post>> getPostsAfterDate(String date) {
         Map<String, String> map = new HashMap<>();
         map.put("after", date);
         map.put("context", "edit");
-        return mRestInterface.getPosts(map);
+        return restInterface.getPosts(map);
     }
 
     public Call<List<Post>> getPostsForAuthor(long authorId, String status) {
-        return mRestInterface.getPostsForAuthor(authorId, status, "edit");
+        return restInterface.getPostsForAuthor(authorId, status, "edit");
     }
 
     public void getPostsForAuthor(long authorId, String status, WordPressRestResponse<List<Post>> callback) {
@@ -183,33 +183,33 @@ public class WpClientRetrofit {
     }
 
     public void getPostsForTag(String tag, WordPressRestResponse<List<Post>> callback) {
-        doRetrofitCall(mRestInterface.getPostsForTags(tag), callback);
+        doRetrofitCall(restInterface.getPostsForTags(tag), callback);
     }
 
     public void updatePost(Post post, WordPressRestResponse<Post> callback) {
         // 200 on success
-        doRetrofitCall(mRestInterface.updatePost(post.getId(), Post.mapFromFields(post)), callback);
+        doRetrofitCall(restInterface.updatePost(post.getId(), Post.mapFromFields(post)), callback);
     }
 
     public Call<Post> updatePost(Post post) {
-        return mRestInterface.updatePost(post.getId(), Post.mapFromFields(post));
+        return restInterface.updatePost(post.getId(), Post.mapFromFields(post));
     }
 
     public void deletePost(long postId, boolean force, WordPressRestResponse<Post> callback) {
         // 200 on success
         // 410 GONE on failure
         if (force) {
-            doRetrofitCall(mRestInterface.deletePostForce(postId), callback);
+            doRetrofitCall(restInterface.deletePostForce(postId), callback);
         } else {
-            doRetrofitCall(mRestInterface.deletePost(postId), callback);
+            doRetrofitCall(restInterface.deletePost(postId), callback);
         }
     }
 
     public Call<Post> deletePost(long postId, boolean force) {
         if (force) {
-            return mRestInterface.deletePostForce(postId);
+            return restInterface.deletePostForce(postId);
         } else {
-            return mRestInterface.deletePost(postId);
+            return restInterface.deletePost(postId);
         }
     }
 
@@ -221,17 +221,17 @@ public class WpClientRetrofit {
      */
     public void getPostStream(String date, WordPressRestResponse<List<PostStreamItem>> callback) {
         if (TextUtils.isEmpty(date)) {
-            doRetrofitCall(mRestInterface.getPostStream(), callback);
+            doRetrofitCall(restInterface.getPostStream(), callback);
         } else {
-            doRetrofitCall(mRestInterface.getPostStreamAfterDate(date), callback);
+            doRetrofitCall(restInterface.getPostStreamAfterDate(date), callback);
         }
     }
 
     public Call<List<PostStreamItem>> getPostStream(String date) {
         if (TextUtils.isEmpty(date)) {
-            return mRestInterface.getPostStream();
+            return restInterface.getPostStream();
         } else {
-            return mRestInterface.getPostStreamAfterDate(date);
+            return restInterface.getPostStreamAfterDate(date);
         }
     }
 
@@ -241,61 +241,61 @@ public class WpClientRetrofit {
         Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
         String header = "filename=" + file.getName();
 
-        doRetrofitCall(mRestInterface.createMedia(header, map), callback);
+        doRetrofitCall(restInterface.createMedia(header, map), callback);
     }
 
     public Call<Media> createMedia(Media media, File file) {
         Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
         String header = "filename=" + file.getName();
-        return mRestInterface.createMedia(header, map);
+        return restInterface.createMedia(header, map);
     }
 
     public void getMedia(WordPressRestResponse<List<Media>> callback) {
-        doRetrofitCall(mRestInterface.getMedia(), callback);
+        doRetrofitCall(restInterface.getMedia(), callback);
     }
 
     public Call<Media> getMedia(long mediaId) {
-        return mRestInterface.getMedia(mediaId);
+        return restInterface.getMedia(mediaId);
     }
 
     public void getMediaForPost(long postId, String mimeType, WordPressRestResponse<List<Media>> callback) {
-        doRetrofitCall(mRestInterface.getMediaForPost(postId, mimeType), callback);
+        doRetrofitCall(restInterface.getMediaForPost(postId, mimeType), callback);
     }
 
     public Call<List<Media>> getMediaForPost(long postId, String mimeType) {
-        return mRestInterface.getMediaForPost(postId, mimeType);
+        return restInterface.getMediaForPost(postId, mimeType);
     }
 
     public Call<List<Media>> getMediaForSlug(String slug) {
         Map<String, Object> map = new HashMap<>();
         map.put("slug", slug);
-        return mRestInterface.getMediaForSlug(map);
+        return restInterface.getMediaForSlug(map);
     }
 
     public void updateMedia(Media media, long mediaId, WordPressRestResponse<Media> callback) {
-        doRetrofitCall(mRestInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
+        doRetrofitCall(restInterface.updateMedia(mediaId, Media.mapFromFields(media)), callback);
     }
 
     public Call<Media> updateMedia(Media media, long mediaId) {
-        return mRestInterface.updateMedia(mediaId, Media.mapFromFields(media));
+        return restInterface.updateMedia(mediaId, Media.mapFromFields(media));
     }
 
     public Call<Media> deleteMedia(long mediaId) {
-        return mRestInterface.deleteMedia(mediaId);
+        return restInterface.deleteMedia(mediaId);
     }
 
     /* TAXONOMIES */
 
     public void setTagForPost(long postId, long tagId, WordPressRestResponse<Taxonomy> callback) {
-        doRetrofitCall(mRestInterface.setPostTag(postId, tagId), callback);
+        doRetrofitCall(restInterface.setPostTag(postId, tagId), callback);
     }
 
     public void getTagsForPost(long postId, WordPressRestResponse<List<Taxonomy>> callback) {
-        doRetrofitCall(mRestInterface.getPostTags(postId), callback);
+        doRetrofitCall(restInterface.getPostTags(postId), callback);
     }
 
     public void getTags(WordPressRestResponse<List<Taxonomy>> callback) {
-        doRetrofitCall(mRestInterface.getTags(), callback);
+        doRetrofitCall(restInterface.getTags(), callback);
     }
 
     public void getTagsOrderedByCount(WordPressRestResponse<List<Taxonomy>> callback) {
@@ -303,54 +303,54 @@ public class WpClientRetrofit {
         map.put("orderby", "count");
         map.put("order", "desc");
 
-        doRetrofitCall(mRestInterface.getTagsOrdered(map), callback);
+        doRetrofitCall(restInterface.getTagsOrdered(map), callback);
     }
 
     public Call<List<Taxonomy>> getTagForSlug(String slug) {
         Map<String, String> map = new HashMap<>();
         map.put("search", slug);
-        return mRestInterface.getTagForSlug(map);
+        return restInterface.getTagForSlug(map);
     }
 
     public void setCategoryForPost(long postId, long catId, WordPressRestResponse<Taxonomy> callback) {
-        doRetrofitCall(mRestInterface.setPostCategory(postId, catId), callback);
+        doRetrofitCall(restInterface.setPostCategory(postId, catId), callback);
     }
 
     public Call<Taxonomy> setCategoryForPost(long postId, long catId) {
-        return mRestInterface.setPostCategory(postId, catId);
+        return restInterface.setPostCategory(postId, catId);
     }
 
     public void getCategoriesForPost(long postId, WordPressRestResponse<List<Taxonomy>> callback) {
-        doRetrofitCall(mRestInterface.getPostCategories(postId), callback);
+        doRetrofitCall(restInterface.getPostCategories(postId), callback);
     }
 
     public void getCategories(WordPressRestResponse<List<Taxonomy>> callback) {
-        doRetrofitCall(mRestInterface.getCategories(), callback);
+        doRetrofitCall(restInterface.getCategories(), callback);
     }
 
     public Call<List<Taxonomy>> getCategoryForSlug(String slug) {
         Map<String, String> map = new HashMap<>();
         map.put("search", slug);
-        return mRestInterface.getCategoryForSlug(map);
+        return restInterface.getCategoryForSlug(map);
     }
 
     public Call<List<Taxonomy>> getCategories() {
         Map<String, Object> map = new HashMap<>();
         map.put("per_page", 100);
-        return mRestInterface.getCategories(map);
+        return restInterface.getCategories(map);
     }
 
     public void getCategoriesForParent(long parentId, WordPressRestResponse<List<Taxonomy>> callback) {
         Map<String, Object> map = new HashMap<>();
         map.put("parent", parentId);
 
-        doRetrofitCall(mRestInterface.getCategories(map), callback);
+        doRetrofitCall(restInterface.getCategories(map), callback);
     }
 
     public Call<List<Taxonomy>> getCategoriesForParent(long parentId) {
         Map<String, Object> map = new HashMap<>();
         map.put("parent", parentId);
-        return mRestInterface.getCategories(map);
+        return restInterface.getCategories(map);
     }
 
     /* META */
@@ -360,7 +360,7 @@ public class WpClientRetrofit {
         map.put("key", meta.getKey());
         map.put("value", meta.getValue());
 
-        doRetrofitCall(mRestInterface.createPostMeta(postId, map), callback);
+        doRetrofitCall(restInterface.createPostMeta(postId, map), callback);
     }
 
     public Call<Meta> createPostMeta(long postId, Meta meta) {
@@ -368,7 +368,7 @@ public class WpClientRetrofit {
         map.put("key", meta.getKey());
         map.put("value", meta.getValue());
 
-        return mRestInterface.createPostMeta(postId, map);
+        return restInterface.createPostMeta(postId, map);
     }
 
     public Call<Meta> updatePostMeta(long postId, Meta meta) {
@@ -376,14 +376,14 @@ public class WpClientRetrofit {
         map.put("key", meta.getKey());
         map.put("value", meta.getValue());
 
-        return mRestInterface.updatePostMeta(postId, meta.getId(), map);
+        return restInterface.updatePostMeta(postId, meta.getId(), map);
     }
 
     public Call<List<Meta>> getPostMetas(long postId) {
-        return mRestInterface.getPostMeta(postId);
+        return restInterface.getPostMeta(postId);
     }
 
     public Call<Meta> deletePostMeta(long postId, long metaId) {
-        return mRestInterface.deletePostMeta(postId, metaId);
+        return restInterface.deletePostMeta(postId, metaId);
     }
 }

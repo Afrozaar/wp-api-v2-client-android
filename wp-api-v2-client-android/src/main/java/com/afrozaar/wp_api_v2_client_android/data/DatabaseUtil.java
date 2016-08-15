@@ -54,7 +54,7 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
+    public static long insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
         ContentValues values = PostRepository.mapToContentValues(post);
 
         if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId,
@@ -80,8 +80,10 @@ public class DatabaseUtil {
             }
 
             database.update(PostRepository.TABLE_NAME, values, builder.toString(), whereArgs);
+
+            return postRowId;
         } else {
-            database.insert(PostRepository.TABLE_NAME, null, values);
+            return database.insert(PostRepository.TABLE_NAME, null, values);
         }
     }
 
@@ -169,6 +171,10 @@ public class DatabaseUtil {
      * @return true if entry exists in table
      */
     public static boolean containsData(SQLiteDatabase db, String tableName, ContentValues contentValues) {
+        if (contentValues == null) {
+            return false;
+        }
+
         String[] columns = new String[contentValues.size()];
         String[] selectionArgs = new String[contentValues.size()];
         int cnt = 0;

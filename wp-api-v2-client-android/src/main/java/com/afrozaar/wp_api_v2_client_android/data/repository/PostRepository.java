@@ -88,7 +88,8 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         } else if (postRowId != -1) {
             values.put(_ID, postRowId);
         } else {
-            throw new IllegalArgumentException("Both WP and row IDs are -1:\n" + post.toString());
+            //throw new IllegalArgumentException("Both WP and row IDs are -1:\n" + post.toString());
+            return null;
         }
 
         return values;
