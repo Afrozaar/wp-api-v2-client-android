@@ -95,8 +95,11 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         return values;
     }
 
-    public static ContentValues mapToContentValues(Post post) {
+    public static ContentValues mapToContentValues(Post post, long blogId, long authorId) {
         ContentValues values = new ContentValues();
+
+        values.put(BLOG_ID, blogId);
+        values.put(WP_AUTHOR_ID, authorId);
 
         addValue(values, WP_POST_ID, post.getId());
         addValue(values, DATE, post.getDate());

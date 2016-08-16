@@ -42,6 +42,7 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
             + SOURCE_URL + " TEXT,"
             + ORIGIN_ID + " INTEGER DEFAULT -1,"
             + ORIGIN_URI + " TEXT,"
+            + ORIGIN_TYPE + " TEXT,"
             + UPLOAD_STATE + " INTEGER DEFAULT 0)";
 
     public static final int IDX_BLOG_ID = 1;
@@ -68,7 +69,8 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
     public static final int IDX_SOURCE_URL = 22;
     public static final int IDX_ORIGIN_ID = 23;
     public static final int IDX_ORIGIN_URI = 24;
-    public static final int IDX_UPLOAD_STATE = 25;
+    public static final int IDX_ORIGIN_TYPE = 25;
+    public static final int IDX_UPLOAD_STATE = 26;
 
     public static ContentValues getContainsMap(long postId, long postRowId, Media media, long origId) {
         ContentValues values = new ContentValues();
@@ -94,8 +96,14 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
         return values;
     }
 
-    public static ContentValues mapToContentValues(Media media) {
+    public static ContentValues mapToContentValues(Media media, long blogId, long authorId, long postId,
+                                                   long postRowId) {
         ContentValues values = new ContentValues();
+
+        values.put(BLOG_ID, blogId);
+        values.put(WP_AUTHOR_ID, authorId);
+        values.put(WP_POST_ID, postId);
+        values.put(POST_ROW_ID, postRowId);
 
         addValue(values, WP_MEDIA_ID, media.getId());
         addValue(values, DATE, media.getDate());
@@ -115,6 +123,10 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
         addValue(values, DESCRIPTION, media.getDescription());
         addValue(values, MEDIA_TYPE, media.getMediaType());
         addValue(values, SOURCE_URL, media.getSourceUrl());
+
+        addValue(values, ORIGIN_ID, media.origId);
+        addValue(values, ORIGIN_URI, media.origUri);
+        addValue(values, ORIGIN_TYPE, media.origType);
 
         return values;
     }
@@ -142,6 +154,11 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
                 .withMediaType(cursor.getString(IDX_MEDIA_TYPE))
                 .withMimeType(cursor.getString(IDX_MIME_TYPE))
                 .withSourceUrl(cursor.getString(IDX_SOURCE_URL));
+
+        media.origId = cursor.getLong(IDX_ORIGIN_ID);
+        media.origType = cursor.getString(IDX_ORIGIN_TYPE);
+        media.origUri = cursor.getString(IDX_ORIGIN_URI);
+        media.uploadState = cursor.getString(IDX_UPLOAD_STATE);
 
         return media;
     }

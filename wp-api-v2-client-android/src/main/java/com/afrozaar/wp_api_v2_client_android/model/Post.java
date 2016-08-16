@@ -24,6 +24,8 @@ public class Post extends WPObject<Post> {
     public static final String POST_STATUS_PENDING = "pending";
     public static final String POST_STATUS_TRASH = "trash";
     public static final String POST_STATUS_AUTO_DRAFT = "auto-draft";
+
+    // custom post states
     public static final String POST_STATUS_UPLOADING = "uploading";
     public static final String POST_STATUS_UPLOADED_WITH_ERROR = "upload_with_error";
     public static final String POST_STATUS_ERROR = "upload_error";

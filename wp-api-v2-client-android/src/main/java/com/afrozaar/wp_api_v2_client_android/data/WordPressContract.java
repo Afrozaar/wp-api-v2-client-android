@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.afrozaar.wp_api_v2_client_android.data.repository.BlogRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.UserRepository;
-import com.afrozaar.wp_api_v2_client_android.model.MediaItem;
 
 /**
  * @author Jan-Louis Crafford
@@ -429,6 +428,12 @@ public class WordPressContract {
         String ORIGIN_URI = "origin_uri";
 
         /**
+         * Type of the file from the original media item
+         * <P>Type: TEXT</P>
+         */
+        String ORIGIN_TYPE = "origin_type";
+
+        /**
          * Flag to show upload state of object
          * <P>Type: INTEGER</P>
          */
@@ -506,9 +511,9 @@ public class WordPressContract {
                 + EXTERNAL_URL + " TEXT,"
                 + UPLOAD_STATE + " INTEGER)";
 
-        private static ContentValues makeContentValues(boolean update, long blogId, long postId,
-                                                       long postRowId, long mediaId, String type,
-                                                       String uri, String caption, String externalUrl) {
+        public static ContentValues makeContentValues(boolean update, long blogId, long postId,
+                                                      long postRowId, long mediaId, String type,
+                                                      String uri, String caption, String externalUrl) {
             ContentValues values = new ContentValues();
             if (!update) {
                 values.put(BLOG_ID, blogId);
@@ -546,26 +551,6 @@ public class WordPressContract {
                 }
             }
             return values;
-        }
-
-        public static ContentValues insert(long blogId, long postId, long postRowId, long mediaId,
-                                           String type, String uri, String caption, String externalUrl) {
-            return makeContentValues(false, blogId, postId, postRowId, mediaId, type, uri, caption, externalUrl);
-        }
-
-        public static ContentValues insert(long blogId, long postId, long postRowId, MediaItem mediaItem) {
-            return insert(blogId, postId, postRowId, mediaItem.mediaId, mediaItem.type, mediaItem.uri, mediaItem.caption,
-                    mediaItem.externalUrl);
-        }
-
-        public static ContentValues update(long blogId, long postId, long postRowId, long mediaId,
-                                           String type, String uri, String caption, String externalUrl) {
-            return makeContentValues(true, blogId, postId, postRowId, mediaId, type, uri, caption, externalUrl);
-        }
-
-        public static ContentValues update(long blogId, long postId, long postRowId, MediaItem mediaItem) {
-            return update(blogId, postId, postRowId, mediaItem.mediaId, mediaItem.type, mediaItem.uri, mediaItem.caption,
-                    mediaItem.externalUrl);
         }
     }
 }

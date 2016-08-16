@@ -42,7 +42,7 @@ public class DatabaseUtil {
     }
 
     public static void insertUser(SQLiteDatabase database, long blogId, User user) {
-        ContentValues values = UserRepository.mapToContentValues(user);
+        ContentValues values = UserRepository.mapToContentValues(user, blogId);
 
         if (containsData(database, UserRepository.TABLE_NAME, UserRepository.getContainsMap(blogId, user.getId()))) {
             String where = UserRepository.WP_AUTHOR_ID + "=?";
@@ -55,7 +55,7 @@ public class DatabaseUtil {
     }
 
     public static long insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
-        ContentValues values = PostRepository.mapToContentValues(post);
+        ContentValues values = PostRepository.mapToContentValues(post, blogId, authorId);
 
         if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId,
                 authorId, post, postRowId))) {
@@ -89,9 +89,10 @@ public class DatabaseUtil {
 
     public static void insertMeta(SQLiteDatabase database, long blogId, long postId, long postRowId,
                                   Meta meta) {
-        ContentValues values = MetaRepository.mapToContentValues(meta);
+        ContentValues values = MetaRepository.mapToContentValues(meta, blogId, postRowId);
 
-        if (containsData(database, MetaRepository.TABLE_NAME, MetaRepository.getContainsMap(meta, postId, postRowId))) {
+        if (containsData(database, MetaRepository.TABLE_NAME, MetaRepository.getContainsMap(meta,
+                blogId, postId, postRowId))) {
             StringBuilder builder = new StringBuilder();
             builder.append(MetaRepository.KEY)
                     .append("=? AND ");
@@ -116,9 +117,9 @@ public class DatabaseUtil {
     }
 
     public static void insertTaxonomy(SQLiteDatabase database, long blogId, Taxonomy taxonomy) {
-        ContentValues values = TaxonomyRepository.mapToContentValues(taxonomy);
+        ContentValues values = TaxonomyRepository.mapToContentValues(taxonomy, blogId);
 
-        if (containsData(database, TaxonomyRepository.TABLE_NAME, TaxonomyRepository.getContainsMap(taxonomy))) {
+        if (containsData(database, TaxonomyRepository.TABLE_NAME, TaxonomyRepository.getContainsMap(taxonomy, blogId))) {
             String where = TaxonomyRepository.WP_PARENT_ID + "=? AND "
                     + TaxonomyRepository.WP_TAXONOMY_ID + "=?";
             String[] whereArgs = {taxonomy.getParent() + "", taxonomy.getId() + ""};
@@ -129,8 +130,10 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertAttachment(SQLiteDatabase database, long postId, long postRowId, Media media, long origId) {
-        ContentValues values = AttachmentRepository.mapToContentValues(media);
+    public static void insertAttachment(SQLiteDatabase database, long blogId, long authorId, long postId,
+                                        long postRowId, Media media, long origId, String origUri, String origType) {
+        ContentValues values = AttachmentRepository.mapToContentValues(media, blogId, authorId, postId,
+                postRowId);
 
         if (containsData(database, AttachmentRepository.TABLE_NAME, AttachmentRepository.getContainsMap(
                 postId, postRowId, media, origId))) {

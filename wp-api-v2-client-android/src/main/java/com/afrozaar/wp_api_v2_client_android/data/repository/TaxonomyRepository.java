@@ -37,17 +37,20 @@ public class TaxonomyRepository extends BaseRepository implements WordPressContr
     public static final int IDX_COUNT = 8;
     public static final int IDX_LINK = 9;
 
-    public static ContentValues getContainsMap(Taxonomy taxonomy) {
+    public static ContentValues getContainsMap(Taxonomy taxonomy, long blogId) {
         ContentValues values = new ContentValues();
 
+        values.put(BLOG_ID, blogId);
         values.put(WP_PARENT_ID, taxonomy.getParent());
         values.put(WP_TAXONOMY_ID, taxonomy.getId());
 
         return values;
     }
 
-    public static ContentValues mapToContentValues(Taxonomy taxonomy) {
+    public static ContentValues mapToContentValues(Taxonomy taxonomy, long blogId) {
         ContentValues values = new ContentValues();
+
+        values.put(BLOG_ID, blogId);
 
         addValue(values, WP_TAXONOMY_ID, taxonomy.getId());
         addValue(values, WP_PARENT_ID, taxonomy.getParent());

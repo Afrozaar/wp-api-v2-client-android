@@ -19,9 +19,17 @@ import okhttp3.RequestBody;
  */
 public class ContentUtil {
 
-    private static final String VIDEO_TYPE_MP4 = "video/mp4";
-    private static final String VIDEO_TYPE_WEBM = "video/webm";
-    private static final String VIDEO_TYPE_OGG = "video/ogg";
+    // Video MIME types
+    private static final String MIME_VIDEO_ALL = "video/*";
+    private static final String MIME_VIDEO_MP4 = "video/mp4";
+    private static final String MIME_VIDEO_WEBM = "video/webm";
+    private static final String MIME_VIDEO_OGG = "video/ogg";
+
+    // Video file extensions
+    private static final String VIDEO_TYPE_MP4 = "mp4";
+    private static final String VIDEO_TYPE_M4V = "m4v";
+    private static final String VIDEO_TYPE_OGG = "ogv";
+    private static final String VIDEO_TYPE_WEBM = "webm";
 
     private static final String VIDEO_CODECS_MP4 = "avc1.42E01E, mp4a.40.2";
     private static final String VIDEO_CODECS_WEBM = "vp8, vorbis";
@@ -38,6 +46,7 @@ public class ContentUtil {
     *
     * */
 
+    // Image MIME types
     private static final String MIME_IMAGE_ALL = "image/*";
     private static final String MIME_IMAGE_JPG = "image/jpg";
     private static final String MIME_IMAGE_JPEG = "image/jpeg";
@@ -47,6 +56,7 @@ public class ContentUtil {
     private static final String MIME_IMAGE_TIFF = "image/tiff";
     private static final String MIME_IMAGE_ICO = "image/x-icon";
 
+    // Image file extensions
     private static final String IMAGE_TYPE_JPG = "jpg";
     private static final String IMAGE_TYPE_JPEG = "jpeg";
     private static final String IMAGE_TYPE_JPE = "jpe";
@@ -57,11 +67,20 @@ public class ContentUtil {
     private static final String IMAGE_TYPE_TIF = "tif";
     private static final String IMAGE_TYPE_ICO = "ico";
 
-    private static final String AUDIO_TYPE_MPEG = "audio/mpeg";
-    private static final String AUDIO_TYPE_MP4 = "audio/mp4";
-    private static final String AUDIO_TYPE_OGG = "audio/ogg";
-    private static final String AUDIO_TYPE_WAV = "audio/vnd.wav";
-    private static final String AUDIO_TYPE_MID = "audio/mid";
+    // Audio MIME types
+    private static final String MIME_AUDIO_ALL = "audio/*";
+    private static final String MIME_AUDIO_MPEG = "audio/mpeg";
+    private static final String MIME_AUDIO_MP4 = "audio/mp4";
+    private static final String MIME_AUDIO_OGG = "audio/ogg";
+    private static final String MIME_AUDIO_WAV = "audio/vnd.wav";
+    private static final String MIME_AUDIO_MID = "audio/mid";
+
+    // Audio file extensions
+    private static final String AUDIO_TYPE_MP3 = "mp3";
+    private static final String AUDIO_TYPE_MP4 = "mp4";
+    private static final String AUDIO_TYPE_OGG = "ogg";
+    private static final String AUDIO_TYPE_WAV = "wav";
+    private static final String AUDIO_TYPE_MID = "mid";
 
 
     /**
@@ -184,13 +203,89 @@ public class ContentUtil {
     }
 
     /**
+     * Returns the MIME type for a video file based on it's extension.
+     *
+     * @param filename Name of file to check.
+     * @return MIME type for video
+     */
+    public static String getVideoMimeType(String filename) {
+        if (TextUtils.isEmpty(filename)) {
+            return "";
+        }
+
+        String[] parts = TextUtils.split(filename, "\\.");
+        if (parts.length < 2) {
+            LogUtils.w("Split filename has less than 2 parts=" + filename);
+            return MIME_VIDEO_ALL;
+        }
+
+        String ext = parts[1];
+
+        if (TextUtils.equals(ext, VIDEO_TYPE_M4V) || TextUtils.equals(ext, VIDEO_TYPE_MP4)) {
+            return MIME_VIDEO_MP4;
+        }
+
+        if (TextUtils.equals(ext, VIDEO_TYPE_OGG)) {
+            return MIME_VIDEO_OGG;
+        }
+
+        if (TextUtils.equals(ext, VIDEO_TYPE_WEBM)) {
+            return MIME_VIDEO_WEBM;
+        }
+
+        return MIME_VIDEO_ALL;
+    }
+
+    /**
+     * Returns the MIME type for an audio file based on it's extension.
+     *
+     * @param filename Name of file to check.
+     * @return MIME type for audio
+     */
+    public static String getAudioMimeType(String filename) {
+        if (TextUtils.isEmpty(filename)) {
+            return "";
+        }
+
+        String[] parts = TextUtils.split(filename, "\\.");
+        if (parts.length < 2) {
+            LogUtils.w("Split filename has less than 2 parts=" + filename);
+            return MIME_AUDIO_ALL;
+        }
+
+        String ext = parts[1];
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_MP3)) {
+            return MIME_AUDIO_MPEG;
+        }
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_MP4)) {
+            return MIME_AUDIO_MP4;
+        }
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_MID)) {
+            return MIME_AUDIO_MID;
+        }
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_OGG)) {
+            return MIME_AUDIO_OGG;
+        }
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_WAV)) {
+            return MIME_AUDIO_WAV;
+        }
+
+        return MIME_AUDIO_ALL;
+    }
+
+    /**
      * Checks if the given MIME type is a valid video media type.
      *
      * @param type MIME type to check
      * @return True if a valid type
      */
     public static boolean isVideoMedia(String type) {
-        return type.equals(VIDEO_TYPE_MP4) || type.equals(VIDEO_TYPE_OGG) || type.equals(VIDEO_TYPE_WEBM);
+        return type.equals(MIME_VIDEO_MP4) || type.equals(MIME_VIDEO_OGG) || type.equals(MIME_VIDEO_WEBM);
     }
 
     /**
@@ -212,8 +307,8 @@ public class ContentUtil {
      * @return True if type id valid audio.
      */
     public static boolean isAudioMedia(String type) {
-        return type.equals(AUDIO_TYPE_MPEG) || type.equals(AUDIO_TYPE_MP4) || type.equals(AUDIO_TYPE_MID)
-                || type.equals(AUDIO_TYPE_OGG) || type.equals(AUDIO_TYPE_WAV);
+        return type.equals(MIME_AUDIO_MID) || type.equals(MIME_AUDIO_MP4) || type.equals(MIME_AUDIO_MPEG)
+                || type.equals(MIME_AUDIO_OGG) || type.equals(MIME_AUDIO_WAV);
     }
 
 

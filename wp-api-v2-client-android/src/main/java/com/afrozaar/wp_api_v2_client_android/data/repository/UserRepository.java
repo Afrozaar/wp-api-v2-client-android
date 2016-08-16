@@ -61,8 +61,10 @@ public class UserRepository extends BaseRepository implements WordPressContract.
         return contentValues;
     }
 
-    public static ContentValues mapToContentValues(User user) {
+    public static ContentValues mapToContentValues(User user, long blogId) {
         ContentValues values = new ContentValues();
+
+        values.put(BLOG_ID, blogId);
 
         addValue(values, WP_AUTHOR_ID, user.getId());
         addValue(values, USERNAME, user.getUsername());
