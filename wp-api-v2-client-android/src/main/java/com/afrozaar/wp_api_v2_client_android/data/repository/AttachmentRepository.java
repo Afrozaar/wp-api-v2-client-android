@@ -158,7 +158,7 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
         media.origId = cursor.getLong(IDX_ORIGIN_ID);
         media.origType = cursor.getString(IDX_ORIGIN_TYPE);
         media.origUri = cursor.getString(IDX_ORIGIN_URI);
-        media.uploadState = cursor.getString(IDX_UPLOAD_STATE);
+        media.uploadState = cursor.getInt(IDX_UPLOAD_STATE);
 
         return media;
     }

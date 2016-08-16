@@ -184,20 +184,23 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 ContentValues values = new ContentValues();
-                values.put(AttachmentRepository.BLOG_ID, cursor.getLong(0));
-                values.put(AttachmentRepository.WP_POST_ID, cursor.getLong(1));
-                values.put(AttachmentRepository.POST_ROW_ID, cursor.getLong(2));
-                values.put(AttachmentRepository.WP_MEDIA_ID, cursor.getLong(3));
-                values.put(AttachmentRepository.MEDIA_TYPE, cursor.getString(4));
-                values.put(AttachmentRepository.ORIGIN_URI, cursor.getString(5));
-                values.put(AttachmentRepository.CAPTION, cursor.getString(6));
-                values.put(AttachmentRepository.SOURCE_URL, cursor.getString(7));
-                values.put(AttachmentRepository.UPLOAD_STATE, cursor.getInt(8));
+                values.put(AttachmentRepository.BLOG_ID, cursor.getLong(1));
+                values.put(AttachmentRepository.WP_POST_ID, cursor.getLong(2));
+                values.put(AttachmentRepository.POST_ROW_ID, cursor.getLong(3));
+                values.put(AttachmentRepository.WP_MEDIA_ID, cursor.getLong(4));
+                values.put(AttachmentRepository.ORIGIN_TYPE, cursor.getString(5));
+                values.put(AttachmentRepository.ORIGIN_URI, cursor.getString(6));
+                values.put(AttachmentRepository.CAPTION, cursor.getString(7));
+                values.put(AttachmentRepository.SOURCE_URL, cursor.getString(8));
+                values.put(AttachmentRepository.UPLOAD_STATE, cursor.getInt(9));
 
                 db.insert(AttachmentRepository.TABLE_NAME, null, values);
             }
             cursor.close();
         }
+
+        db.execSQL("DROP TABLE IF EXISTS " + TaxonomyRepository.TABLE_NAME);
+        db.execSQL(TaxonomyRepository.SCHEMA);
     }
 
     public void deleteDatabase(Context context) {

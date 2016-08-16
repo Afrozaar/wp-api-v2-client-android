@@ -35,9 +35,6 @@ public abstract class BaseAsyncTask<Result> extends AsyncTask<Void, Void, Result
     protected Context context;
     protected BaseTaskCallback<Result> callback;
 
-    protected WpClientRetrofit adminClientRetrofit;
-    protected WpClientRetrofit clientRetrofit;
-
     private SQLiteOpenHelper sqLiteOpenHelper;
     private SQLiteDatabase openDatabase;
 
@@ -111,10 +108,6 @@ public abstract class BaseAsyncTask<Result> extends AsyncTask<Void, Void, Result
     }
 
     protected abstract Result exec() throws Exception;
-
-    protected abstract WpClientRetrofit getClientRetrofit();
-
-    protected abstract WpClientRetrofit getAdminClientRetrofit();
 
     protected SQLiteDatabase getReadableDatabase() {
         if (sqLiteOpenHelper == null) {

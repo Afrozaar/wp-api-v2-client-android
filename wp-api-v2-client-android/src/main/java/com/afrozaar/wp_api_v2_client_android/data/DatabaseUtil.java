@@ -131,9 +131,8 @@ public class DatabaseUtil {
     }
 
     public static void insertAttachment(SQLiteDatabase database, long blogId, long authorId, long postId,
-                                        long postRowId, Media media, long origId, String origUri, String origType) {
-        ContentValues values = AttachmentRepository.mapToContentValues(media, blogId, authorId, postId,
-                postRowId);
+                                        long postRowId, Media media, long origId) {
+        ContentValues values = AttachmentRepository.mapToContentValues(media, blogId, authorId, postId, postRowId);
 
         if (containsData(database, AttachmentRepository.TABLE_NAME, AttachmentRepository.getContainsMap(
                 postId, postRowId, media, origId))) {

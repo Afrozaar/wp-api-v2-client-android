@@ -34,7 +34,7 @@ public class Media extends WPObject<Media> {
     public long origId;
     public String origType;
     public String origUri;
-    public String uploadState;
+    public int uploadState;
 
 
     /**
