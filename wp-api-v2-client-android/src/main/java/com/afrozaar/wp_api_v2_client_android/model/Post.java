@@ -63,7 +63,7 @@ public class Post extends WPObject<Post> {
      * The content for the object.
      */
     @SerializedName("content")
-    private WPGeneric content;
+    private WPGeneric content = new WPGeneric();
 
     public void setContent(WPGeneric content) {
         this.content = content;
@@ -85,7 +85,7 @@ public class Post extends WPObject<Post> {
      * The excerpt for the object.
      */
     @SerializedName("excerpt")
-    private WPGeneric excerpt;
+    private WPGeneric excerpt = new WPGeneric();
 
     public void setExcerpt(WPGeneric excerpt) {
         this.excerpt = excerpt;

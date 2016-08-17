@@ -104,7 +104,7 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         addValue(values, WP_POST_ID, post.getId());
         addValue(values, DATE, post.getDate());
         addValue(values, DATE_GMT, post.getDateGMT());
-        addValue(values, GUID, post.getGuid().getRaw());
+        addValue(values, GUID, post.getGuid().getRendered());
         addValue(values, MODIFIED, post.getModified());
         addValue(values, MODIFIED_GMT, post.getModifiedGMT());
         addValue(values, PASSWORD, post.getPassword());
@@ -112,9 +112,9 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         addValue(values, STATUS, post.getStatus());
         addValue(values, TYPE, post.getType());
         addValue(values, LINK, post.getLink());
-        addValue(values, TITLE, post.getTitle().getRaw());
-        addValue(values, CONTENT, post.getContent().getRaw());
-        addValue(values, EXCERPT, post.getExcerpt().getRaw());
+        addValue(values, TITLE, post.getTitle().getRendered());
+        addValue(values, CONTENT, post.getContent().getRendered());
+        addValue(values, EXCERPT, post.getExcerpt().getRendered());
         addValue(values, FEATURED_MEDIA, post.getFeaturedMedia());
         addValue(values, COMMENT_STATUS, post.getCommentStatus().getStatus());
         addValue(values, PING_STATUS, post.getPingStatus().getStatus());
