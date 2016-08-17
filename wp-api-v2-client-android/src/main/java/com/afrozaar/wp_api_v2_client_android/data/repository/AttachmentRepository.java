@@ -83,12 +83,12 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
             throw new IllegalStateException("Media item does not have valid post id!\n" + media.toString());
         }
 
-        values.put(MIME_TYPE, media.getMimeType());
-
         if (media.getId() != -1) {
             values.put(WP_MEDIA_ID, media.getId());
+            values.put(MIME_TYPE, media.getMimeType());
         } else if (origId != -1) {
             values.put(ORIGIN_ID, origId);
+            values.put(ORIGIN_TYPE, media.origType);
         } else {
             throw new IllegalStateException("Media item does not have WP or orig id!\n" + media.toString());
         }
