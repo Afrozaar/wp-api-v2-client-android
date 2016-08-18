@@ -84,7 +84,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Adds the update time column to POSTS table
-     * <p>
+     * <p/>
      * 22/03/2016
      */
     private void upgradeV100To101(SQLiteDatabase db) {
@@ -94,7 +94,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Migrated old media from reporter database to wordpress database
-     * <p>
+     * <p/>
      * 29/03/2016
      */
     private void upgradeV101To102(SQLiteDatabase db) {
@@ -132,7 +132,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Changes the 'authors' table to 'user' and adds more columns
-     * <p>
+     * <p/>
      * 29/04/2016
      */
     private void upgradeV102To103(SQLiteDatabase db) {
@@ -143,7 +143,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Add UPLOADING flag column to Post
-     * <p>
+     * <p/>
      * 30/05/2016
      */
     private void upgradeV103To104(SQLiteDatabase db) {
@@ -153,7 +153,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Adding upload state column to media
-     * <p>
+     * <p/>
      * 07/06/2016
      */
     private void upgradeV104To105(SQLiteDatabase db) {
@@ -163,7 +163,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     /**
      * Adding new Post Stream table
-     * <p>
+     * <p/>
      * 05/08/2016
      */
     private void upgradeV105To106(SQLiteDatabase db) {
@@ -174,7 +174,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * Added new repository classes for accessing database tables.
      * - New Attachments table to replace old Media one
      * - New field on Post table to replace StreamPost table
-     * <p>
+     * <p/>
      * 12/08/2016
      */
     private void upgradeV106To200(SQLiteDatabase db) {
@@ -201,6 +201,13 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + TaxonomyRepository.TABLE_NAME);
         db.execSQL(TaxonomyRepository.SCHEMA);
+
+        db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
+                + " ADD COLUMN " + PostRepository.IS_FEED_POST + " INTEGER DEFAULT 0");
+        db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
+                + " ADD COLUMN " + PostRepository.DOWNLOADED + " INTEGER DEFAULT 0");
+
+        db.execSQL("DROP TABLE IF EXISTS stream_post");
     }
 
     public void deleteDatabase(Context context) {
