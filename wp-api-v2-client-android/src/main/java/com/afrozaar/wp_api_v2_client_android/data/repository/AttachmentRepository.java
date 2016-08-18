@@ -90,7 +90,7 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
             values.put(ORIGIN_ID, origId);
             values.put(ORIGIN_TYPE, media.origType);
         } else {
-            throw new IllegalStateException("Media item does not have WP or orig id!\n" + media.toString());
+            values.put(ORIGIN_URI, media.origUri);
         }
 
         return values;
@@ -108,15 +108,15 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
         addValue(values, WP_MEDIA_ID, media.getId());
         addValue(values, DATE, media.getDate());
         addValue(values, DATE_GMT, media.getDateGMT());
-        addValue(values, GUID, media.getGuid().getRendered());
+        addValue(values, GUID, media.getGuid() == null ? null : media.getGuid().getRendered());
         addValue(values, MODIFIED, media.getModified());
         addValue(values, MODIFIED_GMT, media.getModifiedGMT());
         addValue(values, SLUG, media.getSlug());
         addValue(values, TYPE, media.getType());
         addValue(values, LINK, media.getLink());
-        addValue(values, TITLE, media.getTitle().getRendered());
-        addValue(values, COMMENT_STATUS, media.getCommentStatus().getStatus());
-        addValue(values, PING_STATUS, media.getPingStatus().getStatus());
+        addValue(values, TITLE, media.getTitle() == null ? null : media.getTitle().getRendered());
+        addValue(values, COMMENT_STATUS, media.getCommentStatus() == null ? null : media.getCommentStatus().getStatus());
+        addValue(values, PING_STATUS, media.getPingStatus() == null ? null : media.getPingStatus().getStatus());
 
         addValue(values, ALT_TEXT, media.getAltText());
         addValue(values, CAPTION, media.getCaption());

@@ -82,7 +82,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      * The globally unique identifier for the object.
      */
     @SerializedName("guid")
-    private WPGeneric guid = new WPGeneric();
+    private WPGeneric guid;
 
     public void setGuid(WPGeneric guid) {
         this.guid = guid;
@@ -178,7 +178,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      * The title for the object.
      */
     @SerializedName("title")
-    private WPGeneric title = new WPGeneric();
+    private WPGeneric title;
 
     public void setTitle(WPGeneric title) {
         this.title = title;
@@ -211,7 +211,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      */
     @JsonAdapter(StatusDeserializer.class)
     @SerializedName("comment_status")
-    private WPStatus commentStatus = new WPStatus();
+    private WPStatus commentStatus;
 
     public void setCommentStatus(WPStatus commentStatus) {
         this.commentStatus = commentStatus;
@@ -228,7 +228,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      */
     @JsonAdapter(StatusDeserializer.class)
     @SerializedName("ping_status")
-    private WPStatus pingStatus = new WPStatus();
+    private WPStatus pingStatus;
 
     public void setPingStatus(WPStatus pingStatus) {
         this.pingStatus = pingStatus;

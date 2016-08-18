@@ -94,7 +94,7 @@ public abstract class BaseAsyncTask<Result> extends AsyncTask<Void, Void, Result
 
         LogUtils.d("==== Ending task - " + getClass().getSimpleName() + ";result=" + (taskFailed ? "failed" : "success"));
 
-        if (callback != null && isContextValid()) {
+        if (callback != null) {
             if (taskFailed) {
                 callback.onTaskFailure(this, taskException.getMessage());
             } else {
@@ -131,15 +131,6 @@ public abstract class BaseAsyncTask<Result> extends AsyncTask<Void, Void, Result
         }
 
         return openDatabase;
-    }
-
-    protected boolean isContextValid() {
-        if (context != null) {
-            if (context instanceof Activity && !((Activity) context).isFinishing()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     protected long getPostIdFromDatabase(long itemId) {

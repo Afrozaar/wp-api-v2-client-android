@@ -57,8 +57,10 @@ public class DatabaseUtil {
     public static long insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
         ContentValues values = PostRepository.mapToContentValues(post, blogId, authorId);
 
-        if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId,
-                authorId, post, postRowId))) {
+        return insertPost(database, blogId, authorId, post.getId(), postRowId, values);
+
+        /*if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId,
+                authorId, post.getId(), postRowId))) {
             StringBuilder builder = new StringBuilder();
             builder.append(BlogRepository.BLOG_ID)
                     .append("=? AND ")
@@ -73,6 +75,38 @@ public class DatabaseUtil {
                 builder.append(PostRepository.WP_POST_ID)
                         .append("=?");
                 whereArgs[2] = post.getId() + "";
+            } else if (postRowId != -1) {
+                builder.append(PostRepository._ID)
+                        .append("=?");
+                whereArgs[2] = postRowId + "";
+            }
+
+            database.update(PostRepository.TABLE_NAME, values, builder.toString(), whereArgs);
+
+            return postRowId;
+        } else {
+            return database.insert(PostRepository.TABLE_NAME, null, values);
+        }*/
+    }
+
+    public static long insertPost(SQLiteDatabase database, long blogId, long authorId,
+                                  long postId, long postRowId, ContentValues values) {
+        if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(
+                blogId, authorId, postId, postRowId))) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(BlogRepository.BLOG_ID)
+                    .append("=? AND ")
+                    .append(PostRepository.WP_AUTHOR_ID)
+                    .append("=? AND ");
+
+            String[] whereArgs = new String[3];
+            whereArgs[0] = blogId + "";
+            whereArgs[1] = authorId + "";
+
+            if (postId != -1) {
+                builder.append(PostRepository.WP_POST_ID)
+                        .append("=?");
+                whereArgs[2] = postId + "";
             } else if (postRowId != -1) {
                 builder.append(PostRepository._ID)
                         .append("=?");
@@ -147,8 +181,8 @@ public class DatabaseUtil {
                 whereArgs[0] = postRowId + "";
             }
             builder.append("=? AND ")
-                    .append(AttachmentRepository.MIME_TYPE + "=? AND ");
-            whereArgs[1] = media.getMimeType();
+                    .append(AttachmentRepository.ORIGIN_TYPE + "=? AND ");
+            whereArgs[1] = media.origType;
 
             if (media.getId() != -1) {
                 builder.append(AttachmentRepository.WP_MEDIA_ID + "=?");
@@ -156,11 +190,17 @@ public class DatabaseUtil {
             } else if (origId != -1) {
                 builder.append(AttachmentRepository.ORIGIN_ID + "=?");
                 whereArgs[2] = origId + "";
+            } else {
+                builder.append(AttachmentRepository.ORIGIN_URI + "=?");
+                whereArgs[2] = media.origUri;
             }
 
-            database.update(AttachmentRepository.TABLE_NAME, values, builder.toString(), whereArgs);
+            int result = database.update(AttachmentRepository.TABLE_NAME, values, builder.toString(), whereArgs);
+
+            LogUtils.v("insertAttachment - update result=" + result + "; values=" + values.toString());
         } else {
-            database.insert(AttachmentRepository.TABLE_NAME, null, values);
+            long result = database.insert(AttachmentRepository.TABLE_NAME, null, values);
+            LogUtils.v("insertAttachment - insert result=" + result);
         }
     }
 

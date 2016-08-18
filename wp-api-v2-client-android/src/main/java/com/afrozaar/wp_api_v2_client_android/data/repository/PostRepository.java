@@ -77,14 +77,14 @@ public class PostRepository extends BaseRepository implements WordPressContract.
     public static final int IDX_IS_FEED_POST = 27;
     public static final int IDX_DOWNLOADED = 28;
 
-    public static ContentValues getContainsMap(long blogId, long authorId, Post post, long postRowId) {
+    public static ContentValues getContainsMap(long blogId, long authorId, long postId, long postRowId) {
         ContentValues values = new ContentValues();
 
         values.put(BLOG_ID, blogId);
         values.put(WP_AUTHOR_ID, authorId);
 
-        if (post.getId() != -1) {
-            values.put(WP_POST_ID, post.getId());
+        if (postId != -1) {
+            values.put(WP_POST_ID, postId);
         } else if (postRowId != -1) {
             values.put(_ID, postRowId);
         } else {
@@ -104,7 +104,7 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         addValue(values, WP_POST_ID, post.getId());
         addValue(values, DATE, post.getDate());
         addValue(values, DATE_GMT, post.getDateGMT());
-        addValue(values, GUID, post.getGuid().getRendered());
+        addValue(values, GUID, post.getGuid() == null ? null : post.getGuid().getRendered());
         addValue(values, MODIFIED, post.getModified());
         addValue(values, MODIFIED_GMT, post.getModifiedGMT());
         addValue(values, PASSWORD, post.getPassword());
@@ -112,12 +112,12 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         addValue(values, STATUS, post.getStatus());
         addValue(values, TYPE, post.getType());
         addValue(values, LINK, post.getLink());
-        addValue(values, TITLE, post.getTitle().getRendered());
-        addValue(values, CONTENT, post.getContent().getRendered());
-        addValue(values, EXCERPT, post.getExcerpt().getRendered());
+        addValue(values, TITLE, post.getTitle() == null ? null : post.getTitle().getRendered());
+        addValue(values, CONTENT, post.getContent() == null ? null : post.getContent().getRendered());
+        addValue(values, EXCERPT, post.getExcerpt() == null ? null : post.getExcerpt().getRendered());
         addValue(values, FEATURED_MEDIA, post.getFeaturedMedia());
-        addValue(values, COMMENT_STATUS, post.getCommentStatus().getStatus());
-        addValue(values, PING_STATUS, post.getPingStatus().getStatus());
+        addValue(values, COMMENT_STATUS, post.getCommentStatus() == null ? null : post.getCommentStatus().getStatus());
+        addValue(values, PING_STATUS, post.getPingStatus() == null ? null : post.getPingStatus().getStatus());
         addValue(values, STICKY, post.getSticky());
         addValue(values, FORMAT, post.getFormat());
         addValue(values, CATEGORIES, DataConverters.makeCategoryString(post.getCategories()));
