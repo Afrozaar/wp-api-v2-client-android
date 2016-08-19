@@ -13,6 +13,7 @@ import com.afrozaar.wp_api_v2_client_android.data.repository.MetaRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.TaxonomyRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.UserRepository;
+import com.afrozaar.wp_api_v2_client_android.util.WordpressPreferenceHelper;
 
 /**
  * @author Jan-Louis Crafford
@@ -180,7 +181,12 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private void upgradeV106To200(SQLiteDatabase db) {
         db.execSQL(AttachmentRepository.SCHEMA);
 
-        Cursor cursor = db.query(WordPressContract.Medias.TABLE_NAME, null, null, null, null, null, null);
+        String selection = WordPressContract.Medias.POST_ROW_ID + " IS NOT ?";
+        String[] selectionArgs = {"-1"};
+
+        long authorId = WordpressPreferenceHelper.with(context).getWordPressUserId();
+
+        Cursor cursor = db.query(WordPressContract.Medias.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 ContentValues values = new ContentValues();
@@ -193,6 +199,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 values.put(AttachmentRepository.CAPTION, cursor.getString(7));
                 values.put(AttachmentRepository.SOURCE_URL, cursor.getString(8));
                 values.put(AttachmentRepository.UPLOAD_STATE, cursor.getInt(9));
+                values.put(AttachmentRepository.WP_AUTHOR_ID, authorId);
 
                 db.insert(AttachmentRepository.TABLE_NAME, null, values);
             }
@@ -206,6 +213,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 + " ADD COLUMN " + PostRepository.IS_FEED_POST + " INTEGER DEFAULT 0");
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
                 + " ADD COLUMN " + PostRepository.DOWNLOADED + " INTEGER DEFAULT 0");
+        db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
+                + " ADD COLUMN " + PostRepository.DOWNLOADED_BODY + " INTEGER DEFAULT 0");
 
         db.execSQL("DROP TABLE IF EXISTS stream_post");
     }

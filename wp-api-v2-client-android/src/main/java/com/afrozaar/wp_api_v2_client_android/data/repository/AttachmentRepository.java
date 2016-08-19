@@ -122,6 +122,7 @@ public class AttachmentRepository extends BaseRepository implements WordPressCon
         addValue(values, CAPTION, media.getCaption());
         addValue(values, DESCRIPTION, media.getDescription());
         addValue(values, MEDIA_TYPE, media.getMediaType());
+        addValue(values, MIME_TYPE, media.getMimeType());
         addValue(values, SOURCE_URL, media.getSourceUrl());
 
         addValue(values, ORIGIN_ID, media.origId);

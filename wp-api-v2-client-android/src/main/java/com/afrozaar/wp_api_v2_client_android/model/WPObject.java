@@ -245,7 +245,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
      */
     @JsonAdapter(LinksDeserializer.class)
     @SerializedName("_links")
-    private ArrayList<Link> links;
+    private ArrayList<Link> links = new ArrayList<>();
 
     public void setLinks(ArrayList<Link> links) {
         this.links = links;

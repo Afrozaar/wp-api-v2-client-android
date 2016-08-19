@@ -49,13 +49,13 @@ public class MetaRepository extends BaseRepository implements WordPressContract.
         return values;
     }
 
-    public static ContentValues mapToContentValues(Meta meta, long blogId, long postRowId) {
+    public static ContentValues mapToContentValues(Meta meta, long blogId, long postId, long postRowId) {
         ContentValues values = new ContentValues();
 
         values.put(BLOG_ID, blogId);
         values.put(POST_ROW_ID, postRowId);
 
-        addValue(values, WP_POST_ID, meta.getPostId());
+        addValue(values, WP_POST_ID, postId);
         addValue(values, WP_META_ID, meta.getId());
         addValue(values, KEY, meta.getKey());
         addValue(values, VALUE, meta.getValue());
@@ -68,8 +68,7 @@ public class MetaRepository extends BaseRepository implements WordPressContract.
 
         meta.rowId = getRowId(cursor);
 
-        meta.withPostId(cursor.getLong(IDX_WP_POST_ID))
-                .withId(cursor.getLong(IDX_WP_META_ID))
+        meta.withId(cursor.getLong(IDX_WP_META_ID))
                 .withKey(cursor.getString(IDX_KEY))
                 .withValue(cursor.getString(IDX_VALUE));
 

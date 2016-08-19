@@ -46,7 +46,8 @@ public class PostRepository extends BaseRepository implements WordPressContract.
             + UPDATED_TIME + " INTEGER,"
             + UPLOADING + " INTEGER DEFAULT 0,"
             + IS_FEED_POST + " INTEGER DEFAULT 0,"
-            + DOWNLOADED + " INTEGER DEFAULT 0)";
+            + DOWNLOADED + " INTEGER DEFAULT 0,"
+            + DOWNLOADED_BODY + " INTEGER DEFAULT 0)";
 
     public static final int IDX_BLOG_ID = 1;
     public static final int IDX_WP_AUTHOR_ID = 2;
@@ -76,6 +77,7 @@ public class PostRepository extends BaseRepository implements WordPressContract.
     public static final int IDX_UPLOADING = 26;
     public static final int IDX_IS_FEED_POST = 27;
     public static final int IDX_DOWNLOADED = 28;
+    public static final int IDX_DOWNLOADED_BODY = 29;
 
     public static ContentValues getContainsMap(long blogId, long authorId, long postId, long postRowId) {
         ContentValues values = new ContentValues();
@@ -88,7 +90,6 @@ public class PostRepository extends BaseRepository implements WordPressContract.
         } else if (postRowId != -1) {
             values.put(_ID, postRowId);
         } else {
-            //throw new IllegalArgumentException("Both WP and row IDs are -1:\n" + post.toString());
             return null;
         }
 

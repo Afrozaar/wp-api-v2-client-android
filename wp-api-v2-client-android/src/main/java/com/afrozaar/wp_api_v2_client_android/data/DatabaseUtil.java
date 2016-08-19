@@ -115,6 +115,21 @@ public class DatabaseUtil {
 
             database.update(PostRepository.TABLE_NAME, values, builder.toString(), whereArgs);
 
+            if (postRowId == -1) {
+                String[] projection = {PostRepository._ID};
+                String selection = PostRepository.WP_POST_ID + "=?";
+                String[] selectionArgs = {postId + ""};
+
+                Cursor cursor = database.query(PostRepository.TABLE_NAME, projection, selection,
+                        selectionArgs, null, null, null);
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        postRowId = cursor.getLong(0);
+                    }
+                    cursor.close();
+                }
+            }
+
             return postRowId;
         } else {
             return database.insert(PostRepository.TABLE_NAME, null, values);
@@ -123,7 +138,7 @@ public class DatabaseUtil {
 
     public static void insertMeta(SQLiteDatabase database, long blogId, long postId, long postRowId,
                                   Meta meta) {
-        ContentValues values = MetaRepository.mapToContentValues(meta, blogId, postRowId);
+        ContentValues values = MetaRepository.mapToContentValues(meta, blogId, postId, postRowId);
 
         if (containsData(database, MetaRepository.TABLE_NAME, MetaRepository.getContainsMap(meta,
                 blogId, postId, postRowId))) {

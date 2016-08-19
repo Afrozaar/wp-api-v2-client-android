@@ -78,6 +78,7 @@ public class ContentUtil {
     // Audio file extensions
     private static final String AUDIO_TYPE_MP3 = "mp3";
     private static final String AUDIO_TYPE_MP4 = "mp4";
+    private static final String AUDIO_TYPE_M4A = "m4a";
     private static final String AUDIO_TYPE_OGG = "ogg";
     private static final String AUDIO_TYPE_WAV = "wav";
     private static final String AUDIO_TYPE_MID = "mid";
@@ -158,17 +159,27 @@ public class ContentUtil {
     /**
      * Returns the MIME type for an image file based on it's extension.
      *
-     * @param filename Name of file to check.
+     * @param filepath Name of file to check.
      * @return MIME type for image
      */
-    public static String getImageMimeType(String filename) {
-        if (TextUtils.isEmpty(filename)) {
+    public static String getImageMimeType(String filepath) {
+        if (TextUtils.isEmpty(filepath)) {
             return "";
         }
 
-        String[] parts = TextUtils.split(filename, "\\.");
+        String fileName;
+
+        String[] urlParts = TextUtils.split(filepath, "/");
+        if (urlParts.length > 1) {
+            // file path is url
+            fileName = urlParts[urlParts.length - 1];
+        } else {
+            fileName = urlParts[0];
+        }
+
+        String[] parts = TextUtils.split(fileName, "\\.");
         if (parts.length < 2) {
-            LogUtils.w("Split filename has less than 2 parts=" + filename);
+            LogUtils.w("Split filename has less than 2 parts=" + fileName);
             return MIME_IMAGE_ALL;
         }
 
@@ -205,17 +216,27 @@ public class ContentUtil {
     /**
      * Returns the MIME type for a video file based on it's extension.
      *
-     * @param filename Name of file to check.
+     * @param filepath Name of file to check.
      * @return MIME type for video
      */
-    public static String getVideoMimeType(String filename) {
-        if (TextUtils.isEmpty(filename)) {
+    public static String getVideoMimeType(String filepath) {
+        if (TextUtils.isEmpty(filepath)) {
             return "";
         }
 
-        String[] parts = TextUtils.split(filename, "\\.");
+        String fileName;
+
+        String[] urlParts = TextUtils.split(filepath, "/");
+        if (urlParts.length > 1) {
+            // file path is url
+            fileName = urlParts[urlParts.length - 1];
+        } else {
+            fileName = urlParts[0];
+        }
+
+        String[] parts = TextUtils.split(fileName, "\\.");
         if (parts.length < 2) {
-            LogUtils.w("Split filename has less than 2 parts=" + filename);
+            LogUtils.w("Split fileName has less than 2 parts=" + fileName);
             return MIME_VIDEO_ALL;
         }
 
@@ -239,17 +260,27 @@ public class ContentUtil {
     /**
      * Returns the MIME type for an audio file based on it's extension.
      *
-     * @param filename Name of file to check.
+     * @param filepath Name of file to check.
      * @return MIME type for audio
      */
-    public static String getAudioMimeType(String filename) {
-        if (TextUtils.isEmpty(filename)) {
+    public static String getAudioMimeType(String filepath) {
+        if (TextUtils.isEmpty(filepath)) {
             return "";
         }
 
-        String[] parts = TextUtils.split(filename, "\\.");
+        String fileName;
+
+        String[] urlParts = TextUtils.split(filepath, "/");
+        if (urlParts.length > 1) {
+            // file path is url
+            fileName = urlParts[urlParts.length - 1];
+        } else {
+            fileName = urlParts[0];
+        }
+
+        String[] parts = TextUtils.split(fileName, "\\.");
         if (parts.length < 2) {
-            LogUtils.w("Split filename has less than 2 parts=" + filename);
+            LogUtils.w("Split filename has less than 2 parts=" + fileName);
             return MIME_AUDIO_ALL;
         }
 
@@ -259,7 +290,7 @@ public class ContentUtil {
             return MIME_AUDIO_MPEG;
         }
 
-        if (TextUtils.equals(ext, AUDIO_TYPE_MP4)) {
+        if (TextUtils.equals(ext, AUDIO_TYPE_MP4) || TextUtils.equals(ext, AUDIO_TYPE_M4A)) {
             return MIME_AUDIO_MP4;
         }
 

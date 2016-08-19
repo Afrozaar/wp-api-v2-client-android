@@ -311,6 +311,11 @@ public class WordPressContract {
          * <P>Type: INTEGER (short)</P>
          */
         String DOWNLOADED = "downloaded";
+
+        /**
+         * Flag to specifiy if Post content, media and meta has been downloaded for a Feed post
+         */
+        String DOWNLOADED_BODY = "downloaded_body";
     }
 
     public interface TaxonomyColumns {
