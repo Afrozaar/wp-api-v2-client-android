@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class DatabaseUtil {
 
-    public static void insertBlog(SQLiteDatabase database, Blog blog) {
+    public static synchronized void insertBlog(SQLiteDatabase database, Blog blog) {
         ContentValues values = BlogRepository.mapToContentValues(blog);
 
         // TODO add proper checks for updating blogs using id
@@ -41,7 +41,7 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertUser(SQLiteDatabase database, long blogId, User user) {
+    public static synchronized void insertUser(SQLiteDatabase database, long blogId, User user) {
         ContentValues values = UserRepository.mapToContentValues(user, blogId);
 
         if (containsData(database, UserRepository.TABLE_NAME, UserRepository.getContainsMap(blogId, user.getId()))) {
@@ -54,43 +54,14 @@ public class DatabaseUtil {
         }
     }
 
-    public static long insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
+    public static synchronized long insertPost(SQLiteDatabase database, long blogId, long authorId, Post post, long postRowId) {
         ContentValues values = PostRepository.mapToContentValues(post, blogId, authorId);
 
         return insertPost(database, blogId, authorId, post.getId(), postRowId, values);
-
-        /*if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(blogId,
-                authorId, post.getId(), postRowId))) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(BlogRepository.BLOG_ID)
-                    .append("=? AND ")
-                    .append(PostRepository.WP_AUTHOR_ID)
-                    .append("=? AND ");
-
-            String[] whereArgs = new String[3];
-            whereArgs[0] = blogId + "";
-            whereArgs[1] = authorId + "";
-
-            if (post.getId() != -1) {
-                builder.append(PostRepository.WP_POST_ID)
-                        .append("=?");
-                whereArgs[2] = post.getId() + "";
-            } else if (postRowId != -1) {
-                builder.append(PostRepository._ID)
-                        .append("=?");
-                whereArgs[2] = postRowId + "";
-            }
-
-            database.update(PostRepository.TABLE_NAME, values, builder.toString(), whereArgs);
-
-            return postRowId;
-        } else {
-            return database.insert(PostRepository.TABLE_NAME, null, values);
-        }*/
     }
 
-    public static long insertPost(SQLiteDatabase database, long blogId, long authorId,
-                                  long postId, long postRowId, ContentValues values) {
+    public static synchronized long insertPost(SQLiteDatabase database, long blogId, long authorId,
+                                               long postId, long postRowId, ContentValues values) {
         if (containsData(database, PostRepository.TABLE_NAME, PostRepository.getContainsMap(
                 blogId, authorId, postId, postRowId))) {
             StringBuilder builder = new StringBuilder();
@@ -136,8 +107,8 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertMeta(SQLiteDatabase database, long blogId, long postId, long postRowId,
-                                  Meta meta) {
+    public static synchronized void insertMeta(SQLiteDatabase database, long blogId, long postId, long postRowId,
+                                               Meta meta) {
         ContentValues values = MetaRepository.mapToContentValues(meta, blogId, postId, postRowId);
 
         if (containsData(database, MetaRepository.TABLE_NAME, MetaRepository.getContainsMap(meta,
@@ -165,7 +136,7 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertTaxonomy(SQLiteDatabase database, long blogId, Taxonomy taxonomy) {
+    public static synchronized void insertTaxonomy(SQLiteDatabase database, long blogId, Taxonomy taxonomy) {
         ContentValues values = TaxonomyRepository.mapToContentValues(taxonomy, blogId);
 
         if (containsData(database, TaxonomyRepository.TABLE_NAME, TaxonomyRepository.getContainsMap(taxonomy, blogId))) {
@@ -179,8 +150,8 @@ public class DatabaseUtil {
         }
     }
 
-    public static void insertAttachment(SQLiteDatabase database, long blogId, long authorId, long postId,
-                                        long postRowId, Media media, long origId) {
+    public static synchronized void insertAttachment(SQLiteDatabase database, long blogId, long authorId, long postId,
+                                                     long postRowId, Media media, long origId) {
         ContentValues values = AttachmentRepository.mapToContentValues(media, blogId, authorId, postId, postRowId);
 
         if (containsData(database, AttachmentRepository.TABLE_NAME, AttachmentRepository.getContainsMap(

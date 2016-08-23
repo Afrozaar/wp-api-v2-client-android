@@ -44,13 +44,14 @@ public class UserRepository extends BaseRepository implements WordPressContract.
     public static final int IDX_FIRST_NAME = 6;
     public static final int IDX_LAST_NAME = 7;
     public static final int IDX_EMAIL = 8;
-    public static final int IDX_DESCRIPTION = 9;
-    public static final int IDX_LINK = 10;
-    public static final int IDX_NICKNAME = 11;
-    public static final int IDX_SLUG = 12;
-    public static final int IDX_REGISTERED_DATE = 13;
-    public static final int IDX_ROLES = 14;
-    public static final int IDX_AVATAR_URL = 15;
+    public static final int IDX_URL = 9;
+    public static final int IDX_DESCRIPTION = 10;
+    public static final int IDX_LINK = 11;
+    public static final int IDX_NICKNAME = 12;
+    public static final int IDX_SLUG = 13;
+    public static final int IDX_REGISTERED_DATE = 14;
+    public static final int IDX_ROLES = 15;
+    public static final int IDX_AVATAR_URL = 16;
 
     public static ContentValues getContainsMap(long blogId, long authorId) {
         ContentValues contentValues = new ContentValues();
@@ -100,6 +101,7 @@ public class UserRepository extends BaseRepository implements WordPressContract.
                 .withFirstName(cursor.getString(IDX_FIRST_NAME))
                 .withLastName(cursor.getString(IDX_LAST_NAME))
                 .withEmail(cursor.getString(IDX_EMAIL))
+                .withUrl(cursor.getString(IDX_URL))
                 .withDescription(cursor.getString(IDX_DESCRIPTION))
                 .withLink(cursor.getString(IDX_LINK))
                 .withNickName(cursor.getString(IDX_NICKNAME))

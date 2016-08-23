@@ -297,6 +297,11 @@ public class Media extends WPObject<Media> {
         postId = in.readLong();
         sourceUrl = in.readString();
         mediaDetails = in.readParcelable(MediaDetails.class.getClassLoader());
+
+        origId = in.readLong();
+        origType = in.readString();
+        origUri = in.readString();
+        uploadState = in.readInt();
     }
 
     @Override
@@ -310,6 +315,11 @@ public class Media extends WPObject<Media> {
         dest.writeLong(postId);
         dest.writeString(sourceUrl);
         dest.writeParcelable(mediaDetails, flags);
+
+        dest.writeLong(origId);
+        dest.writeString(origType);
+        dest.writeString(origUri);
+        dest.writeInt(uploadState);
     }
 
     public static Map<String, Object> mapFromFields(Media media) {
