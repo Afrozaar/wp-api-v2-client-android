@@ -20,13 +20,22 @@ public class Media extends WPObject<Media> {
     public static final String JSON_FIELD_CAPTION = "caption";
     public static final String JSON_FIELD_DESCRIPTION = "description";
     public static final String JSON_FIELD_MEDIA_TYPE = "media_type";
+    public static final String JSON_FIELD_MIME_TYPE = "mime_type";
     public static final String JSON_FIELD_POST = "post";
     public static final String JSON_FIELD_SOURCE_URL = "source_url";
     public static final String JSON_FIELD_MEDIA_DETAILS = "media_details";
 
+    // custom upload states
     public static final int UPLOAD_STATE_NONE = 0;  // not uploaded yet
     public static final int UPLOAD_STATE_UPLOADED = 1;  // uploaded
     public static final int UPLOAD_STATE_ERROR = 2;     // error on upload
+
+    // custom fields for local app use
+    public long origId;
+    public String origType;
+    public String origUri;
+    public int uploadState;
+
 
     /**
      * Alternative text to display when attachment is not displayed.
@@ -101,6 +110,25 @@ public class Media extends WPObject<Media> {
 
     public Media withMediaType(String mediaType) {
         setMediaType(mediaType);
+        return this;
+    }
+
+    /**
+     * MIME type of the attachment object
+     */
+    @SerializedName(JSON_FIELD_MIME_TYPE)
+    private String mimeType;
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public Media withMimeType(String mimeType) {
+        setMimeType(mimeType);
         return this;
     }
 
@@ -180,8 +208,10 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withGuid(WPGeneric guid) {
-        setGuid(guid);
+    public Media withGuid(String guid) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(guid);
+        setGuid(generic);
         return this;
     }
 
@@ -230,14 +260,18 @@ public class Media extends WPObject<Media> {
     }
 
     @Override
-    public Media withCommentStatus(WPStatus commentStatus) {
-        setCommentStatus(commentStatus);
+    public Media withCommentStatus(int commentStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(commentStatus);
+        setCommentStatus(status);
         return this;
     }
 
     @Override
-    public Media withPingStatus(WPStatus pingStatus) {
-        setPingStatus(pingStatus);
+    public Media withPingStatus(int pingStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(pingStatus);
+        setCommentStatus(status);
         return this;
     }
 
@@ -263,6 +297,11 @@ public class Media extends WPObject<Media> {
         postId = in.readLong();
         sourceUrl = in.readString();
         mediaDetails = in.readParcelable(MediaDetails.class.getClassLoader());
+
+        origId = in.readLong();
+        origType = in.readString();
+        origUri = in.readString();
+        uploadState = in.readInt();
     }
 
     @Override
@@ -276,6 +315,11 @@ public class Media extends WPObject<Media> {
         dest.writeLong(postId);
         dest.writeString(sourceUrl);
         dest.writeParcelable(mediaDetails, flags);
+
+        dest.writeLong(origId);
+        dest.writeString(origType);
+        dest.writeString(origUri);
+        dest.writeInt(uploadState);
     }
 
     public static Map<String, Object> mapFromFields(Media media) {
@@ -310,4 +354,17 @@ public class Media extends WPObject<Media> {
             return new Media[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Media{" +
+                "altText='" + altText + '\'' +
+                ", caption='" + caption + '\'' +
+                ", description='" + description + '\'' +
+                ", mediaType='" + mediaType + '\'' +
+                ", postId=" + postId +
+                ", sourceUrl='" + sourceUrl + '\'' +
+                ", mediaDetails=" + mediaDetails +
+                "} " + super.toString();
+    }
 }

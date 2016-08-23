@@ -24,6 +24,8 @@ public class Post extends WPObject<Post> {
     public static final String POST_STATUS_PENDING = "pending";
     public static final String POST_STATUS_TRASH = "trash";
     public static final String POST_STATUS_AUTO_DRAFT = "auto-draft";
+
+    // custom post states
     public static final String POST_STATUS_UPLOADING = "uploading";
     public static final String POST_STATUS_UPLOADED_WITH_ERROR = "upload_with_error";
     public static final String POST_STATUS_ERROR = "upload_error";
@@ -61,7 +63,7 @@ public class Post extends WPObject<Post> {
      * The content for the object.
      */
     @SerializedName("content")
-    private WPGeneric content;
+    private WPGeneric content = new WPGeneric();
 
     public void setContent(WPGeneric content) {
         this.content = content;
@@ -83,7 +85,7 @@ public class Post extends WPObject<Post> {
      * The excerpt for the object.
      */
     @SerializedName("excerpt")
-    private WPGeneric excerpt;
+    private WPGeneric excerpt = new WPGeneric();
 
     public void setExcerpt(WPGeneric excerpt) {
         this.excerpt = excerpt;
@@ -93,8 +95,10 @@ public class Post extends WPObject<Post> {
         return excerpt;
     }
 
-    public Post withExcerpt(WPGeneric excerpt) {
-        setExcerpt(excerpt);
+    public Post withExcerpt(String excerpt) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(excerpt);
+        setExcerpt(generic);
         return this;
     }
 
@@ -253,8 +257,10 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withGuid(WPGeneric guid) {
-        setGuid(guid);
+    public Post withGuid(String guid) {
+        WPGeneric generic = new WPGeneric();
+        generic.setRendered(guid);
+        setGuid(generic);
         return this;
     }
 
@@ -303,14 +309,18 @@ public class Post extends WPObject<Post> {
     }
 
     @Override
-    public Post withCommentStatus(WPStatus commentStatus) {
-        setCommentStatus(commentStatus);
+    public Post withCommentStatus(int commentStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(commentStatus);
+        setCommentStatus(status);
         return this;
     }
 
     @Override
-    public Post withPingStatus(WPStatus pingStatus) {
-        setPingStatus(pingStatus);
+    public Post withPingStatus(int pingStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(pingStatus);
+        setCommentStatus(status);
         return this;
     }
 

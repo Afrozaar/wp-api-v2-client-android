@@ -92,7 +92,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
         return guid;
     }
 
-    public abstract T withGuid(WPGeneric guid);
+    public abstract T withGuid(String guid);
 
     /**
      * The date the object was last modified.
@@ -221,7 +221,7 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
         return commentStatus;
     }
 
-    public abstract T withCommentStatus(WPStatus commentStatus);
+    public abstract T withCommentStatus(int status);
 
     /**
      * Whether or not the object can be pinged.
@@ -238,14 +238,14 @@ public abstract class WPObject<T extends WPObject> extends BaseModel {
         return pingStatus;
     }
 
-    public abstract T withPingStatus(WPStatus pingStatus);
+    public abstract T withPingStatus(int status);
 
     /**
      * Links for this post; author, attachments, history, etc.
      */
     @JsonAdapter(LinksDeserializer.class)
     @SerializedName("_links")
-    private ArrayList<Link> links;
+    private ArrayList<Link> links = new ArrayList<>();
 
     public void setLinks(ArrayList<Link> links) {
         this.links = links;

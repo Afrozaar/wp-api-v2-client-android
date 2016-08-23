@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 public class WPGeneric extends BaseModel {
 
     @SerializedName("rendered")
-    private String rendered;
+    private String rendered = "";
 
     public String getRendered() {
         return rendered;
@@ -30,7 +30,7 @@ public class WPGeneric extends BaseModel {
     }
 
     @SerializedName("raw")
-    private String raw;
+    private String raw = "";
 
     public String getRaw() {
         return raw;

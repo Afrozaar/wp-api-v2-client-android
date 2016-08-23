@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Taxonomy extends BaseModel {
 
     public static String TYPE_CATEGORY = "category";
-    public static String TYPE_TAG = "tag";
+    public static String TYPE_TAG = "post_tag";
 
     @SerializedName("id")
     private long id;

@@ -1,11 +1,13 @@
 package com.afrozaar.wp_api_v2_client_android.data.tasks.callback;
 
-import com.afrozaar.wp_api_v2_client_android.data.tasks.WpAsyncTask;
+
+import com.afrozaar.wp_api_v2_client_android.data.tasks.BaseAsyncTask;
 
 /**
- * Created by jlo on 2016/02/28.
+ * @author Jan-Louis Crafford
+ *         Created on 2016/02/10.
  */
-public interface WpTaskCallback<Result> {
+public interface BaseTaskCallback<Result> {
 
     /**
      * Called when task has finished successfully
@@ -31,6 +33,5 @@ public interface WpTaskCallback<Result> {
      * @param task  The failed task, for retrying if required.
      * @param error Error message returned from task
      */
-    void onTaskFailure(WpAsyncTask task, String error);
+    void onTaskFailure(BaseAsyncTask task, String error);
 }
-

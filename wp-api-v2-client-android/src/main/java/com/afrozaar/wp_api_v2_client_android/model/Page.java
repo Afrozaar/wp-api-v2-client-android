@@ -155,8 +155,10 @@ public class Page extends WPObject<Page> {
     }
 
     @Override
-    public Page withGuid(WPGeneric guid) {
-        setGuid(guid);
+    public Page withGuid(String guid) {
+        WPGeneric generic = new WPGeneric();
+        generic.withRaw(guid);
+        setGuid(generic);
         return this;
     }
 
@@ -205,14 +207,18 @@ public class Page extends WPObject<Page> {
     }
 
     @Override
-    public Page withCommentStatus(WPStatus commentStatus) {
-        setCommentStatus(commentStatus);
+    public Page withCommentStatus(int commentStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(commentStatus);
+        setCommentStatus(status);
         return this;
     }
 
     @Override
-    public Page withPingStatus(WPStatus pingStatus) {
-        setPingStatus(pingStatus);
+    public Page withPingStatus(int pingStatus) {
+        WPStatus status = new WPStatus();
+        status.setStatus(pingStatus);
+        setCommentStatus(status);
         return this;
     }
 
