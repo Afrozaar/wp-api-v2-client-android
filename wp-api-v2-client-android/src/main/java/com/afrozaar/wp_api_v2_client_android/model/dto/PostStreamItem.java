@@ -27,6 +27,8 @@ public class PostStreamItem implements Comparable<PostStreamItem> {
     public int audioCount;
     public int locationCount;
 
+    public int commentCount;
+
     public int adapterPosition = -1;
     public boolean downloaded = false;
 

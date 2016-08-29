@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.afrozaar.wp_api_v2_client_android.util.Validate;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
@@ -13,6 +14,24 @@ import java.util.Map;
  *         Created on 2016/01/14.
  */
 public class Comment extends BaseModel {
+
+    public static final String JSON_FIELD_ID = "id";
+    public static final String JSON_FIELD_AUTHOR = "author";
+    public static final String JSON_FIELD_AUTHOR_AVATAR_URLS = "author_avatar_urls";
+    public static final String JSON_FIELD_AUTHOR_EMAIL = "author_email";
+    public static final String JSON_FIELD_AUTHOR_IP = "author_ip";
+    public static final String JSON_FIELD_AUTHOR_NAME = "author_name";
+    public static final String JSON_FIELD_AUTHOR_URL = "author_url";
+    public static final String JSON_FIELD_AUTHOR_USER_AGENT = "author_user_agent";
+    public static final String JSON_FIELD_CONTENT = "content";
+    public static final String JSON_FIELD_DATE = "date";
+    public static final String JSON_FIELD_DATE_GMT = "date_gmt";
+    public static final String JSON_FIELD_KARMA = "karma";
+    public static final String JSON_FIELD_LINK = "link";
+    public static final String JSON_FIELD_PARENT = "parent";
+    public static final String JSON_FIELD_POST = "post";
+    public static final String JSON_FIELD_STATUS = "status";
+    public static final String JSON_FIELD_TYPE = "type";
 
     /**
      * Unique identifier for the object.
@@ -394,6 +413,24 @@ public class Comment extends BaseModel {
         dest.writeLong(post);
         dest.writeString(status);
         dest.writeString(type);
+    }
+
+    public static Map<String, Object> mapFromFields(Comment comment) {
+        Map<String, Object> builder = new HashMap<>();
+
+        Validate.validateMapEntry(JSON_FIELD_AUTHOR, comment.getAuthor(), builder);
+        Validate.validateMapEntry(JSON_FIELD_AUTHOR_EMAIL, comment.getAuthorEmail(), builder);
+        Validate.validateMapEntry(JSON_FIELD_AUTHOR_NAME, comment.getAuthorName(), builder);
+        Validate.validateMapEntry(JSON_FIELD_CONTENT, comment.getContent().getRaw(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DATE, comment.getDate(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DATE_GMT, comment.getDateGMT(), builder);
+        Validate.validateMapEntry(JSON_FIELD_KARMA, comment.getKarma(), builder);
+        Validate.validateMapEntry(JSON_FIELD_PARENT, comment.getParent(), builder);
+        Validate.validateMapEntry(JSON_FIELD_POST, comment.getPost(), builder);
+        Validate.validateMapEntry(JSON_FIELD_STATUS, comment.getStatus(), builder);
+        Validate.validateMapEntry(JSON_FIELD_TYPE, comment.getType(), builder);
+
+        return builder;
     }
 
     @Override

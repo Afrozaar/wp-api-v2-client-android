@@ -7,11 +7,13 @@ import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.data.repository.AttachmentRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.BlogRepository;
+import com.afrozaar.wp_api_v2_client_android.data.repository.CommentRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.MetaRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.TaxonomyRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.UserRepository;
 import com.afrozaar.wp_api_v2_client_android.model.Blog;
+import com.afrozaar.wp_api_v2_client_android.model.Comment;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
@@ -187,6 +189,23 @@ public class DatabaseUtil {
         } else {
             long result = database.insert(AttachmentRepository.TABLE_NAME, null, values);
             LogUtils.v("insertAttachment - insert result=" + result);
+        }
+    }
+
+    public static synchronized void insertComment(SQLiteDatabase database, long blogId, Comment comment) {
+        ContentValues contentValues = CommentRepository.mapToContentValues(blogId, comment);
+
+        if (containsData(database, CommentRepository.TABLE_NAME, CommentRepository.getContainsMap(blogId,
+                comment.getAuthor(), comment.getPost(), comment.getParent(), comment.getId()))) {
+
+            String where = getSelection(CommentRepository.BLOG_ID, CommentRepository.WP_AUTHOR_ID,
+                    CommentRepository.WP_POST_ID, CommentRepository.WP_PARENT_ID, CommentRepository.WP_COMMENT_ID);
+            String[] whereArgs = {blogId + "", comment.getAuthor() + "", comment.getPost() + "",
+                    comment.getParent() + "", comment.getId() + ""};
+
+            database.update(CommentRepository.TABLE_NAME, contentValues, where, whereArgs);
+        } else {
+            database.insert(CommentRepository.TABLE_NAME, null, contentValues);
         }
     }
 

@@ -56,7 +56,7 @@ public class WordPressContract {
         String SLUG = "slug";
 
         /**
-         * Type of post
+         * Type of the object
          * <P>Type : TEXT</P>
          */
         String TYPE = "type";
@@ -477,6 +477,77 @@ public class WordPressContract {
          * <P>Type: INTEGER</P>
          */
         String UPLOAD_STATE = "upload_state";
+    }
+
+    public interface CommentColumns {
+
+        /**
+         * ID of the parent object
+         * Model field is 'parent'
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_PARENT_ID = "wp_parent_id";
+
+        /**
+         * ID of the object on WP.
+         * Model field is 'id'
+         * <P>Type: INTEGER (long)</P>
+         */
+        String WP_COMMENT_ID = "wp_comment_id";
+
+        /**
+         * Avatar URLs for the object author.
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_AVATAR_URLS = "author_avatar_urls";
+
+        /**
+         * Email address of the author
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_EMAIL = "author_email";
+
+        /**
+         * IP address for the object author.
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_IP = "author_ip";
+
+        /**
+         * Name of the author
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_NAME = "author_name";
+
+        /**
+         * URL for the object author.
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_URL = "author_url";
+
+        /**
+         * User agent for the object author.
+         * <P>Type: TEXT</P>
+         */
+        String AUTHOR_USER_AGENT = "author_user_agent";
+
+        /**
+         * Content for the object.
+         * <P>Type: TEXT</P>
+         */
+        String CONTENT = "content";
+
+        /**
+         * Karma for the object.
+         * <P>Type: INTEGER</P>
+         */
+        String KARMA = "karma";
+
+        /**
+         * State of the object.
+         * <P>Type: TEXT</P>
+         */
+        String STATUS = "status";
     }
 
     public interface References {

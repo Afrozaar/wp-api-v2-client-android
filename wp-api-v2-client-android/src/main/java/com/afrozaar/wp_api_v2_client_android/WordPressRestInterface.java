@@ -395,9 +395,9 @@ public interface WordPressRestInterface {
     /* COMMENTS */
 
     @POST("comments")
-    Call<Comment> createComment(Map<String, Object> fields);
+    Call<Comment> createComment(@Body Map<String, Object> fields);
 
-    @GET("comments")
+    @GET("comments?context=edit")
     Call<List<Comment>> getComments();
 
     @GET("comments/{id}")

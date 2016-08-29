@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.rest;
 import android.text.TextUtils;
 
 import com.afrozaar.wp_api_v2_client_android.WordPressRestInterface;
+import com.afrozaar.wp_api_v2_client_android.model.Comment;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
@@ -386,4 +387,47 @@ public class WpClientRetrofit {
     public Call<Meta> deletePostMeta(long postId, long metaId) {
         return restInterface.deletePostMeta(postId, metaId);
     }
+
+    /* COMMENTS */
+
+    public void createComment(Comment comment, WordPressRestResponse<Comment> callback) {
+        doRetrofitCall(restInterface.createComment(Comment.mapFromFields(comment)), callback);
+    }
+
+    public Call<Comment> createComment(Comment comment) {
+        return restInterface.createComment(Comment.mapFromFields(comment));
+    }
+
+    public void getComments(WordPressRestResponse<List<Comment>> callback) {
+        doRetrofitCall(restInterface.getComments(), callback);
+    }
+
+    public Call<List<Comment>> getComments() {
+        return restInterface.getComments();
+    }
+
+    public void getComment(long commentId, WordPressRestResponse<Comment> callback) {
+        doRetrofitCall(restInterface.getComment(commentId), callback);
+    }
+
+    public Call<Comment> getComment(long commentId) {
+        return restInterface.getComment(commentId);
+    }
+
+    public void updateComment(Comment comment, WordPressRestResponse<Comment> callback) {
+        doRetrofitCall(restInterface.updateComment(comment.getId(), Comment.mapFromFields(comment)), callback);
+    }
+
+    public Call<Comment> updateComment(Comment comment) {
+        return restInterface.updateComment(comment.getId(), Comment.mapFromFields(comment));
+    }
+
+    public void deleteComment(long id, WordPressRestResponse<Comment> callback) {
+        doRetrofitCall(restInterface.deleteComment(id), callback);
+    }
+
+    public Call<Comment> deleteComment(long id) {
+        return restInterface.deleteComment(id);
+    }
+
 }

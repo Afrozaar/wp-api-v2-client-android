@@ -1,6 +1,5 @@
 package com.afrozaar.wp_api_v2_client_android.data.tasks;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,7 +10,6 @@ import android.os.AsyncTask;
 import com.afrozaar.wp_api_v2_client_android.data.WordPressDatabase;
 import com.afrozaar.wp_api_v2_client_android.data.repository.PostRepository;
 import com.afrozaar.wp_api_v2_client_android.data.tasks.callback.BaseTaskCallback;
-import com.afrozaar.wp_api_v2_client_android.rest.WpClientRetrofit;
 import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 
 import java.io.IOException;
