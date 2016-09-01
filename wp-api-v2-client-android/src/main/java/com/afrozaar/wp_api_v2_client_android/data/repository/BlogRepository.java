@@ -11,7 +11,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Blog;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/08.
  */
-public class BlogRepository extends BaseRepository implements WordPressContract.BlogColumns {
+public class BlogRepository extends BaseWpRepository implements WordPressContract.BlogColumns {
 
     public static final String TABLE_NAME = "blogs";
 

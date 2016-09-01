@@ -11,7 +11,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Media;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/12.
  */
-public class AttachmentRepository extends BaseRepository implements WordPressContract.AttachmentColumns,
+public class AttachmentRepository extends BaseWpRepository implements WordPressContract.AttachmentColumns,
         WordPressContract.AttachmentExtraColumns {
 
     public static final String TABLE_NAME = "attachments";

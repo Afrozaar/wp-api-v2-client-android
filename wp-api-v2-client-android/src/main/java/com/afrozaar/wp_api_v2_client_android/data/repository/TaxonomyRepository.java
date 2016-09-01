@@ -11,7 +11,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/12.
  */
-public class TaxonomyRepository extends BaseRepository implements WordPressContract.TaxonomyColumns {
+public class TaxonomyRepository extends BaseWpRepository implements WordPressContract.TaxonomyColumns {
 
     public static final String TABLE_NAME = "taxonomies";
 

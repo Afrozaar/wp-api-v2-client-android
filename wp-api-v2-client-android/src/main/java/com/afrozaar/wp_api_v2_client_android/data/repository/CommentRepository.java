@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/26.
  */
-public class CommentRepository extends BaseRepository implements WordPressContract.CommentColumns {
+public class CommentRepository extends BaseWpRepository implements WordPressContract.CommentColumns {
 
     public static final String TABLE_NAME = "comments";
 

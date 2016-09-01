@@ -11,7 +11,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Meta;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/12.
  */
-public class MetaRepository extends BaseRepository implements WordPressContract.MetaColumns {
+public class MetaRepository extends BaseWpRepository implements WordPressContract.MetaColumns {
 
     public static final String TABLE_NAME = "metas";
 

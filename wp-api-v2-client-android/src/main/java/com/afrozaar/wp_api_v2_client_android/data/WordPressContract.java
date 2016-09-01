@@ -88,8 +88,6 @@ public class WordPressContract {
          * @see com.afrozaar.wp_api_v2_client_android.model.WPStatus
          */
         String PING_STATUS = "ping_status";
-
-        int IDX_ID = 0;
     }
 
     public interface BaseExtraColumns {
