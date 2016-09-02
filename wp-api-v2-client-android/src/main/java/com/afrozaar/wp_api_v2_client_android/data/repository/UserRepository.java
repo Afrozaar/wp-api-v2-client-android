@@ -13,7 +13,7 @@ import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/12.
  */
-public class UserRepository extends BaseRepository implements WordPressContract.UsersColumns {
+public class UserRepository extends BaseWpRepository implements WordPressContract.UsersColumns {
 
     public static final String TABLE_NAME = "users";
 

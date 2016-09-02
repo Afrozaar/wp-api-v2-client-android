@@ -18,6 +18,7 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     private static final int PREF_USER_WP_ID = R.string.pref_id_wordpress_id;
     private static final int PREF_USER_WP_USERNAME = R.string.pref_id_wordpress_username;
     private static final int PREF_USER_WP_PASSWORD = R.string.pref_id_wordpress_password;
+    private static final int PREF_USER_DISPLAY_NAME = R.string.pref_id_wordpress_display_name;
 
     private static WordpressPreferenceHelper sInstance = null;
 
@@ -90,6 +91,17 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
 
     public String getWordPressUserPassword() {
         String pref = context.getString(PREF_USER_WP_PASSWORD);
+        return getStringPref(pref);
+    }
+
+    public WordpressPreferenceHelper setWordPressDisplayName(String name) {
+        String pref = context.getString(PREF_USER_DISPLAY_NAME);
+        putStringPref(pref, name);
+        return this;
+    }
+
+    public String getWordPressDisplayName() {
+        String pref = context.getString(PREF_USER_DISPLAY_NAME);
         return getStringPref(pref);
     }
 }

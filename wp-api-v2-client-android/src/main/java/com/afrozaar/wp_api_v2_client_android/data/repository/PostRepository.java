@@ -12,7 +12,7 @@ import com.afrozaar.wp_api_v2_client_android.util.DataConverters;
  * @author Jan-Louis Crafford
  *         Created on 2016/08/08.
  */
-public class PostRepository extends BaseRepository implements WordPressContract.PostColumns,
+public class PostRepository extends BaseWpRepository implements WordPressContract.PostColumns,
         WordPressContract.PostExtraColumns {
 
     public static final String TABLE_NAME = "posts";
