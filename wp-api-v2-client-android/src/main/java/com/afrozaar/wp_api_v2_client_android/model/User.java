@@ -48,6 +48,17 @@ public class User extends BaseModel {
     }
 
     /**
+     * Helper variable used to check user role when using custom
+     * getUserFromLogin or getUserFromEmail calls.
+     */
+    @SerializedName("role")
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    /**
      * Avatar URLs for the object.
      */
     @JsonAdapter(AvatarUrlsDeserializer.class)

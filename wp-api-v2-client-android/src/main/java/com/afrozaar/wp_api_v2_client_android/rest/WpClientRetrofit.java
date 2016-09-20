@@ -9,6 +9,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
+import com.afrozaar.wp_api_v2_client_android.model.dto.PostFeedResponseDto;
 import com.afrozaar.wp_api_v2_client_android.model.dto.PostStreamItem;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
 import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
@@ -234,6 +235,10 @@ public class WpClientRetrofit {
         } else {
             return restInterface.getPostStreamAfterDate(date);
         }
+    }
+
+    public Call<List<PostStreamItem>> getPostFeedForPage(int startingPage) {
+        return restInterface.getPostFeedForPage(startingPage);
     }
 
     /* MEDIA */

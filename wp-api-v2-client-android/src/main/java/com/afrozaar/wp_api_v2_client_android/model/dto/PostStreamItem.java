@@ -1,5 +1,7 @@
 package com.afrozaar.wp_api_v2_client_android.model.dto;
 
+import android.graphics.Bitmap;
+
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/08/04.
@@ -14,23 +16,19 @@ public class PostStreamItem implements Comparable<PostStreamItem> {
     public String modified;
     public String title;
     public int author;
+    public String author_name;
+    public String status;
     public int featured_media;
+    public String media_url;
+
+    public String image_count;
+    public String video_count;
+    public String audio_count;
+    public String location_count;
 
     // extra downloaded fields
-    public String authorName;
-    public String authorImage;
-
-    public String mediaUrl;
-
-    public int imageCount;
-    public int videoCount;
-    public int audioCount;
-    public int locationCount;
-
+    public Bitmap authorImage;
     public int commentCount;
-
-    public int adapterPosition = -1;
-    public boolean downloaded = false;
 
     @Override
     public int compareTo(PostStreamItem another) {

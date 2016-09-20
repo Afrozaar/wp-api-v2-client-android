@@ -7,6 +7,7 @@ import com.afrozaar.wp_api_v2_client_android.model.Page;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
+import com.afrozaar.wp_api_v2_client_android.model.dto.PostFeedResponseDto;
 import com.afrozaar.wp_api_v2_client_android.model.dto.PostStreamItem;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 
@@ -420,4 +421,7 @@ public interface WordPressRestInterface {
 
     @GET("posts/stream/{date}")
     Call<List<PostStreamItem>> getPostStreamAfterDate(@Path("date") String date);
+
+    @GET("posts/stream")
+    Call<List<PostStreamItem>> getPostFeedForPage(@Query("page") int page);
 }
