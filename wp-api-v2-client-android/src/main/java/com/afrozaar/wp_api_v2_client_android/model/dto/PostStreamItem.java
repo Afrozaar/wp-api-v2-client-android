@@ -2,6 +2,10 @@ package com.afrozaar.wp_api_v2_client_android.model.dto;
 
 import android.graphics.Bitmap;
 
+import com.afrozaar.wp_api_v2_client_android.model.Comment;
+
+import java.util.List;
+
 /**
  * @author Jan-Louis Crafford
  *         Created on 2016/08/04.
@@ -29,6 +33,8 @@ public class PostStreamItem implements Comparable<PostStreamItem> {
     // extra downloaded fields
     public Bitmap authorImage;
     public int commentCount;
+
+    public List<Comment> comments;
 
     @Override
     public int compareTo(PostStreamItem another) {

@@ -203,9 +203,11 @@ public class DatabaseUtil {
             String[] whereArgs = {blogId + "", comment.getAuthor() + "", comment.getPost() + "",
                     comment.getParent() + "", comment.getId() + ""};
 
-            database.update(CommentRepository.TABLE_NAME, contentValues, where, whereArgs);
+            int result = database.update(CommentRepository.TABLE_NAME, contentValues, where, whereArgs);
+            LogUtils.v("insertComment - update result=" + result);
         } else {
-            database.insert(CommentRepository.TABLE_NAME, null, contentValues);
+            long result = database.insert(CommentRepository.TABLE_NAME, null, contentValues);
+            LogUtils.v("insertComment - insert result=" + result);
         }
     }
 

@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public class Comment extends BaseModel {
 
+    public static final String STATUS_APPROVED = "approved";
+    public static final String STATUS_HOLD = "hold";
+
     public static final String JSON_FIELD_ID = "id";
     public static final String JSON_FIELD_AUTHOR = "author";
     public static final String JSON_FIELD_AUTHOR_AVATAR_URLS = "author_avatar_urls";
@@ -449,6 +452,22 @@ public class Comment extends BaseModel {
             return new Comment[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        return id == comment.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 
     @Override
     public String toString() {

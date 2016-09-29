@@ -399,10 +399,13 @@ public interface WordPressRestInterface {
     Call<Comment> createComment(@Body Map<String, Object> fields);
 
     @GET("comments?context=edit")
-    Call<List<Comment>> getComments();
+    Call<List<Comment>> getComments(@QueryMap Map<String, Object> map);
 
     @GET("comments/{id}")
     Call<Comment> getComment(@Path("id") long id);
+
+    @GET("comments")
+    Call<List<Comment>> getCommentsForPost(@QueryMap Map<String, Object> map);
 
     @POST("comments/{id}")
     Call<Comment> updateComment(@Path("id") long id, Map<String, Object> fields);
