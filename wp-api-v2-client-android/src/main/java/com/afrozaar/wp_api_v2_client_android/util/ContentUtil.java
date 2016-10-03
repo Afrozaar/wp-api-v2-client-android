@@ -352,7 +352,19 @@ public class ContentUtil {
      */
     public static Map<String, RequestBody> makeMediaItemUploadMap(Media media, File file) {
         Map<String, RequestBody> map = new HashMap<>();
-        map.put(Media.JSON_FIELD_TITLE, toRequestBody(media.getTitle().getRendered()));
+
+        String fileName;
+        if (!TextUtils.isEmpty(media.getCaption())) {
+            int extStart = file.getName().lastIndexOf(".");
+            String ext = file.getName().substring(extStart);
+
+            String sanitized = media.getCaption().replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
+            fileName = sanitized + ext;
+        } else {
+            fileName = file.getName();
+        }
+
+        map.put(Media.JSON_FIELD_TITLE, toRequestBody(fileName));
         if (Validate.notNull(media.getCaption())) {
             map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption()));
         }
@@ -366,9 +378,10 @@ public class ContentUtil {
             map.put(Media.JSON_FIELD_POST, toRequestBody(media.getPostId() + ""));
         }
 
-        String ext = ContentUtil.getImageMimeType(file.getName());
-        RequestBody fileBody = RequestBody.create(MediaType.parse(ext), file);
-        map.put("file\"; filename=\"" + file.getName() + "\"", fileBody);
+        String mimeType = ContentUtil.getImageMimeType(file.getName());
+        RequestBody fileBody = RequestBody.create(MediaType.parse(mimeType), file);
+
+        map.put("file\"; filename=\"" + fileName + "\"", fileBody);
 
         return map;
     }
