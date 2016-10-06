@@ -83,77 +83,16 @@ public class ContentUtil {
     private static final String AUDIO_TYPE_WAV = "wav";
     private static final String AUDIO_TYPE_MID = "mid";
 
-
-    /**
-     * +
-     * Returns a formatted image link for use in Post body
-     *
-     * @param context  Application context
-     * @param imageUrl Uri for the image
-     * @param altText  Alternate text
-     * @return Formatted HTML url string
-     */
-    public static String getContentImageLinkUri(Context context, String imageUrl, String altText) {
-        return context.getString(R.string.content_image_uri, imageUrl, altText == null ? "" : altText);
-    }
-
-    /**
-     * Returns a formatted video link for use in Post body.
-     * Currently video uses JWPlayer
-     *
-     * @param context  Application contenxt
-     * @param videoUrl Absolute path to video file
-     * @param index    Required for the div id name to allow multiple videos; has to be unique for each video link
-     * @return Formatted HTML video link
-     */
-    public static String getContentVideoLinkUri(Context context, String videoUrl, int index) {
-        return context.getString(R.string.content_video_uri, videoUrl, index);
-    }
-
-    public static String getContentVideoTranscodeLink(Context context, String videoFileName, String origBucketLocation, int index) {
-        int extStart = videoFileName.lastIndexOf(".");
-        String subFolder = context.getString(R.string.s3_bucket_folder);
-        String name = subFolder + "/" + videoFileName.substring(0, extStart);
-
-        return context.getString(R.string.content_video_uri_transcode, name, index);
-    }
-
-    public static String getContentVideoShortcode(Context context, String videoFilename, boolean debug) {
-        int extStart = videoFilename.lastIndexOf(".");
-        String folderName;
-        if (debug) {
-            folderName = "dev";
-        } else {
-            folderName = context.getString(R.string.s3_bucket_folder);
-        }
-
-        String newFileName = videoFilename.replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
-        String name = folderName + "/" + newFileName.substring(0, extStart);
-
-        return context.getString(R.string.content_video_shortcode, name);
+    public static String getContentVideoShortcode(Context context, String filePathOnBucket) {
+        return context.getString(R.string.content_video_shortcode, filePathOnBucket);
     }
 
     public static String getContentLocationShortcode(Context context, String address) {
         return context.getString(R.string.content_location, address);
     }
 
-    public static String getContentAudioShortcode(Context context, String baseUrl, String audioUrl) {
-        return context.getString(R.string.content_audio_uri, baseUrl, audioUrl);
-    }
-
-    public static String getContentAudioLink(Context context, String baseUrl, String fileName, boolean debug) {
-        int extStart = fileName.lastIndexOf(".");
-        String folderName;
-        if (debug) {
-            folderName = "dev";
-        } else {
-            folderName = context.getString(R.string.s3_bucket_folder);
-        }
-
-        String newFileName = fileName.replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
-        String name = folderName + "/" + newFileName.substring(0, extStart);
-
-        return context.getString(R.string.content_audio_uri, baseUrl, name);
+    public static String getContentAudioLink(Context context, String filePathOnBucket) {
+        return context.getString(R.string.content_audio_uri, filePathOnBucket);
     }
 
     /**
