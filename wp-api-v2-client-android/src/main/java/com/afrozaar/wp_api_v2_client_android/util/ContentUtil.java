@@ -83,16 +83,16 @@ public class ContentUtil {
     private static final String AUDIO_TYPE_WAV = "wav";
     private static final String AUDIO_TYPE_MID = "mid";
 
-    public static String getContentVideoShortcode(Context context, String filePathOnBucket) {
-        return context.getString(R.string.content_video_shortcode, filePathOnBucket);
+    public static String getContentVideoShortcode(Context context, String host, String filePathOnBucket) {
+        return context.getString(R.string.content_video_shortcode, host, filePathOnBucket);
     }
 
     public static String getContentLocationShortcode(Context context, String address) {
         return context.getString(R.string.content_location, address);
     }
 
-    public static String getContentAudioLink(Context context, String filePathOnBucket) {
-        return context.getString(R.string.content_audio_uri, filePathOnBucket);
+    public static String getContentAudioLink(Context context, String host, String filePathOnBucket) {
+        return context.getString(R.string.content_audio_uri, host, filePathOnBucket);
     }
 
     /**

@@ -22,9 +22,9 @@
 
     <string name="post_type">gallery</string>
 
-    <string name="content_video_shortcode">[baobab_video url=http://cdn.mojoreporter.com/%s]</string>
+    <string name="content_video_shortcode">[baobab_video url=http://%1$s/%2$s]</string>
 
-    <string name="content_audio_uri">[baobab_audio url=http://cdn.mojoreporter.com/%s]</string>
+    <string name="content_audio_uri">[baobab_audio url=http://%1$s/%2$s]</string>
 
     <string name="content_location">[wp_gmaps address=\""%s\"" zoom="13" marker="1"]</string>
 
