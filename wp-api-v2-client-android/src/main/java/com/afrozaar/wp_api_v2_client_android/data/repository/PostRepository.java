@@ -113,7 +113,7 @@ public class PostRepository extends BaseWpRepository implements WordPressContrac
         addValue(values, STATUS, post.getStatus());
         addValue(values, TYPE, post.getType());
         addValue(values, LINK, post.getLink());
-        addValue(values, TITLE, post.getTitle() == null ? null : post.getTitle().getRendered());
+        addValue(values, TITLE, post.getTitle() == null ? null : post.getTitle().getRaw());
         addValue(values, CONTENT, post.getContent() == null ? null : post.getContent().getRendered());
         addValue(values, EXCERPT, post.getExcerpt() == null ? null : post.getExcerpt().getRendered());
         addValue(values, FEATURED_MEDIA, post.getFeaturedMedia());
