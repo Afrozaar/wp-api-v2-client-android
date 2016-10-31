@@ -19,6 +19,8 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.os.Environment;
 import android.util.Log;
 
+import com.afrozaar.wp_api_v2_client_android.BuildConfig;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,8 +36,7 @@ public class LogUtils {
     }
 
     public static boolean isDebugBuild() {
-        return true;
-        //return BuildConfig.DEBUG;
+        return BuildConfig.DEBUG;
     }
 
     private static String createLogStr(String msg) {

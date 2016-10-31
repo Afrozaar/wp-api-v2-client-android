@@ -31,6 +31,8 @@ public class MediaUtil {
     private static final String HOST_EXTERNAL_STORAGE = "com.android.externalstorage.documents";
     private static final String HOST_GOOGLE_DRIVE = "com.google.android.apps.docs.storage";
     private static final String HOST_DOWNLOADS = "com.android.providers.downloads.documents";
+    private static final String HOST_GOOGLE_PHOTOS = "com.google.android.apps.photos.contentprovider";
+    private static final String HOST_MEDIA_DOCUMENTS = "com.android.providers.media.documents";
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -140,7 +142,7 @@ public class MediaUtil {
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
     public static boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+        return HOST_EXTERNAL_STORAGE.equals(uri.getAuthority());
     }
 
     /**
@@ -148,7 +150,7 @@ public class MediaUtil {
      * @return Whether the Uri authority is DownloadsProvider.
      */
     public static boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+        return HOST_DOWNLOADS.equals(uri.getAuthority());
     }
 
     /**
@@ -156,11 +158,15 @@ public class MediaUtil {
      * @return Whether the Uri authority is MediaProvider.
      */
     public static boolean isMediaDocument(Uri uri) {
-        return "com.android.providers.media.documents".equals(uri.getAuthority());
+        return HOST_MEDIA_DOCUMENTS.equals(uri.getAuthority());
     }
 
     public static boolean isDriveUri(Uri uri) {
         return uri.getAuthority().equals(HOST_GOOGLE_DRIVE);
+    }
+
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return uri.getAuthority().equals(HOST_GOOGLE_PHOTOS);
     }
 
     public static File getImageFilename(Context context, boolean isPublic) throws IOException {
