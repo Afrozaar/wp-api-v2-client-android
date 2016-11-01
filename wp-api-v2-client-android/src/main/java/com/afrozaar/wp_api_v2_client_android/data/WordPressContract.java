@@ -314,6 +314,18 @@ public class WordPressContract {
          * Flag to specifiy if Post content, media and meta has been downloaded for a Feed post
          */
         String DOWNLOADED_BODY = "downloaded_body";
+
+        /**
+         * Number of times upload task has ran for this post.
+         * <P>Type: INTEGER</P>
+         */
+        String RETRY_COUNT = "retry_count";
+
+        /**
+         * Timestamp of the last retry
+         * <P>Type: INTEGER (long)</P>
+         */
+        String LAST_RETRY_TIME = "last_retry_time";
     }
 
     public interface TaxonomyColumns {
