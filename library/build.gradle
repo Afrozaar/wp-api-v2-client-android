@@ -12,8 +12,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 20001
-        versionName "2.0-beta1"
+        versionCode 20015
+        versionName "2.0-beta15"
     }
     buildTypes {
         release {
@@ -35,4 +35,23 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.android.support:support-annotations:24.2.1'
+}
+
+android.libraryVariants.all { variant ->
+
+    variant.outputs.each { output ->
+
+        def aarSuffix = "-${variant.mergedFlavor.versionName}"
+        def originalApkFile = output.getOutputFile()
+        def newApkFile = originalApkFile.name.replace(".aar", "${aarSuffix}.aar")
+        output.setOutputFile(new File("${projectDir}/aars/${newApkFile}"))
+
+        // print the APK path as the last step before install, at which point the apk is complete
+        variant.assemble?.doFirst { // the install task can be null
+            println ""
+            println "Output file:"
+            println output.getOutputFile()
+            println ""
+        }
+    }
 }
