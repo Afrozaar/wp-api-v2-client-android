@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 def globalVersion = "2.0-beta15"
@@ -153,4 +154,32 @@ publishing {
             url "$buildDir/repo"
         }
     }
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            // The Artifactory repository key to publish to
+            repoKey = 'libs-release-local'
+            username = "${artifactory_user}" // The publisher user name
+            password = "${artifactory_password}" // The publisher password
+            maven = true
+        }
+        defaults {
+            publishBuildInfo = false
+            publishArtifacts = true
+            publications('library', 'libraryDebug')
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+            username = "${artifactory_user}" // The resolver user name
+            password = "${artifactory_password}" // The resolver password
+        }
+    }
+
 }

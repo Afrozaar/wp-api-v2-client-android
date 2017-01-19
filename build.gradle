@@ -10,10 +10,21 @@ buildscript {
             dirs 'libs'
         }
 
+        maven {
+            url 'https://maven-repository.afrozaar.com'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+
         jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
+
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1'
 
         //classpath 'com.google.gms:google-services:3.0.0'
 
@@ -26,6 +37,14 @@ allprojects {
     repositories {
         flatDir {
             dirs 'libs'
+        }
+
+        maven {
+            url 'https://maven-repository.afrozaar.com'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
         }
 
         jcenter()
