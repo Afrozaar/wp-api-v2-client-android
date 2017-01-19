@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def globalVersion = "2.0-beta15"
+def globalVersionName = "1.0.1"
+def globalVersionCode = buildVersionCode(globalVersionName)
 
 android {
     compileSdkVersion 24
@@ -16,8 +17,9 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 20015
-        versionName globalVersion
+
+        versionCode globalVersionCode
+        versionName globalVersionName
     }
     buildTypes {
         release {
@@ -110,7 +112,7 @@ publishing {
         library(MavenPublication) {
             groupId 'com.afrozaar.wordpress'
             artifactId 'wp-api-v2-client-android'
-            version globalVersion
+            version globalVersionName
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/library-release.aar")
             pom.withXml {
@@ -131,7 +133,7 @@ publishing {
         libraryDebug(MavenPublication) {
             groupId 'com.afrozaar.wordpress'
             artifactId 'wp-api-v2-client-android-debug'
-            version globalVersion
+            version globalVersionName
             artifact(sourceJar)
             artifact("$buildDir/outputs/aar/library-debug.aar")
             pom.withXml {
