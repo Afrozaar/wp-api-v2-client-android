@@ -85,7 +85,7 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
 
         if (media.getId() != -1) {
             values.put(WP_MEDIA_ID, media.getId());
-            values.put(MIME_TYPE, media.getMimeType());
+            //values.put(MIME_TYPE, media.getMimeType());
         } else if (origId != -1) {
             values.put(ORIGIN_ID, origId);
             values.put(ORIGIN_TYPE, media.origType);
