@@ -1,11 +1,12 @@
 package com.afrozaar.wp_api_v2_client_android.rest;
 
+import android.text.TextUtils;
+
 import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 
@@ -27,14 +28,13 @@ public class HttpServerErrorResponse {
     public static final String CODE_FORBIDDEN = "rest_forbidden";
     public static final String CODE_NOT_LOGGED_IN = "rest_not_logged_in";  // 401
 
-    @SerializedName("code")
-    private String mCode;
+    private String code;
+    private String message;
+    private WPRestErrorData data;
+    private List<WPRestError> additional_errors;
 
-    @SerializedName("message")
-    private String mMessage;
-
-    //@SerializedName("data")
-    //private String mData;
+    // TODO maybe replace code & error with details from first additional_error
+    // to make checking it easier?
 
     public static HttpServerErrorResponse from(ResponseBody body) {
         HttpServerErrorResponse response = null;
@@ -51,27 +51,77 @@ public class HttpServerErrorResponse {
 
     public static HttpServerErrorResponse from(Throwable throwable) {
         HttpServerErrorResponse response = new HttpServerErrorResponse();
-        response.mMessage = throwable.getMessage();
+        response.message = throwable.getMessage();
         return response;
     }
 
-    public HttpServerErrorResponse() {
+    private HttpServerErrorResponse() {
     }
 
     public String getCode() {
-        return mCode;
+        return code;
     }
 
     public String getMessage() {
-        return mMessage;
+        return message;
+    }
+
+    public boolean errorUserNameExists() {
+        return hasError(CODE_USER_NAME);
+    }
+
+    public boolean errorUserEmailExists() {
+        return hasError(CODE_USER_EMAIL);
+    }
+
+    private boolean hasError(String errorCode) {
+        if (additional_errors != null) {
+            for (WPRestError error : additional_errors) {
+                if (TextUtils.equals(error.code, errorCode)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
     public String toString() {
         return "HttpServerErrorResponse{" +
-                "mCode='" + mCode + '\'' +
-                ", mMessage='" + mMessage + '\'' +
-                //", mData='" + mData + '\'' +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                ", additional_errors=" + additional_errors +
                 '}';
+    }
+
+    private class WPRestError {
+
+        public String code;
+        public String message;
+
+        public WPRestErrorData data;
+
+        @Override
+        public String toString() {
+            return "WPRestError{" +
+                    "code='" + code + '\'' +
+                    ", message='" + message + '\'' +
+                    ", data=" + data +
+                    '}';
+        }
+    }
+
+    private class WPRestErrorData {
+
+        public int status;
+
+        @Override
+        public String toString() {
+            return "WPRestErrorData{" +
+                    "status=" + status +
+                    '}';
+        }
     }
 }
