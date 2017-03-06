@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def globalVersionName = "1.0.7"
+def globalVersionName = "1.0.8"
 def globalVersionCode = buildVersionCode(globalVersionName)
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     // publish all buildTypes
     publishNonDefault true
@@ -15,8 +15,8 @@ android {
     //defaultPublishConfig "debug"
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
 
         versionCode globalVersionCode
         versionName globalVersionName
@@ -79,7 +79,8 @@ dependencies {
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.android.support:support-annotations:25.1.1'
+
+    compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
 }
 
 /*android.libraryVariants.all { variant ->

@@ -41,5 +41,6 @@
     <string name="pref_id_wordpress_password">pref.wp.password</string>
     <string name="pref_id_wordpress_display_name">pref.wp.display_name</string>
     <string name="pref_id_wordpress_admin">pref.wp.admin</string>
+    <string name="pref_id_wordpress_role">pref.wp.role</string>
 
 </resources>

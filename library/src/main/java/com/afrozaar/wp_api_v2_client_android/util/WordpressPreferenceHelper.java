@@ -18,15 +18,10 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     private static final int PREF_USER_WP_ID = R.string.pref_id_wordpress_id;
     private static final int PREF_USER_WP_USERNAME = R.string.pref_id_wordpress_username;
     private static final int PREF_USER_WP_ADMIN = R.string.pref_id_wordpress_admin;
-
-    private static WordpressPreferenceHelper sInstance = null;
+    private static final int PREF_USER_WP_ROLE = R.string.pref_id_wordpress_role;
 
     public static WordpressPreferenceHelper with(Context context) {
-        if (sInstance == null) {
-            sInstance = new WordpressPreferenceHelper(context);
-        }
-
-        return sInstance;
+        return new WordpressPreferenceHelper(context);
     }
 
     private WordpressPreferenceHelper(Context context) {
@@ -91,5 +86,16 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     public boolean isWordPressAdmin() {
         String pref = context.getString(PREF_USER_WP_ADMIN);
         return getBooleanPref(pref);
+    }
+
+    public WordpressPreferenceHelper setWordPressRole(String role) {
+        String pref = context.getString(PREF_USER_WP_ROLE);
+        putStringPref(pref, role);
+        return this;
+    }
+
+    public String getWordPressRole() {
+        String pref = context.getString(PREF_USER_WP_ROLE);
+        return getStringPref(pref);
     }
 }

@@ -1,5 +1,18 @@
 apply from: 'versioning.gradle'
 
+// Versioning for Android & Support libs
+ext {
+    // sdk and tools
+    minSdkVersion = 16
+    targetSdkVersion = 25
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.2'
+
+    // dependencies versions
+    supportLibraryVersion = '25.2.0'
+    googleServicesVersion = '10.2.0'
+}
+
 buildscript {
     repositories {
         flatDir {
@@ -18,14 +31,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
 
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1'
-
-        //classpath 'com.google.gms:google-services:3.0.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
