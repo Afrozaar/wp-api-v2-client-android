@@ -24,12 +24,14 @@ public class ContentUtil {
     private static final String MIME_VIDEO_MP4 = "video/mp4";
     private static final String MIME_VIDEO_WEBM = "video/webm";
     private static final String MIME_VIDEO_OGG = "video/ogg";
+    private static final String MIME_VIDEO_3GP = "video/3gpp";
 
     // Video file extensions
     private static final String VIDEO_TYPE_MP4 = "mp4";
     private static final String VIDEO_TYPE_M4V = "m4v";
     private static final String VIDEO_TYPE_OGG = "ogv";
     private static final String VIDEO_TYPE_WEBM = "webm";
+    private static final String VIDEO_TYPE_3GP = "3gp";
 
     private static final String VIDEO_CODECS_MP4 = "avc1.42E01E, mp4a.40.2";
     private static final String VIDEO_CODECS_WEBM = "vp8, vorbis";
@@ -73,7 +75,10 @@ public class ContentUtil {
     private static final String MIME_AUDIO_MP4 = "audio/mp4";
     private static final String MIME_AUDIO_OGG = "audio/ogg";
     private static final String MIME_AUDIO_WAV = "audio/vnd.wav";
+    private static final String MIME_AUDIO_WAV_X = "audio/x-wav";
     private static final String MIME_AUDIO_MID = "audio/mid";
+    private static final String MIME_AUDIO_AMR = "audio/amr";
+    private static final String MIME_AUDIO_FLAC = "audio/flac";
 
     // Audio file extensions
     private static final String AUDIO_TYPE_MP3 = "mp3";
@@ -82,6 +87,8 @@ public class ContentUtil {
     private static final String AUDIO_TYPE_OGG = "ogg";
     private static final String AUDIO_TYPE_WAV = "wav";
     private static final String AUDIO_TYPE_MID = "mid";
+    private static final String AUDIO_TYPE_AMR = "amr";
+    private static final String AUDIO_TYPE_FLAC = "flac";
 
     public static String getContentVideoShortcode(Context context, String host, String filePathOnBucket) {
         return context.getString(R.string.content_video_shortcode, host, filePathOnBucket);
@@ -193,6 +200,10 @@ public class ContentUtil {
             return MIME_VIDEO_WEBM;
         }
 
+        if (TextUtils.equals(ext, VIDEO_TYPE_3GP)) {
+            return MIME_VIDEO_3GP;
+        }
+
         return MIME_VIDEO_ALL;
     }
 
@@ -245,6 +256,14 @@ public class ContentUtil {
             return MIME_AUDIO_WAV;
         }
 
+        if (TextUtils.equals(ext, AUDIO_TYPE_AMR)) {
+            return MIME_AUDIO_AMR;
+        }
+
+        if (TextUtils.equals(ext, AUDIO_TYPE_FLAC)) {
+            return MIME_AUDIO_FLAC;
+        }
+
         return MIME_AUDIO_ALL;
     }
 
@@ -255,7 +274,8 @@ public class ContentUtil {
      * @return True if a valid type
      */
     public static boolean isVideoMedia(String type) {
-        return type.equals(MIME_VIDEO_MP4) || type.equals(MIME_VIDEO_OGG) || type.equals(MIME_VIDEO_WEBM);
+        return type.equals(MIME_VIDEO_MP4) || type.equals(MIME_VIDEO_OGG) || type.equals(MIME_VIDEO_WEBM)
+                || type.equals(MIME_VIDEO_3GP);
     }
 
     /**
@@ -278,7 +298,8 @@ public class ContentUtil {
      */
     public static boolean isAudioMedia(String type) {
         return type.equals(MIME_AUDIO_MID) || type.equals(MIME_AUDIO_MP4) || type.equals(MIME_AUDIO_MPEG)
-                || type.equals(MIME_AUDIO_OGG) || type.equals(MIME_AUDIO_WAV);
+                || type.equals(MIME_AUDIO_OGG) || type.equals(MIME_AUDIO_WAV) || type.equals(MIME_AUDIO_AMR)
+                || type.equals(MIME_AUDIO_FLAC) || type.equals(MIME_AUDIO_WAV_X);
     }
 
 
