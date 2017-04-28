@@ -332,7 +332,7 @@ public class ContentUtil {
             map.put(Media.JSON_FIELD_ALT_TEXT, toRequestBody(media.getAltText()));
         }
         if (Validate.notNull(media.getDescription())) {
-            map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
+            map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription().getRaw()));
         }
         if (media.getPostId() != -1) {
             map.put(Media.JSON_FIELD_POST, toRequestBody(media.getPostId() + ""));

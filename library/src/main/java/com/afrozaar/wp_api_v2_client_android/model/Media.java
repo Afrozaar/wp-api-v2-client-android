@@ -79,18 +79,21 @@ public class Media extends WPObject<Media> {
      * The description for the attachment.
      */
     @SerializedName("description")
-    private String description;
+    private WPGeneric description;
 
-    public void setDescription(String description) {
+    public void setDescription(WPGeneric description) {
         this.description = description;
     }
 
-    public String getDescription() {
+    public WPGeneric getDescription() {
         return description;
     }
 
     public Media withDescription(String description) {
-        setDescription(description);
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(description);
+        generic.setRendered(description);
+        setDescription(generic);
         return this;
     }
 
@@ -292,7 +295,7 @@ public class Media extends WPObject<Media> {
         super(in);
         altText = in.readString();
         caption = in.readString();
-        description = in.readString();
+        description = in.readParcelable(WPGeneric.class.getClassLoader());
         mediaType = in.readString();
         postId = in.readLong();
         sourceUrl = in.readString();
@@ -310,7 +313,7 @@ public class Media extends WPObject<Media> {
 
         dest.writeString(altText);
         dest.writeString(caption);
-        dest.writeString(description);
+        dest.writeParcelable(description, flags);
         dest.writeString(mediaType);
         dest.writeLong(postId);
         dest.writeString(sourceUrl);
