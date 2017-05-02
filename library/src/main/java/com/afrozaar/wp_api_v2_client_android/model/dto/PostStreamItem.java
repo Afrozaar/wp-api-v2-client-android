@@ -29,6 +29,7 @@ public class PostStreamItem implements Comparable<PostStreamItem> {
     public String video_count;
     public String audio_count;
     public String location_count;
+    public String live_stream;
 
     // extra downloaded fields
     public Bitmap authorImage;
