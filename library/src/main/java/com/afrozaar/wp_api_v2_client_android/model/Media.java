@@ -60,6 +60,7 @@ public class Media extends WPObject<Media> {
     /**
      * The caption for the attachment.
      */
+    @JsonAdapter(MediaFieldDeserializer.class)
     @SerializedName("caption")
     private WPGeneric caption = new WPGeneric();
 
@@ -82,7 +83,7 @@ public class Media extends WPObject<Media> {
     /**
      * The description for the attachment.
      */
-    @JsonAdapter(MediaDescriptionDeserializer.class)
+    @JsonAdapter(MediaFieldDeserializer.class)
     @SerializedName("description")
     private WPGeneric description = new WPGeneric();
 

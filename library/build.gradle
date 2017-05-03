@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def globalVersionName = "1.1.4"
+def globalVersionName = "1.1.5"
 def globalVersionCode = buildVersionCode(globalVersionName)
 
 android {

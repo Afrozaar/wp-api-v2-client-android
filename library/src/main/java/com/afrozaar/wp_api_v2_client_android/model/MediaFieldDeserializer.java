@@ -12,7 +12,7 @@ import java.io.IOException;
  *         Created on 2017/05/02.
  */
 
-public class MediaDescriptionDeserializer extends TypeAdapter<WPGeneric> {
+public class MediaFieldDeserializer extends TypeAdapter<WPGeneric> {
 
     @Override
     public void write(JsonWriter out, WPGeneric value) throws IOException {
