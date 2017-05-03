@@ -314,26 +314,25 @@ public class ContentUtil {
         Map<String, RequestBody> map = new HashMap<>();
 
         String fileName;
-        if (!TextUtils.isEmpty(media.getCaption())) {
+        if (media.getCaption() != null && !TextUtils.isEmpty(media.getCaption().getRaw())) {
             int extStart = file.getName().lastIndexOf(".");
             String ext = file.getName().substring(extStart);
 
-            String sanitized = media.getCaption().replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
+            String sanitized = media.getCaption().getRaw().replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
             fileName = sanitized + ext;
         } else {
             fileName = file.getName();
         }
 
         map.put(Media.JSON_FIELD_TITLE, toRequestBody(fileName));
-        if (Validate.notNull(media.getCaption())) {
-            map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption()));
+        if (media.getCaption() != null && !TextUtils.isEmpty(media.getCaption().getRaw())) {
+            map.put(Media.JSON_FIELD_CAPTION, toRequestBody(media.getCaption().getRaw()));
         }
         if (Validate.notNull(media.getAltText())) {
             map.put(Media.JSON_FIELD_ALT_TEXT, toRequestBody(media.getAltText()));
         }
-        if (Validate.notNull(media.getDescription())) {
-            //map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription().getRaw()));
-            map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription()));
+        if (media.getDescription() != null && !TextUtils.isEmpty(media.getDescription().getRaw())) {
+            map.put(Media.JSON_FIELD_DESCRIPTION, toRequestBody(media.getDescription().getRaw()));
         }
         if (media.getPostId() != -1) {
             map.put(Media.JSON_FIELD_POST, toRequestBody(media.getPostId() + ""));

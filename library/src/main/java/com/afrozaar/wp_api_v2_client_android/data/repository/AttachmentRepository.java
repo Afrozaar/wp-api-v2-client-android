@@ -119,8 +119,8 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
         addValue(values, PING_STATUS, media.getPingStatus() == null ? null : media.getPingStatus().getStatus());
 
         addValue(values, ALT_TEXT, media.getAltText());
-        addValue(values, CAPTION, media.getCaption());
-        addValue(values, DESCRIPTION, media.getDescription());
+        addValue(values, CAPTION, media.getCaption() == null ? null : media.getCaption().getRaw());
+        addValue(values, DESCRIPTION, media.getDescription() == null ? null : media.getDescription().getRaw());
         addValue(values, MEDIA_TYPE, media.getMediaType());
         addValue(values, MIME_TYPE, media.getMimeType());
         addValue(values, SOURCE_URL, media.getSourceUrl());

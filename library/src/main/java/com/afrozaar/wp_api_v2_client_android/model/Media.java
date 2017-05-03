@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.afrozaar.wp_api_v2_client_android.util.Validate;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -60,42 +61,30 @@ public class Media extends WPObject<Media> {
      * The caption for the attachment.
      */
     @SerializedName("caption")
-    private String caption;
+    private WPGeneric caption = new WPGeneric();
 
-    public void setCaption(String caption) {
+    public void setCaption(WPGeneric caption) {
         this.caption = caption;
     }
 
-    public String getCaption() {
+    public WPGeneric getCaption() {
         return caption;
     }
 
     public Media withCaption(String caption) {
-        setCaption(caption);
+        WPGeneric generic = new WPGeneric();
+        generic.setRaw(caption);
+        generic.setRendered(caption);
+        setCaption(generic);
         return this;
     }
 
     /**
      * The description for the attachment.
      */
+    @JsonAdapter(MediaDescriptionDeserializer.class)
     @SerializedName("description")
-    private String description;
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Media withDescription(String description) {
-        setDescription(description);
-        return this;
-    }
-
-    /*@SerializedName("description")
-    private WPGeneric description;
+    private WPGeneric description = new WPGeneric();
 
     public void setDescription(WPGeneric description) {
         this.description = description;
@@ -111,7 +100,7 @@ public class Media extends WPObject<Media> {
         generic.setRendered(description);
         setDescription(generic);
         return this;
-    }*/
+    }
 
     /**
      * Type of attachment.
@@ -310,9 +299,8 @@ public class Media extends WPObject<Media> {
     public Media(Parcel in) {
         super(in);
         altText = in.readString();
-        caption = in.readString();
-        //description = in.readParcelable(WPGeneric.class.getClassLoader());
-        description = in.readString();
+        caption = in.readParcelable(WPGeneric.class.getClassLoader());
+        description = in.readParcelable(WPGeneric.class.getClassLoader());
         mediaType = in.readString();
         postId = in.readLong();
         sourceUrl = in.readString();
@@ -329,9 +317,8 @@ public class Media extends WPObject<Media> {
         super.writeToParcel(dest, flags);
 
         dest.writeString(altText);
-        dest.writeString(caption);
-        //dest.writeParcelable(description, flags);
-        dest.writeString(description);
+        dest.writeParcelable(caption, flags);
+        dest.writeParcelable(description, flags);
         dest.writeString(mediaType);
         dest.writeLong(postId);
         dest.writeString(sourceUrl);
@@ -349,8 +336,8 @@ public class Media extends WPObject<Media> {
         WPObject.mapFromFields(media, builder);
 
         Validate.validateMapEntry(JSON_FIELD_ALT_TEXT, media.getAltText(), builder);
-        Validate.validateMapEntry(JSON_FIELD_CAPTION, media.getCaption(), builder);
-        Validate.validateMapEntry(JSON_FIELD_DESCRIPTION, media.getDescription(), builder);
+        Validate.validateMapEntry(JSON_FIELD_CAPTION, media.getCaption() == null ? null : media.getCaption().getRaw(), builder);
+        Validate.validateMapEntry(JSON_FIELD_DESCRIPTION, media.getDescription() == null ? null : media.getDescription().getRaw(), builder);
         Validate.validateMapEntry(JSON_FIELD_MEDIA_TYPE, media.getMediaType(), builder);
         Validate.validateMapEntry(JSON_FIELD_POST, media.getPostId(), builder);
         Validate.validateMapEntry(JSON_FIELD_SOURCE_URL, media.getSourceUrl(), builder);

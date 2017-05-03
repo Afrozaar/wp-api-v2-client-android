@@ -261,11 +261,11 @@ public class WpClientRetrofit {
     public Call<Media> createMedia(Media media, File file) {
         Map<String, RequestBody> map = ContentUtil.makeMediaItemUploadMap(media, file);
         String header;
-        if (!TextUtils.isEmpty(media.getCaption())) {
+        if (media.getCaption() != null && !TextUtils.isEmpty(media.getCaption().getRaw())) {
             int extStart = file.getName().lastIndexOf(".");
             String ext = file.getName().substring(extStart);
 
-            String sanitized = media.getCaption().replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
+            String sanitized = media.getCaption().getRaw().replaceAll("[^[a-z][A-Z][0-9][.]]", "_");
             header = "filename=" + sanitized + ext;
         } else {
             header = "filename=" + file.getName();
