@@ -78,7 +78,7 @@ public class Comment extends BaseModel {
      * Avatar URLs for the object author.
      */
     @SerializedName("author_avatar_urls")
-    private Map<String, String> authorAvatarUrls = new HashMap<>();
+    private transient Map<String, String> authorAvatarUrls = new HashMap<>();
 
     public void setAuthorAvatarUrls(Map<String, String> map) {
         authorAvatarUrls = map;

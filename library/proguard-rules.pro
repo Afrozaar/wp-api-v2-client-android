@@ -27,3 +27,5 @@
 -keep interface com.squareup.okhttp.** { *; }
 
 -keep class okhttp3.** { *; }
+
+-keep class com.afrozaar.wp_api_v2_client_android.model.** { *; }
