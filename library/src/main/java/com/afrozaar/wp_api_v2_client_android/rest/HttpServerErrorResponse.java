@@ -2,7 +2,7 @@ package com.afrozaar.wp_api_v2_client_android.rest;
 
 import android.text.TextUtils;
 
-import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
+import com.afrozaar.athena.utils.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

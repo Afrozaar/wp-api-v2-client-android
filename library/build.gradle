@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def globalVersionName = "1.1.6"
+def globalVersionName = "1.1.7"
 def globalVersionCode = buildVersionCode(globalVersionName)
 
 android {
@@ -71,14 +71,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // HTTP libs
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-
-    // Parsing libs
-    compile 'com.google.code.gson:gson:2.7'
-
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    debugCompile('com.afrozaar.athena:core-lib-debug:0.2.0')
+    releaseCompile('com.afrozaar.athena:core-lib:0.2.0')
+
+    debugCompile('com.afrozaar.athena:auth-debug:0.2.0')
+    releaseCompile('com.afrozaar.athena:auth:0.2.0')
 
     compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
 }

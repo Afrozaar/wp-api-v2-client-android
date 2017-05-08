@@ -2,6 +2,8 @@ package com.afrozaar.wp_api_v2_client_android.rest;
 
 import android.text.TextUtils;
 
+import com.afrozaar.athena.okhttp.OkHttpBasicAuthInterceptor;
+import com.afrozaar.athena.okhttp.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.WordPressRestInterface;
 import com.afrozaar.wp_api_v2_client_android.model.Comment;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
@@ -10,8 +12,6 @@ import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
 import com.afrozaar.wp_api_v2_client_android.model.dto.PostStreamItem;
-import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpBasicAuthInterceptor;
-import com.afrozaar.wp_api_v2_client_android.rest.interceptor.OkHttpDebugInterceptor;
 import com.afrozaar.wp_api_v2_client_android.util.ContentUtil;
 
 import java.io.File;

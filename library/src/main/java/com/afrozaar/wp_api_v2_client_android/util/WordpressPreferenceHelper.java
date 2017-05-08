@@ -3,6 +3,7 @@ package com.afrozaar.wp_api_v2_client_android.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.afrozaar.athena.preferences.BasePreferenceHelper;
 import com.afrozaar.wp_api_v2_client_android.R;
 
 
@@ -24,6 +25,8 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
         return new WordpressPreferenceHelper(context);
     }
 
+    private Context context;
+
     private WordpressPreferenceHelper(Context context) {
         if (context == null) {
             throw new IllegalStateException("Context can not be null!");
@@ -39,27 +42,27 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
     /* APP PREFERENCES */
 
     public boolean isInitialSetupDone() {
-        return getBooleanPref(PREF_INITIAL_SETUP_DONE);
+        return getBooleanPref(context, PREF_INITIAL_SETUP_DONE);
     }
 
     public void setInitialSetupDone(boolean value) {
-        putBooleanPref(PREF_INITIAL_SETUP_DONE, value);
+        putBooleanPref(context, PREF_INITIAL_SETUP_DONE, value);
     }
 
     public void resetUserState() {
-        SharedPreferences preferences = getPreferences();
+        SharedPreferences preferences = getPreferences(context);
         preferences.edit().clear().commit();
     }
 
     public WordpressPreferenceHelper setWordPressUserId(long id) {
         String pref = context.getString(PREF_USER_WP_ID);
-        putLongPref(pref, id);
+        putLongPref(context, pref, id);
         return this;
     }
 
     public long getWordPressUserId() {
         String pref = context.getString(PREF_USER_WP_ID);
-        return getLongPref(pref);
+        return getLongPref(context, pref);
     }
 
     public boolean hasWordPressUserId() {
@@ -68,34 +71,34 @@ public class WordpressPreferenceHelper extends BasePreferenceHelper {
 
     public WordpressPreferenceHelper setWordPressUsername(String username) {
         String pref = context.getString(PREF_USER_WP_USERNAME);
-        putStringPref(pref, username);
+        putStringPref(context, pref, username);
         return this;
     }
 
     public String getWordPressUsername() {
         String pref = context.getString(PREF_USER_WP_USERNAME);
-        return getStringPref(pref);
+        return getStringPref(context, pref);
     }
 
     public WordpressPreferenceHelper setWordPressAdmin(boolean isAdmin) {
         String pref = context.getString(PREF_USER_WP_ADMIN);
-        putBooleanPref(pref, isAdmin);
+        putBooleanPref(context, pref, isAdmin);
         return this;
     }
 
     public boolean isWordPressAdmin() {
         String pref = context.getString(PREF_USER_WP_ADMIN);
-        return getBooleanPref(pref);
+        return getBooleanPref(context, pref);
     }
 
     public WordpressPreferenceHelper setWordPressRole(String role) {
         String pref = context.getString(PREF_USER_WP_ROLE);
-        putStringPref(pref, role);
+        putStringPref(context, pref, role);
         return this;
     }
 
     public String getWordPressRole() {
         String pref = context.getString(PREF_USER_WP_ROLE);
-        return getStringPref(pref);
+        return getStringPref(context, pref);
     }
 }

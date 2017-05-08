@@ -20,36 +20,45 @@ buildscript {
         }
 
         maven {
-            url 'https://maven-repository.afrozaar.com'
+            url 'https://maven-repository.afrozaar.com/plugins-release'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
             }
         }
 
+        mavenLocal()
+
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
 
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1'
     }
 }
 
 allprojects {
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'maven-publish'
+
     repositories {
         flatDir {
             dirs 'libs'
         }
 
+        maven { url 'https://maven.fabric.io/public' }
+
         maven {
-            url 'https://maven-repository.afrozaar.com'
+            url 'https://maven-repository.afrozaar.com/artifactory/libs-release-local'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
             }
         }
+
+        mavenLocal()
 
         jcenter()
     }

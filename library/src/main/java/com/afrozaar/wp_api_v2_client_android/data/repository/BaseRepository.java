@@ -7,7 +7,8 @@ import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
+
+import com.afrozaar.athena.utils.LogUtils;
 
 import java.util.Map;
 

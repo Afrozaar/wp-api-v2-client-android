@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.afrozaar.athena.utils.LogUtils;
 import com.afrozaar.wp_api_v2_client_android.data.repository.AttachmentRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.BlogRepository;
 import com.afrozaar.wp_api_v2_client_android.data.repository.CommentRepository;
@@ -19,7 +20,6 @@ import com.afrozaar.wp_api_v2_client_android.model.Meta;
 import com.afrozaar.wp_api_v2_client_android.model.Post;
 import com.afrozaar.wp_api_v2_client_android.model.Taxonomy;
 import com.afrozaar.wp_api_v2_client_android.model.User;
-import com.afrozaar.wp_api_v2_client_android.util.LogUtils;
 
 import java.util.Map;
 
