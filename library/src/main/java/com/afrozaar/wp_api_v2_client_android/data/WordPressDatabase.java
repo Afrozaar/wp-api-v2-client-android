@@ -38,14 +38,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     private static final int VERSION_CURRENT = VERSION_POST_RETRY;
 
-    private static WordPressDatabase sInstance = null;
-
     public static WordPressDatabase getInstance(Context context) {
-        if (sInstance == null) {
-            sInstance = new WordPressDatabase(context);
-        }
-
-        return sInstance;
+        return new WordPressDatabase(context);
     }
 
     private Context context;
