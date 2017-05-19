@@ -43,7 +43,8 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
             + ORIGIN_ID + " INTEGER DEFAULT -1,"
             + ORIGIN_URI + " TEXT,"
             + ORIGIN_TYPE + " TEXT,"
-            + UPLOAD_STATE + " INTEGER DEFAULT 0)";
+            + UPLOAD_STATE + " INTEGER DEFAULT 0,"
+            + MEDIA_INDEX + " INTEGER)";
 
     public static final int IDX_BLOG_ID = 1;
     public static final int IDX_WP_AUTHOR_ID = 2;
@@ -71,6 +72,7 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
     public static final int IDX_ORIGIN_URI = 24;
     public static final int IDX_ORIGIN_TYPE = 25;
     public static final int IDX_UPLOAD_STATE = 26;
+    public static final int IDX_MEDIA_INDEX = 27;
 
     public static ContentValues getContainsMap(long postId, long postRowId, Media media, long origId) {
         ContentValues values = new ContentValues();
@@ -129,6 +131,8 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
         addValue(values, ORIGIN_URI, media.origUri);
         addValue(values, ORIGIN_TYPE, media.origType);
 
+        addValue(values, MEDIA_INDEX, media.mediaIndex);
+
         return values;
     }
 
@@ -160,6 +164,7 @@ public class AttachmentRepository extends BaseWpRepository implements WordPressC
         media.origType = cursor.getString(IDX_ORIGIN_TYPE);
         media.origUri = cursor.getString(IDX_ORIGIN_URI);
         media.uploadState = cursor.getInt(IDX_UPLOAD_STATE);
+        media.mediaIndex = cursor.getInt(IDX_MEDIA_INDEX);
 
         return media;
     }

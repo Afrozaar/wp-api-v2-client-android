@@ -1,13 +1,20 @@
 package com.afrozaar.wp_api_v2_client_android.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
+import com.afrozaar.athena.utils.ImageUtil;
+import com.afrozaar.athena.utils.LogUtils;
 import com.afrozaar.athena.utils.MimeUtil;
 import com.afrozaar.wp_api_v2_client_android.R;
 import com.afrozaar.wp_api_v2_client_android.model.Media;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +75,46 @@ public class ContentUtil {
         }
 
         String mimeType = MimeUtil.getImageMimeType(file.getName());
-        RequestBody fileBody = RequestBody.create(MediaType.parse(mimeType), file);
+        RequestBody fileBody;
+
+        try {
+
+            // First decode with inJustDecodeBounds=true to check dimensions
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(file.getPath(), options);
+
+            //int inputWidth = options.outWidth;
+            //int inputHeight = options.outHeight;
+
+            //boolean landscape = inputWidth > inputHeight;
+            //int requiredWidth = landscape ? 1280 : 720;
+            //int requiredHeight = landscape ? 720 : 1280;
+
+            // Calculate inSampleSize
+            options.inSampleSize = ImageUtil.calculateInSampleSize(options, 1280, 720);
+            // Decode bitmap
+            options.inJustDecodeBounds = false;
+
+            InputStream inputStream = new FileInputStream(file);
+            Bitmap bmpOut = BitmapFactory.decodeStream(inputStream, null, options);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmpOut.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+
+            inputStream.close();
+            stream.flush();
+
+            byte[] byteArray = stream.toByteArray();
+
+            stream.close();
+
+            fileBody = RequestBody.create(MediaType.parse(mimeType), byteArray);
+        } catch (Exception e) {
+            LogUtils.w("Unable to resize bitmap for uploading", e);
+
+            fileBody = RequestBody.create(MediaType.parse(mimeType), file);
+        }
 
         map.put("file\"; filename=\"" + fileName + "\"", fileBody);
 

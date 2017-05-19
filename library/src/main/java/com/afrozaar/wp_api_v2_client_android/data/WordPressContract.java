@@ -453,6 +453,12 @@ public class WordPressContract {
          * <P>Type: INTEGER</P>
          */
         String UPLOAD_STATE = "upload_state";
+
+        /**
+         * Ordering for media items
+         * <P>Type: INTEGER</P>
+         */
+        String MEDIA_INDEX = "media_index";
     }
 
     @Deprecated

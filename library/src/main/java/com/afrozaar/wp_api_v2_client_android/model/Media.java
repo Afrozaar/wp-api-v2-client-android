@@ -36,6 +36,7 @@ public class Media extends WPObject<Media> {
     public String origType;
     public String origUri;
     public int uploadState;
+    public int mediaIndex;
 
 
     /**
@@ -311,6 +312,7 @@ public class Media extends WPObject<Media> {
         origType = in.readString();
         origUri = in.readString();
         uploadState = in.readInt();
+        mediaIndex = in.readInt();
     }
 
     @Override
@@ -329,6 +331,7 @@ public class Media extends WPObject<Media> {
         dest.writeString(origType);
         dest.writeString(origUri);
         dest.writeInt(uploadState);
+        dest.writeInt(mediaIndex);
     }
 
     public static Map<String, Object> mapFromFields(Media media) {

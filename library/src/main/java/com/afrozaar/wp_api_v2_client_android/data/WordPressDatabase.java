@@ -35,8 +35,9 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private static final int VERSION_NEW_REPOSITORIES = 200;
     private static final int VERSION_COMMENT_TABLE = 201;
     private static final int VERSION_POST_RETRY = 202;
+    private static final int VERSION_MEDIA_INDEX = 203;
 
-    private static final int VERSION_CURRENT = VERSION_POST_RETRY;
+    private static final int VERSION_CURRENT = VERSION_MEDIA_INDEX;
 
     public static WordPressDatabase getInstance(Context context) {
         return new WordPressDatabase(context);
@@ -82,6 +83,8 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 upgradeV200To201(db);
             case VERSION_COMMENT_TABLE:
                 upgradeV201To202(db);
+            case VERSION_POST_RETRY:
+                upgradeV202To203(db);
         }
     }
 
@@ -230,6 +233,11 @@ public class WordPressDatabase extends SQLiteOpenHelper {
                 + " ADD COLUMN " + PostRepository.RETRY_COUNT + " INTEGER DEFAULT 0");
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
                 + " ADD COLUMN " + PostRepository.LAST_RETRY_TIME + " INTEGER DEFAULT 0");
+    }
+
+    private void upgradeV202To203(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + AttachmentRepository.TABLE_NAME + " ADD COLUMN "
+                + AttachmentRepository.MEDIA_INDEX + " INTEGER");
     }
 
     public void deleteDatabase(Context context) {
