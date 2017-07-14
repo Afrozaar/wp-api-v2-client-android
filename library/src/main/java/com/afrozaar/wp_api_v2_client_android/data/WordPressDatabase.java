@@ -24,20 +24,20 @@ public class WordPressDatabase extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "wordpress.db";
 
-    private static final int VERSION_INITIAL = 100;
-    private static final int VERSION_COL_UPDATE_TIME = 101;
-    private static final int VERSION_MEDIA_TABLE = 102;
-    private static final int VERSION_USERS_TABLE_UPDATE = 103;
-    private static final int VERSION_POST_UPLOADING_FLAG = 104;
-    private static final int VERSION_MEDIA_UPLOAD_STATE = 105;
-    private static final int VERSION_STREAM_ITEM_TABLE = 106;
+    protected static final int VERSION_INITIAL = 100;
+    protected static final int VERSION_COL_UPDATE_TIME = 101;
+    protected static final int VERSION_MEDIA_TABLE = 102;
+    protected static final int VERSION_USERS_TABLE_UPDATE = 103;
+    protected static final int VERSION_POST_UPLOADING_FLAG = 104;
+    protected static final int VERSION_MEDIA_UPLOAD_STATE = 105;
+    protected static final int VERSION_STREAM_ITEM_TABLE = 106;
 
-    private static final int VERSION_NEW_REPOSITORIES = 200;
-    private static final int VERSION_COMMENT_TABLE = 201;
-    private static final int VERSION_POST_RETRY = 202;
-    private static final int VERSION_MEDIA_INDEX = 203;
+    protected static final int VERSION_NEW_REPOSITORIES = 200;
+    protected static final int VERSION_COMMENT_TABLE = 201;
+    protected static final int VERSION_POST_RETRY = 202;
+    protected static final int VERSION_MEDIA_INDEX = 203;
 
-    private static final int VERSION_CURRENT = VERSION_MEDIA_INDEX;
+    protected static final int VERSION_CURRENT = VERSION_MEDIA_INDEX;
 
     public static WordPressDatabase getInstance(Context context) {
         return new WordPressDatabase(context);
@@ -46,7 +46,11 @@ public class WordPressDatabase extends SQLiteOpenHelper {
     private Context context;
 
     public WordPressDatabase(Context context) {
-        super(context, DATABASE_NAME, null, VERSION_CURRENT);
+        this(context, VERSION_CURRENT);
+    }
+
+    public WordPressDatabase(Context context, int currentVersion) {
+        super(context, DATABASE_NAME, null, currentVersion);
 
         this.context = context;
     }
@@ -93,7 +97,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 22/03/2016
      */
-    private void upgradeV100To101(SQLiteDatabase db) {
+    protected void upgradeV100To101(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME + " ADD COLUMN "
                 + PostRepository.UPDATED_TIME + " INTEGER");
     }
@@ -103,7 +107,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 29/03/2016
      */
-    private void upgradeV101To102(SQLiteDatabase db) {
+    protected void upgradeV101To102(SQLiteDatabase db) {
         db.execSQL(WordPressContract.Medias.SCHEMA);
 
         DatabaseMigrator migrator = new DatabaseMigrator(context);
@@ -141,7 +145,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 29/04/2016
      */
-    private void upgradeV102To103(SQLiteDatabase db) {
+    protected void upgradeV102To103(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS authors");
 
         db.execSQL(UserRepository.SCHEMA);
@@ -152,7 +156,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 30/05/2016
      */
-    private void upgradeV103To104(SQLiteDatabase db) {
+    protected void upgradeV103To104(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME + " ADD COLUMN "
                 + PostRepository.UPLOADING + " INTEGER DEFAULT 0");
     }
@@ -162,7 +166,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 07/06/2016
      */
-    private void upgradeV104To105(SQLiteDatabase db) {
+    protected void upgradeV104To105(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + WordPressContract.Medias.TABLE_NAME + " ADD COLUMN "
                 + WordPressContract.Medias.UPLOAD_STATE + " INTEGER DEFAULT 0");
     }
@@ -172,7 +176,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 05/08/2016
      */
-    private void upgradeV105To106(SQLiteDatabase db) {
+    protected void upgradeV105To106(SQLiteDatabase db) {
         //db.execSQL(WordPressContract.StreamPost.SCHEMA);
     }
 
@@ -183,7 +187,7 @@ public class WordPressDatabase extends SQLiteOpenHelper {
      * <p>
      * 12/08/2016
      */
-    private void upgradeV106To200(SQLiteDatabase db) {
+    protected void upgradeV106To200(SQLiteDatabase db) {
         db.execSQL(AttachmentRepository.SCHEMA);
 
         String selection = WordPressContract.Medias.POST_ROW_ID + " IS NOT ?";
@@ -224,18 +228,18 @@ public class WordPressDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS stream_post");
     }
 
-    private void upgradeV200To201(SQLiteDatabase db) {
+    protected void upgradeV200To201(SQLiteDatabase db) {
         db.execSQL(CommentRepository.SCHEMA);
     }
 
-    private void upgradeV201To202(SQLiteDatabase db) {
+    protected void upgradeV201To202(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
                 + " ADD COLUMN " + PostRepository.RETRY_COUNT + " INTEGER DEFAULT 0");
         db.execSQL("ALTER TABLE " + PostRepository.TABLE_NAME
                 + " ADD COLUMN " + PostRepository.LAST_RETRY_TIME + " INTEGER DEFAULT 0");
     }
 
-    private void upgradeV202To203(SQLiteDatabase db) {
+    protected void upgradeV202To203(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + AttachmentRepository.TABLE_NAME + " ADD COLUMN "
                 + AttachmentRepository.MEDIA_INDEX + " INTEGER");
     }
