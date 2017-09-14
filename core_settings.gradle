@@ -1,0 +1,10 @@
+def rootDir = gradle.ext.wpRestApiRoot
+def modulePrefix = ':'
+if (gradle.ext.has('wpRestApiModulePrefix')) {
+    modulePrefix += gradle.ext.wpRestApiModulePrefix
+}
+
+include modulePrefix + 'rest-api'
+
+project(modulePrefix + 'rest-api').projectDir = new File(rootDir, 'library')
+

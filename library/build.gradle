@@ -1,22 +1,16 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply from: '../constants.gradle'
 
-def globalVersionName = "1.3.3"
+def globalVersionName = "1.3.4"
 def globalVersionCode = buildVersionCode(globalVersionName)
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
-
-    // publish all buildTypes
-    publishNonDefault true
-
-    //defaultPublishConfig "debug"
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
 
         versionCode globalVersionCode
         versionName globalVersionName
@@ -69,18 +63,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:support-annotations:' + supportLibraryVersion
 
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 
-    debugCompile('com.afrozaar.athena:core-lib-debug:1.0.+')
-    releaseCompile('com.afrozaar.athena:core-lib:1.0.+')
+    // Athena core
+    implementation project(':athena-library')
 
-    debugCompile('com.afrozaar.athena:auth-debug:1.0.+')
-    releaseCompile('com.afrozaar.athena:auth:1.0.+')
-
-    compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    // Athena auth
+    implementation project(':athena-auth')
 }
 
 /*android.libraryVariants.all { variant ->
@@ -103,6 +95,7 @@ dependencies {
     }
 }*/
 
+/*
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier "source"
@@ -186,3 +179,4 @@ artifactory {
     }
 
 }
+*/

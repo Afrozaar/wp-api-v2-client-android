@@ -1,1 +1,13 @@
-include ':library'
+gradle.ext.wpRestApiRoot = settingsDir
+
+def modulePrefix = ':'
+if (gradle.ext.has('wpRestApiModulePrefix')) {
+    modulePrefix += gradle.ext.wpRestApiModulePrefix
+}
+
+// Include dependency libraries
+gradle.ext.athenaRoot = '../athena'
+gradle.ext.athenaModulePrefix = 'athena-'
+apply from: new File(gradle.ext.athenaRoot, 'core_settings.gradle')
+
+apply from: 'core_settings.gradle'

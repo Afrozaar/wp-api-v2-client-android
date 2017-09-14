@@ -1,69 +1,32 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 apply from: 'versioning.gradle'
-
-// Versioning for Android & Support libs
-ext {
-    // sdk and tools
-    minSdkVersion = 16
-    targetSdkVersion = 25
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.3'
-
-    // dependencies versions
-    supportLibraryVersion = '25.3.1'
-    googleServicesVersion = '10.2.6'
-}
 
 buildscript {
     repositories {
-        flatDir {
-            dirs 'libs'
-        }
+        jcenter()
 
         maven {
-            url 'https://maven-repository.afrozaar.com/plugins-release'
-            credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-            }
+            url "https://maven.google.com"
         }
 
-        mavenLocal()
-
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta4'
 
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.1.1'
+        classpath 'com.google.gms:google-services:3.1.0'
     }
 }
 
 allprojects {
-    apply plugin: 'com.jfrog.artifactory'
-    apply plugin: 'maven-publish'
-
     repositories {
-        flatDir {
-            dirs 'libs'
-        }
-
-        maven { url 'https://maven.fabric.io/public' }
-
-        maven {
-            url 'https://maven-repository.afrozaar.com/artifactory/libs-release-local'
-            credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-            }
-        }
-
-        mavenLocal()
-
         jcenter()
-    }
-}
+        maven {
+            url "https://maven.google.com"
+        }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+        mavenCentral()
+    }
 }

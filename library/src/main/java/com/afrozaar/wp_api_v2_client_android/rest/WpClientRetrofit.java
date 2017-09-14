@@ -87,6 +87,10 @@ public class WpClientRetrofit {
 
     // USER
 
+    public Call<User> createUser(User user) {
+        return restInterface.createUser(User.mapFromFields(user));
+    }
+
     public void createUser(User user, WordPressRestResponse<User> callback) {
         doRetrofitCall(restInterface.createUser(User.mapFromFields(user)), callback);
     }
@@ -95,34 +99,42 @@ public class WpClientRetrofit {
         return restInterface.getUser(userId);
     }
 
-    public void getUserFromLogin(String login, WordPressRestResponse<User> callback) {
-        doRetrofitCall(restInterface.getUserFromLogin(login), callback);
+    public void getUser(long userId, WordPressRestResponse<User> callback) {
+        doRetrofitCall(restInterface.getUser(userId), callback);
     }
 
     public Call<User> getUserFromLogin(String login) {
         return restInterface.getUserFromLogin(login);
     }
 
-    public void getUserFromEmail(String email, WordPressRestResponse<User> callback) {
-        doRetrofitCall(restInterface.getUserFromEmail(email), callback);
+    public void getUserFromLogin(String login, WordPressRestResponse<User> callback) {
+        doRetrofitCall(restInterface.getUserFromLogin(login), callback);
     }
 
     public Call<User> getUserFromEmail(String email) {
         return restInterface.getUserFromEmail(email);
     }
 
-    public void getUserMe(WordPressRestResponse<User> callback) {
-        doRetrofitCall(restInterface.getUserMe(), callback);
+    public void getUserFromEmail(String email, WordPressRestResponse<User> callback) {
+        doRetrofitCall(restInterface.getUserFromEmail(email), callback);
     }
 
-    public void updateUser(User user, WordPressRestResponse<User> callback) {
-        Map<String, Object> map = User.mapFromFields(user);
-        doRetrofitCall(restInterface.updateUser(user.getId(), map), callback);
+    public Call<User> getUserMe() {
+        return restInterface.getUserMe();
+    }
+
+    public void getUserMe(WordPressRestResponse<User> callback) {
+        doRetrofitCall(restInterface.getUserMe(), callback);
     }
 
     public Call<User> updateUser(User user) {
         Map<String, Object> map = User.mapFromFields(user);
         return restInterface.updateUser(user.getId(), map);
+    }
+
+    public void updateUser(User user, WordPressRestResponse<User> callback) {
+        Map<String, Object> map = User.mapFromFields(user);
+        doRetrofitCall(restInterface.updateUser(user.getId(), map), callback);
     }
 
     // POSTS
